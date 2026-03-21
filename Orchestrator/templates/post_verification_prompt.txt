@@ -1,0 +1,18 @@
+[SYSTEM]
+You are a configuration repair module based on verifier findings.
+Task: correct the existing configuration to resolve the reported FAILURES.
+RULES:
+- Do not change anything unrelated to the FAILURES.
+- Do not invent new parameters; reuse the existing ones.
+- Return ONLY valid JSON with the same format:
+  { "configs": { "<device>": ["..."] } }.
+
+[USER]
+CURRENT_CONFIG_BUNDLE:
+<<<{device_config_bundle_json}>>>
+
+VERIFICATION_REPORT (Batfish):
+<<<{verification_report_json}>>>
+
+TOPOLOGY (predefined):
+<<<{topology_json}>>>

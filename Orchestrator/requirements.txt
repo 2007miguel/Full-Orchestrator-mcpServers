@@ -1,0 +1,5 @@
+# For making HTTP requests to external tools (LLM, Verifier)
+requests
+# Web framework to expose the orchestrator as an API
+fastapi
+uvicorn[standard]
