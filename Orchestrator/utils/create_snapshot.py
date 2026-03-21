@@ -10,10 +10,10 @@ def create_snapshot_from_config(config_file_path: str, base_dir: str = 'snapshot
             content = f.read()
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo '{config_file_path}'.")
-        return
+        return None
     except Exception as e:
         print(f"Ocurrió un error al leer el archivo: {e}")
-        return
+        return None
     pattern = re.compile(r'\[([^\]]+)\]\n(.*?)\n\[/\1\]', re.DOTALL)
 
     matches = pattern.finditer(content)
@@ -39,12 +39,17 @@ def create_snapshot_from_config(config_file_path: str, base_dir: str = 'snapshot
 
         try:
             zip_path = shutil.make_archive(str(archive_name), 'zip', root_dir, dir_to_zip)
+            return zip_path
         finally:
             shutil.rmtree(base_dir_path)
     else:
         print("\nNo se encontraron archivos para crear en el snapshot.")
+        return None
 
 if __name__ == "__main__":
+    # Construye la ruta al directorio de templates de forma relativa al script
+    script_dir = Path(__file__).resolve().parent
+    config_path = script_dir.parent / "templates" / "config.txt"
     snapshot_path = Path.home() / "Documents" / "snapshot"
 
-    create_snapshot_from_config('config.txt', base_dir=str(snapshot_path))
+    create_snapshot_from_config(str(config_path), base_dir=str(snapshot_path))

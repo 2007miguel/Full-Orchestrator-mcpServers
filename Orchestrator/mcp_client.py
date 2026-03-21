@@ -7,8 +7,8 @@ from typing import Any, Optional
 # =========================
 # Configuración del servidor
 # =========================
-BASE_PATH = Path("C:/Users/juan/Documents/Miguel/tesis/System")
-PYTHON_EXE = BASE_PATH / "mcp-batfish/.venv/Scripts/python.exe"
+BASE_PATH = Path("C:/Users/juan/Documents/Miguel/tesis/System/Orchestrator-mcpServers")
+PYTHON_EXE = BASE_PATH / "mcp-server-batfish/venv/Scripts/python.exe"
 SERVER_SCRIPT = BASE_PATH / "mcp-server-batfish/server.py"
 
 DEFAULT_COMMAND = [str(PYTHON_EXE), str(SERVER_SCRIPT)]
