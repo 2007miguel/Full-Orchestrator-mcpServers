@@ -1,0 +1,7 @@
+1. Identificar los dispositivos y enlaces definidos en la arquitectura de red.
+2. Asignar la topología física en el archivo de layer 1.
+3. Generar la configuración base de cada router con hostname, interfaces IP y no shutdown.
+4. Configurar el enrutamiento OSPF en los routers para anunciar las redes.
+5. Generar los archivos de hosts con IP, interfaz y gateway.
+6. Organizar toda la salida en el formato multiarchivo requerido.
+7. Entregar la configuración completa.
