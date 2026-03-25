@@ -1,252 +1,318 @@
 import json
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
 
 
-# =========================
-# Configuración del servidor
-# =========================
-BASE_PATH = Path("C:/Users/juan/Documents/Miguel/tesis/System/Orchestrator-mcpServers")
-PYTHON_EXE = BASE_PATH / "mcp-server-batfish/venv/Scripts/python.exe"
-SERVER_SCRIPT = BASE_PATH / "mcp-server-batfish/server.py"
-
-DEFAULT_COMMAND = [str(PYTHON_EXE), str(SERVER_SCRIPT)]
 PROTOCOL_VERSION = "2025-03-26"
 
 
 # =========================
-# Estado interno
+# Configuración de servidores
 # =========================
-_process: Optional[subprocess.Popen[str]] = None
-_next_id = 1
-_initialized = False
+BASE_PATH = Path("C:/Users/juan/Documents/Miguel/tesis/System/Orchestrator-mcpServers")
+
+# servers añadidos
+SERVERS: dict[str, list[str]] = {
+    "batfish": [
+        str(BASE_PATH / "mcp-server-batfish/venv/Scripts/python.exe"),
+        str(BASE_PATH / "mcp-server-batfish/server.py"),
+    ], 
+    
+    "flm": [
+        str(BASE_PATH / "mcp-server-flm/venv/Scripts/python.exe"),
+        str(BASE_PATH / "mcp-server-flm/server.py"),
+    ]
+}
+
+@dataclass
+class ServerConfig:
+    name: str
+    command: list[str]
+    protocol_version: str = PROTOCOL_VERSION
 
 
-# =========================
-# Utilidades internas
-# =========================
-def _require_process() -> subprocess.Popen[str]:
-    if _process is None:
-        raise RuntimeError("El cliente MCP no ha sido iniciado. Llama primero a start().")
-    return _process
-
-
-def _send_message(message: dict[str, Any]) -> None:
-    process = _require_process()
-
-    if process.stdin is None:
-        raise RuntimeError("stdin del proceso no está disponible.")
-
-    process.stdin.write(json.dumps(message, ensure_ascii=False) + "\n")
-    process.stdin.flush()
-
-
-def _read_message() -> dict[str, Any]:
-    process = _require_process()
-
-    if process.stdout is None:
-        raise RuntimeError("stdout del proceso no está disponible.")
-
-    while True:
-        line = process.stdout.readline()
-
-        if line == "":
-            raise RuntimeError("El servidor cerró stdout o no respondió.")
-
-        line = line.strip()
-        if not line:
-            continue
-
-        try:
-            return json.loads(line)
-        except json.JSONDecodeError as e:
-            raise RuntimeError(f"El servidor devolvió JSON inválido: {line}") from e
-
-
-def _ensure_initialized() -> None:
-    if not _initialized:
-        raise RuntimeError("El cliente MCP no ha sido inicializado. Llama primero a initialize().")
-
-
-# =========================
-# API pública
-# =========================
-def start(command: Optional[list[str]] = None) -> None:
+class MCPServerSession:
     """
-    Inicia el servidor MCP como subproceso.
-    No hace initialize automáticamente.
+    Sesión MCP para un único servidor stdio.
+    Cada servidor tiene su propio proceso, ids y estado de initialize.
     """
-    global _process, _next_id, _initialized
 
-    if _process is not None and _process.poll() is None:
-        return
+    def __init__(self, config: ServerConfig):
+        self.config = config
+        self._process: Optional[subprocess.Popen[str]] = None
+        self._next_id = 1
+        self._initialized = False
 
-    _process = subprocess.Popen(
-        command or DEFAULT_COMMAND,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=None,   # deja los logs del server visibles en consola
-        text=True,
-        encoding="utf-8",
-        bufsize=1,
-    )
-
-    _next_id = 1
-    _initialized = False
-
-
-def send_request(method: str, params: Optional[dict[str, Any]] = None) -> dict[str, Any]:
-    """
-    Envía una request JSON-RPC y devuelve el campo result.
-    Este cliente simple asume una sola request a la vez.
-    """
-    global _next_id
-
-    _require_process()
-
-    request_id = _next_id
-    _next_id += 1
-
-    message = {
-        "jsonrpc": "2.0",
-        "id": request_id,
-        "method": method,
-        "params": params or {},
-    }
-
-    _send_message(message)
-
-    while True:
-        response = _read_message()
-
-        # Notificación del servidor: se ignora en este cliente simple
-        if "method" in response and "id" not in response:
-            continue
-
-        # Request del servidor hacia el cliente: no soportada aquí
-        if "method" in response and "id" in response:
+    # =========================
+    # Utilidades internas
+    # =========================
+    def _require_process(self) -> subprocess.Popen[str]:
+        if self._process is None:
             raise RuntimeError(
-                f"El servidor envió una request al cliente y este cliente simple no la soporta: {response}"
+                f"El servidor '{self.config.name}' no ha sido iniciado. Llama primero a start()."
+            )
+        return self._process
+
+    def _send_message(self, message: dict[str, Any]) -> None:
+        process = self._require_process()
+
+        if process.stdin is None:
+            raise RuntimeError(f"stdin del servidor '{self.config.name}' no está disponible.")
+
+        process.stdin.write(json.dumps(message, ensure_ascii=False) + "\n")
+        process.stdin.flush()
+
+    def _read_message(self) -> dict[str, Any]:
+        process = self._require_process()
+
+        if process.stdout is None:
+            raise RuntimeError(f"stdout del servidor '{self.config.name}' no está disponible.")
+
+        while True:
+            line = process.stdout.readline()
+
+            if line == "":
+                raise RuntimeError(
+                    f"El servidor '{self.config.name}' cerró stdout o no respondió."
+                )
+
+            line = line.strip()
+            if not line:
+                continue
+
+            try:
+                return json.loads(line)
+            except json.JSONDecodeError as e:
+                raise RuntimeError(
+                    f"El servidor '{self.config.name}' devolvió JSON inválido: {line}"
+                ) from e
+
+    def _ensure_initialized(self) -> None:
+        if not self._initialized:
+            raise RuntimeError(
+                f"El servidor '{self.config.name}' no ha sido inicializado. "
+                f"Llama primero a initialize()."
             )
 
-        # Respuesta JSON-RPC
-        if response.get("id") != request_id:
-            raise RuntimeError(
-                f"Se recibió una respuesta con id inesperado. Esperado={request_id}, recibido={response.get('id')}"
-            )
+    # =========================
+    # API pública
+    # =========================
+    def start(self) -> None:
+        """
+        Inicia el servidor MCP como subproceso.
+        No hace initialize automáticamente.
+        """
+        if self._process is not None and self._process.poll() is None:
+            return
 
-        if "error" in response:
-            raise RuntimeError(f"Error MCP: {response['error']}")
+        self._process = subprocess.Popen(
+            self.config.command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=None,   # deja logs visibles en consola
+            text=True,
+            encoding="utf-8",
+            bufsize=1,
+        )
 
-        if "result" not in response:
-            raise RuntimeError(f"Respuesta MCP inválida: {response}")
+        self._next_id = 1
+        self._initialized = False
 
-        return response["result"]
+    def send_request(
+        self,
+        method: str,
+        params: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
+        """
+        Envía una request JSON-RPC y devuelve el campo result.
+        Este cliente simple asume una sola request a la vez por sesión.
+        """
+        self._require_process()
 
+        request_id = self._next_id
+        self._next_id += 1
 
-def send_notification(method: str, params: Optional[dict[str, Any]] = None) -> None:
-    """
-    Envía una notificación JSON-RPC.
-    """
-    _require_process()
+        message = {
+            "jsonrpc": "2.0",
+            "id": request_id,
+            "method": method,
+            "params": params or {},
+        }
 
-    message = {
-        "jsonrpc": "2.0",
-        "method": method,
-        "params": params or {},
-    }
+        self._send_message(message)
 
-    _send_message(message)
+        while True:
+            response = self._read_message()
 
+            # Notificación del servidor: se ignora
+            if "method" in response and "id" not in response:
+                continue
 
-def initialize() -> dict[str, Any]:
-    """
-    Realiza el handshake MCP:
-    1) initialize
-    2) notifications/initialized
-    """
-    global _initialized
+            # Request del servidor hacia el cliente: no soportada aquí
+            if "method" in response and "id" in response:
+                raise RuntimeError(
+                    f"El servidor '{self.config.name}' envió una request al cliente "
+                    f"y este cliente simple no la soporta: {response}"
+                )
 
-    result = send_request(
-        "initialize",
-        {
-            "protocolVersion": PROTOCOL_VERSION,
-            "capabilities": {},
-            "clientInfo": {
-                "name": "simple-client",
-                "version": "1.0.0",
+            # Respuesta JSON-RPC
+            if response.get("id") != request_id:
+                raise RuntimeError(
+                    f"Se recibió una respuesta con id inesperado en '{self.config.name}'. "
+                    f"Esperado={request_id}, recibido={response.get('id')}"
+                )
+
+            if "error" in response:
+                raise RuntimeError(f"Error MCP en '{self.config.name}': {response['error']}")
+
+            if "result" not in response:
+                raise RuntimeError(
+                    f"Respuesta MCP inválida en '{self.config.name}': {response}"
+                )
+
+            return response["result"]
+
+    def send_notification(
+        self,
+        method: str,
+        params: Optional[dict[str, Any]] = None
+    ) -> None:
+        """
+        Envía una notificación JSON-RPC.
+        """
+        self._require_process()
+
+        message = {
+            "jsonrpc": "2.0",
+            "method": method,
+            "params": params or {},
+        }
+
+        self._send_message(message)
+
+    def initialize(self) -> dict[str, Any]:
+        """
+        Realiza el handshake MCP:
+        1) initialize
+        2) notifications/initialized
+        """
+        result = self.send_request(
+            "initialize",
+            {
+                "protocolVersion": self.config.protocol_version,
+                "capabilities": {},
+                "clientInfo": {
+                    "name": "simple-client",
+                    "version": "1.0.0",
+                },
             },
-        },
-    )
+        )
 
-    send_notification("notifications/initialized", {})
-    _initialized = True
-    return result
+        self.send_notification("notifications/initialized", {})
+        self._initialized = True
+        return result
 
+    def list_tools(self) -> dict[str, Any]:
+        self._ensure_initialized()
+        return self.send_request("tools/list", {})
 
-def list_tools() -> dict[str, Any]:
-    """
-    Solicita tools/list al servidor.
-    """
-    _ensure_initialized()
-    return send_request("tools/list", {})
+    def call_tool(
+        self,
+        name: str,
+        arguments: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
+        self._ensure_initialized()
+        return self.send_request(
+            "tools/call",
+            {
+                "name": name,
+                "arguments": arguments or {},
+            },
+        )
 
+    def close(self) -> None:
+        """
+        Cierra el proceso del servidor.
+        """
+        if self._process is None:
+            return
 
-def call_tool(name: str, arguments: Optional[dict[str, Any]] = None) -> dict[str, Any]:
-    """
-    Ejecuta tools/call.
-    """
-    _ensure_initialized()
-    return send_request(
-        "tools/call",
-        {
-            "name": name,
-            "arguments": arguments or {},
-        },
-    )
-
-
-def close() -> None:
-    """
-    Cierra el proceso del servidor.
-    """
-    global _process, _initialized
-
-    if _process is None:
-        return
-
-    try:
-        if _process.stdin:
-            _process.stdin.close()
-    except Exception:
-        pass
-
-    try:
-        _process.terminate()
-        _process.wait(timeout=3)
-    except Exception:
         try:
-            _process.kill()
+            if self._process.stdin:
+                self._process.stdin.close()
         except Exception:
             pass
 
-    _process = None
-    _initialized = False
+        try:
+            self._process.terminate()
+            self._process.wait(timeout=3)
+        except Exception:
+            try:
+                self._process.kill()
+            except Exception:
+                pass
+
+        self._process = None
+        self._initialized = False
+
+
+class MCPClientManager:
+    """
+    Administra múltiples servidores MCP por nombre.
+    """
+
+    def __init__(self, server_commands: dict[str, list[str]]):
+        self._sessions: dict[str, MCPServerSession] = {
+            name: MCPServerSession(ServerConfig(name=name, command=command))
+            for name, command in server_commands.items()
+        }
+
+    def server(self, name: str) -> MCPServerSession:
+        if name not in self._sessions:
+            disponibles = ", ".join(sorted(self._sessions.keys())) or "ninguno"
+            raise KeyError(
+                f"Servidor '{name}' no configurado. Disponibles: {disponibles}"
+            )
+        return self._sessions[name]
+
+    def add_server(self, name: str, command: list[str]) -> None:
+        if name in self._sessions:
+            raise ValueError(f"El servidor '{name}' ya existe.")
+        self._sessions[name] = MCPServerSession(ServerConfig(name=name, command=command))
+
+    def close_all(self) -> None:
+        for session in self._sessions.values():
+            session.close()
 
 
 if __name__ == "__main__":
-    start()
+    client = MCPClientManager(SERVERS)
+
+    batfish = client.server("batfish")
+    batfish.start()
+
     try:
         print("INIT:")
-        print(json.dumps(initialize(), indent=2, ensure_ascii=False))
+        print(json.dumps(batfish.initialize(), indent=2, ensure_ascii=False))
 
         print("\nTOOLS:")
-        print(json.dumps(list_tools(), indent=2, ensure_ascii=False))
+        print(json.dumps(batfish.list_tools(), indent=2, ensure_ascii=False))
 
-        # Ejemplo:
+        # Ejemplo de call:
         # print("\nCALL:")
-        # print(json.dumps(call_tool("nombre_tool", {"x": 1}), indent=2, ensure_ascii=False))
+        # print(json.dumps(
+        #     batfish.call_tool("nombre_tool", {"x": 1}),
+        #     indent=2,
+        #     ensure_ascii=False
+        # ))
+
+        # Si luego agregas otro servidor en SERVERS:
+        # otro = client.server("otro_server")
+        # otro.start()
+        # print(json.dumps(otro.initialize(), indent=2, ensure_ascii=False))
+        # print(json.dumps(otro.list_tools(), indent=2, ensure_ascii=False))
 
     finally:
-        close()
+        client.close_all()

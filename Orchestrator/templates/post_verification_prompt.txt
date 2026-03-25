@@ -4,15 +4,14 @@ Task: correct the existing configuration to resolve the reported FAILURES.
 RULES:
 - Do not change anything unrelated to the FAILURES.
 - Do not invent new parameters; reuse the existing ones.
-- Return ONLY valid JSON with the same format:
-  { "configs": { "<device>": ["..."] } }.
+- Return a simple JSON object with the corrected configurations.
 
 [USER]
 CURRENT_CONFIG_BUNDLE:
-<<<{device_config_bundle_json}>>>
+{device_config_bundle}
 
 VERIFICATION_REPORT (Batfish):
-<<<{verification_report_json}>>>
+{verification_report}
 
 TOPOLOGY (predefined):
-<<<{topology_json}>>>
+{topology}

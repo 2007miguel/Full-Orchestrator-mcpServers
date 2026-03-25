@@ -3,17 +3,7 @@ import re
 from pathlib import Path
 import shutil
 
-def create_snapshot_from_config(config_file_path: str, base_dir: str = 'snapshot'):
-
-    try:
-        with open(config_file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-    except FileNotFoundError:
-        print(f"Error: No se encontró el archivo '{config_file_path}'.")
-        return None
-    except Exception as e:
-        print(f"Ocurrió un error al leer el archivo: {e}")
-        return None
+def create_snapshot_from_string(content: str, base_dir: str = 'snapshot'):
     pattern = re.compile(r'\[([^\]]+)\]\n(.*?)\n\[/\1\]', re.DOTALL)
 
     matches = pattern.finditer(content)
@@ -45,6 +35,19 @@ def create_snapshot_from_config(config_file_path: str, base_dir: str = 'snapshot
     else:
         print("\nNo se encontraron archivos para crear en el snapshot.")
         return None
+
+def create_snapshot_from_config(config_file_path: str, base_dir: str = 'snapshot'):
+    try:
+        with open(config_file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo '{config_file_path}'.")
+        return None
+    except Exception as e:
+        print(f"Ocurrió un error al leer el archivo: {e}")
+        return None
+        
+    return create_snapshot_from_string(content, base_dir)
 
 if __name__ == "__main__":
     # Construye la ruta al directorio de templates de forma relativa al script

@@ -34,46 +34,66 @@ class ExecutionController:
     def run(self, requirement: dict) -> ExecutionContext:
         """
         Executes the orchestration pipeline:
-        1. Combined intent processing (classification + steps)
-        2. Configuration generation
-        3. Verification
-        4. Refinement loop (if needed)
+        1. Classification
+        2. Step Generation
+        3. Configuration Generation
+        4. Verification
+        5. Refinement loop (if needed)
         """
         # Create a unique context to track this specific execution's state and history.
         context = ExecutionContext(requirement)
 
         try:
-            # -----------------------------------
-            # 1️. Classification + Step Generation (Combined Intent Processing)
-            # -----------------------------------
-            combined_prompt = self.prompt_manager.build_combined_prompt(context)
+            flm_server = self.mcp_client.server("flm")
 
-            combined_response = self.mcp_client.call_tool(
-                tool_name="flm",
-                payload={"prompt": combined_prompt}
+            # -----------------------------------
+            # 1a. Classification
+            # -----------------------------------
+            classifier_prompt = self.prompt_manager.build_classifier_prompt(context)
+
+            classifier_response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": classifier_prompt}
             )
 
             # Record this step in the execution history.
-            context.update(combined_prompt, combined_response)
+            context.update(classifier_prompt, classifier_response)
 
-            if combined_response.get("status") != "success":
-                context.mark_failed("Combined intent processing failed.")
-                return context  # Exit early if the first step fails.
+            if classifier_response.get("isError", True):
+                context.mark_failed("Classification failed.")
+                return context  # Exit early if classification fails.
 
             # -----------------------------------
-            # 2️. Configuration Generation
+            # 1b. Step Generation
+            # -----------------------------------
+            tasks_prompt = self.prompt_manager.build_tasks_prompt(context)
+
+            tasks_response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": tasks_prompt}
+            )
+
+            # Record this step in the execution history.
+            context.update(tasks_prompt, tasks_response)
+
+            if tasks_response.get("isError", True):
+                context.mark_failed("Step generation failed.")
+                return context  # Exit early if step generation fails.
+
+            # -----------------------------------
+            # 2. Configuration Generation
             # -----------------------------------
             config_prompt = self.prompt_manager.build_config_prompt(context)
 
-            config_response = self.mcp_client.call_tool(
-                tool_name="flm",
-                payload={"prompt": config_prompt}
+            config_response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": config_prompt}
             )
 
             # Record the configuration generation step.
             context.update(config_prompt, config_response)
 
-            if config_response.get("status") != "success":
+            if config_response.get("isError", True):
                 context.mark_failed("Configuration generation failed.")
                 return context  # Exit early if generation fails.
 
@@ -114,19 +134,44 @@ class ExecutionController:
         Updates the context with the verification result.
         Sets the final context state to SUCCESS if verification passes.
         """
-        # The configuration to verify is the last successful data stored in the context.
+        from utils.create_snapshot import create_snapshot_from_string
+        import os
+
+        # text response produced by FLM in Config Gen step
         config_data = context.final_result
 
-        verification_response = self.mcp_client.call_tool(
-            tool_name="verifier",
-            payload={"configuration": config_data}
-        )
+        batfish_server = self.mcp_client.server("batfish")
+        
+        snapshot_dir = os.path.join(os.path.expanduser("~"), "Documents", "snapshot_verify")
+        zip_path = create_snapshot_from_string(config_data, base_dir=snapshot_dir)
 
-        # Record the verification attempt in the context.
-        context.update("VERIFICATION_CALL", verification_response)
+        if not zip_path:
+            context.update("VERIFICATION_CALL", {"status": "failed", "data": "Error creating snapshot"})
+            return False
 
-        if verification_response.get("status") == "success":
-            # Explicitly mark the entire execution as successful.
+        load_response = batfish_server.call_tool("load_snapshot", {"zip_path": zip_path})
+        status_response = batfish_server.call_tool("file_parse_status", {})
+        warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
+        issues_response = batfish_server.call_tool("init_issues", {})
+        
+        verification_response = {
+            "load": load_response,
+            "status": status_response,
+            "warnings": warnings_response,
+            "issues": issues_response
+        }
+
+        # Determinamos si fue exitoso asumiendo que el flag de isError indica errores criticos
+        has_errors = issues_response.get("isError", False)
+        
+        if not has_errors:
+            record_response = {"status": "success", "data": verification_response}
+        else:
+            record_response = {"status": "failed", "data": verification_response}
+
+        context.update("VERIFICATION_CALL", record_response)
+
+        if not has_errors:
             context.mark_success()
             return True
 
@@ -136,14 +181,15 @@ class ExecutionController:
         """
         Iteratively refines configuration if verification fails.
         """
+        flm_server = self.mcp_client.server("flm")
 
         for _ in range(self.max_refinement_iterations):
 
             refinement_prompt = self.prompt_manager.build_refinement_prompt(context)
 
-            refinement_response = self.mcp_client.call_tool(
-                tool_name="flm",
-                payload={"prompt": refinement_prompt}
+            refinement_response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": refinement_prompt}
             )
 
             # Record the refinement attempt.
