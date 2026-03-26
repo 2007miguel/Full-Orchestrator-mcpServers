@@ -37,10 +37,20 @@ class ExecutionContext:
 
         self.iterations.append(iteration_record)
 
-        if response.get("status") == "success":
+        # Determinar si la respuesta fue exitosa (soporta isError de FLM o status de Batfish/legacy)
+        is_success = response.get("isError") is False or response.get("status") == "success"
+
+        if is_success:
             # Store the latest successful data, but don't mark the whole context as success yet.
-            # The controller decides when the final success state is reached.
-            self.final_result = response.get("data")
+            content = response.get("content", [])
+            if content and isinstance(content, list) and len(content) > 0:
+                raw_text = content[0].get("text", "")
+                if isinstance(raw_text, str):
+                    # El FLM devuelve saltos de línea literales '\n', esto los parsea a reales
+                    raw_text = raw_text.replace("\\n", "\n").replace("\\t", "\t").replace('\\"', '"')
+                self.final_result = raw_text
+            else:
+                self.final_result = response.get("data")
 
     def is_success(self) -> bool:
         """

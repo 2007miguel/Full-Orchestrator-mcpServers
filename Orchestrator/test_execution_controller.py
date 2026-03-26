@@ -85,14 +85,49 @@ def test_workflow():
             print("ERROR FATAL en 2. Abortando.")
             return
 
-        # Simular empaquetado del resultado del contexto
+        # Verificación con Batfish
         print("\n\n" + "="*50)
-        print("SIMULANDO CREACION DEL SNAPSHOT (Regex Zip)")
+        print("3. VERIFICANDO CONFIGURACIÓN (Batfish)")
         print("="*50)
-        final_text = context.final_result
-        if final_text:
-            print("El texto en memoria a parsear es (truncado):", final_text[:100], "...")
-            # Aquí iría el zip parsing del regex si tuviera formato correcto "[filename] ..."
+        config_data = context.final_result
+        
+        if config_data:
+            # Corrección de escapes literales (doble escape de string)
+            if config_data.startswith('"') and config_data.endswith('"'):
+                try:
+                    config_data = json.loads(config_data)
+                except Exception:
+                    pass
+            config_data = config_data.replace("\\n", "\n").replace('\\"', '"').replace("\\t", "\t")
+            
+            import os
+            snapshot_dir = os.path.join(os.path.expanduser("~"), "snapshot_verify_temp")
+            zip_path = create_snapshot_from_string(config_data, base_dir=snapshot_dir)
+            
+            if not zip_path:
+                print("Error: No se pudo crear el zip temporal con regex.")
+                return
+
+            print("Snapshot ZIP creado exitosamente en:", zip_path)
+            
+            batfish_server = client_manager.server("batfish")
+            batfish_server.start()
+            print("Batfish Server inicializado:", batfish_server.initialize())
+            
+            print("\nEnviando load_snapshot a Batfish...")
+            load_response = batfish_server.call_tool("load_snapshot", {"zip_path": zip_path})
+            print(json.dumps(load_response, indent=2, ensure_ascii=False))
+
+            print("\nEnviando init_issues a Batfish...")
+            issues_response = batfish_server.call_tool("init_issues", {})
+            print(json.dumps(issues_response, indent=2, ensure_ascii=False))
+            
+            has_errors = issues_response.get("isError", False)
+            if has_errors:
+                print("\nBatfish reportó un ERROR de inicialización/validación.")
+            else:
+                print("\nVerificación de red EXITOSA.")
+                
         else:
             print("No se extrajo final_result válido.")
 

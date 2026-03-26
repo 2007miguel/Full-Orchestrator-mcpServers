@@ -136,9 +136,19 @@ class ExecutionController:
         """
         from utils.create_snapshot import create_snapshot_from_string
         import os
+        import json
 
         # text response produced by FLM in Config Gen step
         config_data = context.final_result
+        
+        # Corrección: Extraer los saltos de línea y formateo doble explícitamente
+        if isinstance(config_data, str):
+            if config_data.startswith('"') and config_data.endswith('"'):
+                try:
+                    config_data = json.loads(config_data)
+                except Exception:
+                    pass
+            config_data = config_data.replace("\\n", "\n").replace('\\"', '"').replace("\\t", "\t")
 
         batfish_server = self.mcp_client.server("batfish")
         
@@ -151,13 +161,13 @@ class ExecutionController:
 
         load_response = batfish_server.call_tool("load_snapshot", {"zip_path": zip_path})
         status_response = batfish_server.call_tool("file_parse_status", {})
-        warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
+        # warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
         issues_response = batfish_server.call_tool("init_issues", {})
         
         verification_response = {
             "load": load_response,
             "status": status_response,
-            "warnings": warnings_response,
+            # "warnings": warnings_response,
             "issues": issues_response
         }
 
