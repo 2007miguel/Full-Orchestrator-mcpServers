@@ -1,5 +1,6 @@
 # core/execution_controller.py
 
+import json
 from models.execution_context import ExecutionContext
 from models.state import ExecutionState
 
@@ -128,20 +129,94 @@ class ExecutionController:
     # PRIVATE METHODS
     # ==========================================================
 
+    def _check_parse_status(self, response: dict) -> bool:
+        """
+        Detecta si existe al menos un archivo/dispositivo con status distinto de PASSED
+        en la respuesta de fileParseStatus explorando el valor estructurado o crudo.
+        """
+        # 1. Búsqueda limpia en el árbol de resultados devuelto por Batfish MCP
+        struct = response.get("structuredContent", {})
+        if "results" in struct:
+            for r in struct.get("results", []):
+                st = str(r.get("status", "")).upper()
+                if st in ["FAILED", "PARTIALLY_UNRECOGNIZED", "UNKNOWN"]:
+                    return False
+        
+        # 2. Búsqueda transversal por si el schema viene distinto (anidado)
+        data_str = json.dumps(response).upper()
+        if '"STATUS": "FAILED"' in data_str or '"STATUS": "PARTIALLY_UNRECOGNIZED"' in data_str or '"STATUS": "UNKNOWN"' in data_str:
+            return False
+            
+        return True
+
+    def _has_records(self, response: dict) -> bool:
+        """
+        Detecta si existen registros en parseWarning o initIssues explorando
+        su atributo estructurado para saber si hay data a corregir.
+        """
+        # Chequeo estructural sobre MCP
+        struct = response.get("structuredContent", {})
+        if "results" in struct:
+            return len(struct.get("results", [])) > 0
+            
+        # Fallback de texto
+        content = response.get("content", [])
+        if content and len(content) > 0:
+            text = content[0].get("text", "").strip()
+            # Si es un array/diccionario vacío o string vacío, no hay registros
+            if text in ["[]", "{}", ""] or not text:
+                return False
+            return True
+        return False
+
+    def _extract_failed_files(self, response: dict):
+        """
+        Extrae y devuelve únicamente los registros de dispositivos/archivos que 
+        no tengan status PASSED.
+        """
+        failed_items = []
+        struct = response.get("structuredContent", {})
+        if "results" in struct:
+            for r in struct.get("results", []):
+                st = str(r.get("status", "")).upper()
+                if st in ["FAILED", "PARTIALLY_UNRECOGNIZED", "UNKNOWN"]:
+                    failed_items.append(r)
+            if failed_items:
+                return failed_items
+                
+        # Fallback: si no extrajo nada pero hay un fallo general
+        return response
+
+    def _build_feedback(self, status_resp, warnings_resp, issues_resp) -> dict:
+        """
+        Construye la retroalimentación estructurada para el modelo, priorizando
+        parseWarning y luego initIssues, ordenando corregir solo archivos fallidos.
+        """
+        failed_status = self._extract_failed_files(status_resp)
+        
+        feedback = {
+            "failed_files_parse_status": failed_status,
+            "instruction": "" # review the failed files and provide specific correction instructions, prioritizing parseWarning issues over initIssues, and only for the files that failed in fileParseStatus.
+        }
+        
+        if self._has_records(warnings_resp):
+            feedback["primary_correction_source_parseWarning"] = warnings_resp
+            
+        if self._has_records(issues_resp):
+            feedback["complementary_context_initIssues"] = issues_resp
+            
+        return feedback
+
     def _verify_configuration(self, context: ExecutionContext) -> bool:
         """
         Sends generated configuration to verifier tool via MCP.
-        Updates the context with the verification result.
-        Sets the final context state to SUCCESS if verification passes.
+        Executes fileParseStatus and conditionally parseWarning and initIssues.
+        Builds feedback and updates context.
         """
         from utils.create_snapshot import create_snapshot_from_string
         import os
-        import json
 
-        # text response produced by FLM in Config Gen step
         config_data = context.final_result
-        
-        # Corrección: Extraer los saltos de línea y formateo doble explícitamente
         if isinstance(config_data, str):
             if config_data.startswith('"') and config_data.endswith('"'):
                 try:
@@ -160,31 +235,32 @@ class ExecutionController:
             return False
 
         load_response = batfish_server.call_tool("load_snapshot", {"zip_path": zip_path})
+        
+        # 1. fileParseStatus siempre debe ejecutarse
         status_response = batfish_server.call_tool("file_parse_status", {})
-        # warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
-        issues_response = batfish_server.call_tool("init_issues", {})
         
-        verification_response = {
-            "load": load_response,
-            "status": status_response,
-            # "warnings": warnings_response,
-            "issues": issues_response
-        }
+        # 2. Detectar si todos son PASSED
+        all_passed = self._check_parse_status(status_response)
 
-        # Determinamos si fue exitoso asumiendo que el flag de isError indica errores criticos
-        has_errors = issues_response.get("isError", False)
-        
-        if not has_errors:
-            record_response = {"status": "success", "data": verification_response}
-        else:
-            record_response = {"status": "failed", "data": verification_response}
-
-        context.update("VERIFICATION_CALL", record_response)
-
-        if not has_errors:
+        # 3. Si todos son PASSED: finalizar loop como exitoso
+        if all_passed:
+            verification_data = {
+                "status": status_response,
+                "message": "Validacion exitosa: todos los estados son PASSED."
+            }
+            context.update("VERIFICATION_CALL", {"status": "success", "data": verification_data})
             context.mark_success()
             return True
 
+        # 4. Si hay algun no-PASSED: ejecutar parseWarning e initIssues
+        warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
+        issues_response = batfish_server.call_tool("init_issues", {})
+
+        # 5 y 6. Construir la retroalimentación priorizada
+        feedback_data = self._build_feedback(status_response, warnings_response, issues_response)
+        
+        # Falló la verificacion, proveemos el feedback detallado
+        context.update("VERIFICATION_CALL", {"status": "failed", "data": feedback_data})
         return False
 
     def _refinement_loop(self, context: ExecutionContext):
@@ -206,7 +282,7 @@ class ExecutionController:
             context.update(refinement_prompt, refinement_response)
 
             # If the model failed to generate a corrected configuration, try again.
-            if refinement_response.get("status") != "success":
+            if refinement_response.get("isError", True):
                 continue
 
             # Re-verify the newly generated configuration.

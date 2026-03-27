@@ -8,7 +8,7 @@ RULES:
 
 [USER]
 CURRENT_CONFIG_BUNDLE:
-{device_config_bundle}
+{device_config}
 
 VERIFICATION_REPORT (Batfish):
 {verification_report}

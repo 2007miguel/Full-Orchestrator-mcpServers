@@ -1,3 +1,4 @@
+# evalua un flujo completo de clasificación, generación de pasos, generación de configuración y verificación con Batfish usando el FLM Server y el batfish Server. No implementa loop aun. 
 import json
 from pathlib import Path
 
@@ -116,8 +117,16 @@ def test_workflow():
             
             print("\nEnviando load_snapshot a Batfish...")
             load_response = batfish_server.call_tool("load_snapshot", {"zip_path": zip_path})
-            print(json.dumps(load_response, indent=2, ensure_ascii=False))
-
+            print(json.dumps(load_response, indent=2, ensure_ascii=False)) 
+            
+            print("\nEnviando file_parse_status a Batfish...")
+            status_response = batfish_server.call_tool("file_parse_status", {})  
+            print(json.dumps(status_response, indent=2, ensure_ascii=False)) 
+            
+            print("\nEnviando parse_warning a Batfish...")
+            warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
+            print(json.dumps(warnings_response, indent=2, ensure_ascii=False)) 
+            
             print("\nEnviando init_issues a Batfish...")
             issues_response = batfish_server.call_tool("init_issues", {})
             print(json.dumps(issues_response, indent=2, ensure_ascii=False))

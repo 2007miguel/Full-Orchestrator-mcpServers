@@ -83,11 +83,12 @@ class PromptManager:
         """
         Builds prompt for configuration repair based on verifier findings.
         """
-        current_config_bundle = self._extract_latest_success_data(context)
+        import json
+        current_config = self._extract_latest_success_data(context)
         verification_report = self._extract_latest_verification_report(context)
 
         prompt = self.repair_template.format(
-            device_config_bundle=current_config_bundle,
+            device_config=current_config if current_config else "{}",
             verification_report=json.dumps(verification_report, indent=2) if verification_report else "{}",
             topology=self.topology_text
         )
