@@ -1,1 +1,26 @@
-context topology
+=== NETWORK TOPOLOGY AND CONSTRAINTS ===
+
+Point-to-point links:
+- R1 Ethernet0/1 (10.0.12.1/24) ↔ R2 Ethernet0/0 (10.0.12.2/24)  [subnet 10.0.12.0/24]
+- R1 Ethernet0/2 (10.0.14.1/24) ↔ R4 Ethernet0/0 (10.0.14.2/24)  [subnet 10.0.14.0/24]
+- R2 Ethernet0/1 (10.0.23.1/24) ↔ R3 Ethernet0/0 (10.0.23.2/24)  [subnet 10.0.23.0/24]
+- R2 Ethernet0/2 (10.0.24.1/24) ↔ R4 Ethernet0/1 (10.0.24.2/24)  [subnet 10.0.24.0/24]
+- R3 Ethernet0/1 (10.0.34.1/24) ↔ R4 Ethernet0/2 (10.0.34.2/24)  [subnet 10.0.34.0/24]
+
+LAN segments:
+- R1 Ethernet0/0 (10.0.1.1/24) ↔ SW1 Fa0/24  [subnet 10.0.1.0/24]
+- R3 Ethernet0/2 (10.0.2.1/24) ↔ SW2 Fa0/24  [subnet 10.0.2.0/24]
+
+Hosts:
+- h1: 10.0.1.10/24, gateway 10.0.1.1 (R1 Ethernet0/0), connected to SW1 Fa0/1
+- h2: 10.0.2.10/24, gateway 10.0.2.1 (R3 Ethernet0/2), connected to SW2 Fa0/1
+
+Router interfaces summary:
+- R1: Eth0/0=10.0.1.1/24(SW1), Eth0/1=10.0.12.1/24(R2), Eth0/2=10.0.14.1/24(R4)
+- R2: Eth0/0=10.0.12.2/24(R1), Eth0/1=10.0.23.1/24(R3), Eth0/2=10.0.24.1/24(R4)
+- R3: Eth0/0=10.0.23.2/24(R2), Eth0/1=10.0.34.1/24(R4), Eth0/2=10.0.2.1/24(SW2)
+- R4: Eth0/0=10.0.14.2/24(R1), Eth0/1=10.0.24.2/24(R2), Eth0/2=10.0.34.2/24(R3)
+
+Switch constraints:
+- SW1: Fa0/1=access VLAN10 (h1), Fa0/24=trunk to R1, VLANs allowed: 10,20
+- SW2: Fa0/1=access VLAN30 (h2), Fa0/24=trunk to R3, VLANs allowed: 30,40

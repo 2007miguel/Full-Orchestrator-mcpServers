@@ -22,6 +22,9 @@ class PromptManager:
         # Load static base topology from config.txt as raw text
         self.topology_text = self._load_text("context_topology.txt")
 
+        # Load the full base configuration snapshot for merging before verification.
+        self.base_config_text = self._load_text("config_base.txt")
+
     def _load_text(self, filename: str) -> str:
         return (self.templates_path / filename).read_text(encoding="utf-8")
 
@@ -47,6 +50,10 @@ class PromptManager:
         )
 
         return prompt
+
+    def get_base_config_text(self) -> str:
+        """Returns the pre-loaded base configuration snapshot content as a string."""
+        return self.base_config_text
 
     def build_tasks_prompt(self, context):
         """

@@ -1,52 +1,57 @@
 [batfish/layer1_topology.json]
 {
   "edges": [
-
     {
       "node1": "h1",
       "interface1": "eth0",
+      "node2": "SW1",
+      "interface2": "FastEthernet0/1"
+    },
+    {
+      "node1": "SW1",
+      "interface1": "FastEthernet0/24",
       "node2": "R1",
       "interface2": "Ethernet0/0"
     },
-
     {
       "node1": "R1",
       "interface1": "Ethernet0/1",
       "node2": "R2",
       "interface2": "Ethernet0/0"
     },
-
     {
       "node1": "R1",
       "interface1": "Ethernet0/2",
       "node2": "R4",
       "interface2": "Ethernet0/0"
     },
-
     {
       "node1": "R2",
       "interface1": "Ethernet0/1",
       "node2": "R3",
       "interface2": "Ethernet0/0"
     },
-
     {
       "node1": "R2",
       "interface1": "Ethernet0/2",
       "node2": "R4",
       "interface2": "Ethernet0/1"
     },
-
     {
       "node1": "R3",
       "interface1": "Ethernet0/1",
       "node2": "R4",
       "interface2": "Ethernet0/2"
     },
-
     {
       "node1": "R3",
       "interface1": "Ethernet0/2",
+      "node2": "SW2",
+      "interface2": "FastEthernet0/24"
+    },
+    {
+      "node1": "SW2",
+      "interface1": "FastEthernet0/1",
       "node2": "h2",
       "interface2": "eth0"
     }
@@ -58,7 +63,7 @@
 hostname R1
 
 interface Ethernet0/0
- ip address 10.0.1.0 255.255.255.0
+ ip address 10.0.1.1 255.255.255.0
  no shutdown
 
 interface Ethernet0/1
@@ -70,7 +75,9 @@ interface Ethernet0/2
  no shutdown
 
 router ospf 1
- network 10.0.0.0 0.255.255.255 area 0
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
 [/configs/router1.cfg]
 [configs/router2.cfg]
 hostname R2
@@ -88,7 +95,9 @@ interface Ethernet0/2
  no shutdown
 
 router ospf 1
- network 10.0.0.0 0.255.255.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
 [/configs/router2.cfg]
 [configs/router3.cfg]
 hostname R3
@@ -106,7 +115,9 @@ interface Ethernet0/2
  no shutdown
 
 router ospf 1
- network 10.0.0.0 0.255.255.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
 [/configs/router3.cfg]
 [configs/router4.cfg]
 hostname R4
@@ -124,8 +135,28 @@ interface Ethernet0/2
  no shutdown
 
 router ospf 1
- network 10.0.0.0 0.255.255.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
 [/configs/router4.cfg]
+[configs/sw1.cfg]
+hostname SW1
+
+interface FastEthernet0/1
+ no shutdown
+
+interface FastEthernet0/24
+ no shutdown
+[/configs/sw1.cfg]
+[configs/sw2.cfg]
+hostname SW2
+
+interface FastEthernet0/1
+ no shutdown
+
+interface FastEthernet0/24
+ no shutdown
+[/configs/sw2.cfg]
 [hosts/h1.json]
 {
   "hostname": "h1",

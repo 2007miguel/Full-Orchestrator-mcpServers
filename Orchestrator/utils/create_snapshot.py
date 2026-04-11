@@ -4,15 +4,52 @@ from pathlib import Path
 import shutil
 
 def create_snapshot_from_string(content: str, base_dir: str = 'snapshot'):
+    """
+    DEPRECATED: This function is complex. Use the combination of merge_snapshots 
+    and create_snapshot_from_dict for clearer, more robust snapshot creation.
+    This function remains for compatibility but will be removed in the future.
+    """
+    files_dict = _parse_snapshot_to_dict(content)
+    
+    if not files_dict:
+        print("\nNo se encontraron archivos para crear en el snapshot.")
+        return None
+
+    return create_snapshot_from_dict(files_dict, base_dir)
+
+def _parse_snapshot_to_dict(content: str) -> dict[str, str]:
+    """Parses a snapshot string into a dictionary of {filepath: content}."""
     pattern = re.compile(r'\[([^\]]+)\]\n(.*?)\n\[/\1\]', re.DOTALL)
-
+    files_dict = {}
     matches = pattern.finditer(content)
-    files_created = 0
-
     for match in matches:
         relative_path_str = match.group(1)
         file_content = match.group(2).strip()
+        files_dict[relative_path_str] = file_content
+    return files_dict
 
+def merge_snapshots(base_content: str, update_content: str) -> str:
+    """
+    Merges two snapshot content strings. Configurations in update_content will
+    overwrite those in base_content if file paths are the same.
+    """
+    base_files = _parse_snapshot_to_dict(base_content)
+    update_files = _parse_snapshot_to_dict(update_content)
+
+    base_files.update(update_files)
+
+    # Reconstruct the snapshot string from the merged dictionary
+    merged_content_parts = []
+    for path, file_content in base_files.items():
+        merged_content_parts.append(f"[{path}]\n{file_content}\n[/{path}]")
+    
+    return "\n".join(merged_content_parts)
+
+def create_snapshot_from_dict(files_dict: dict[str, str], base_dir: str = 'snapshot'):
+    files_created = 0
+
+    # Corregido: Iterar sobre el diccionario de archivos recibido, no sobre una variable 'content' inexistente.
+    for relative_path_str, file_content in files_dict.items():
         output_path = Path(base_dir) / relative_path_str
         output_path.parent.mkdir(parents=True, exist_ok=True)
 

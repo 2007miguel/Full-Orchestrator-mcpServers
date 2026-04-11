@@ -214,22 +214,32 @@ class ExecutionController:
         Builds feedback and updates context.
         """
         from utils.create_snapshot import create_snapshot_from_string
+        from utils.create_snapshot import merge_snapshots
         import os
 
-        config_data = context.final_result
-        if isinstance(config_data, str):
-            if config_data.startswith('"') and config_data.endswith('"'):
+        # 1. Obtener la configuración parcial generada por el LLM
+        llm_config_output = context.final_result
+        if isinstance(llm_config_output, str):
+            # Limpieza de la salida del LLM, que a veces viene como un string JSON-escaped
+            if llm_config_output.startswith('"') and llm_config_output.endswith('"'):
                 try:
-                    config_data = json.loads(config_data)
+                    llm_config_output = json.loads(llm_config_output)
                 except Exception:
                     pass
-            config_data = config_data.replace("\\n", "\n").replace('\\"', '"').replace("\\t", "\t")
+            llm_config_output = llm_config_output.replace("\\n", "\n").replace('\\"', '"').replace("\\t", "\t")
 
+        # 2. Obtener la configuración base completa desde el PromptManager
+        base_config_text = self.prompt_manager.get_base_config_text()
+
+        # 3. Fusionar la base con los cambios del LLM para obtener el snapshot final
+        final_config_data = merge_snapshots(base_config_text, llm_config_output)
+
+        # 4. Crear el snapshot para Batfish a partir de la configuración fusionada
         batfish_server = self.mcp_client.server("batfish")
         
         snapshot_dir = os.path.join(os.path.expanduser("~"), "Documents", "snapshot_verify")
-        zip_path = create_snapshot_from_string(config_data, base_dir=snapshot_dir)
-
+        zip_path = create_snapshot_from_string(final_config_data, base_dir=snapshot_dir)
+        
         if not zip_path:
             context.update("VERIFICATION_CALL", {"status": "failed", "data": "Error creating snapshot"})
             return False
