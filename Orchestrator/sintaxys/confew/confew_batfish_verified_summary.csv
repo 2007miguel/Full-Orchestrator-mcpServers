@@ -1,0 +1,7 @@
+model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
+Qwen2.5-7B-Instruct,100,0.91575,1.0,154,135,19,0,0
+Llama-3.1-8B-Instruct,100,0.9020833333333332,1.0,173,146,27,0,0
+Gemma-2-9B-it,100,0.83,1.0,156,113,43,0,0
+Zephyr-7B,100,0.43225,0.5,180,126,54,0,0
+FLAN-T5-base,100,0.0,0.0,0,0,0,0,0
+FLAN-T5-large,100,0.0,0.0,0,0,0,0,0

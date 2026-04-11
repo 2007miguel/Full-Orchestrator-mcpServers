@@ -1,0 +1,4 @@
+quantization,model_name,params,samples_evaluated,bertscore_f1,rougeL,avg_time_per_sample,total_time_s,avg_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
+4-bit,Qwen2.5-7B-Instruct,7B,100,0.9847,0.8737,3.808,380.8,0.905,153,131,22,0,0
+8-bit,Qwen2.5-7B-Instruct,7B,100,0.9882,0.8885,10.1065,1010.65,0.91,156,139,17,0,0
+FP16,Qwen2.5-7B-Instruct,7B,100,0.9885,0.8903,4.0948,409.48,0.91575,154,135,19,0,0

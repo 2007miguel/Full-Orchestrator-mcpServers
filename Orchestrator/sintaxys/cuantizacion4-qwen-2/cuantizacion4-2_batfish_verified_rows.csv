@@ -1,0 +1,1787 @@
+model_name,predictions,pqs_modified,total_modified_files,parsed_files_reported_by_batfish,verification_state,verification_error,count_passed,count_partially_parsed,count_failed,count_unknown
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/2
+ ip address 10.0.14.1 255.255.255.0
+!
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/1
+ mtu 1500
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Loopback0
+ ip address 33.33.33.33 255.255.255.255
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/2
+ no shutdown
+!
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/2
+ shutdown
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/1
+ description Link to R3
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/1
+ bandwidth 1500
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface FastEthernet0/1
+ no ip proxy-arp
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/2
+ arp timeout 600
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Loopback0
+ ip address 44.44.44.44 255.255.255.255
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip route 10.0.1.0 255.255.255.0 10.0.23.2
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip route 0.0.0.0 0.0.0.0 10.0.14.1
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip route 10.0.1.0 255.255.255.0 10.0.1.1
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router ospf 2
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+router ospf 1
+ router-id 3.3.3.3
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/2
+ ip ospf cost 50
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+router ospf 1
+ passive-interface Ethernet0/1
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+no ip route 0.0.0.0 0.0.0.0 10.0.14.1
+!
+end
+[/configs/router4.cfg]",0.5,1,1,VERIFIED,,0,1,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip ospf hello-interval 10
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/2
+ ip ospf authentication md5
+ ip ospf authentication-key netpass
+!
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip access-list extended DENY_TCP_PORT_23
+ deny tcp 10.0.1.0 0.0.0.255 any eq 23
+ permit ip any any
+!
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip access-list extended DENY_TELNET
+ deny tcp 10.0.1.0 0.0.0.255 any eq 23
+ permit ip any any
+!
+interface FastEthernet0/1
+ ip access-group DENY_TELNET in
+!
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip access-list standard PERMIT_10_0_2
+ permit 10.0.2.0 0.0.0.255
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip access-list extended DENY_ICMP
+ deny icmp any 10.0.14.0 0.0.0.255
+ permit ip any any
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip domain-name lab.local
+ip ssh version 2
+ip ssh public-key rsa
+!
+end
+[/configs/router3.cfg]",0.5,1,1,VERIFIED,,0,1,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+line vty 0 4
+ password cisco
+ login
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+enable secret cisco
+!
+end
+[/configs/router1.cfg]",0.5,1,1,VERIFIED,,0,1,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+password 7 *12345678*
+login
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+aaa new-model
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+snmp-server community private RO
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+vlan 20
+!
+!
+end
+[/configs/switch2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+!
+end
+[/configs/switch1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+spanning-tree vlan 40 root primary
+!
+end
+[/configs/switch2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/24
+ switchport trunk native vlan 20
+!
+!
+end
+[/configs/switch1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface vlan 40
+ ip address 10.0.4.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/switch2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface Fa0/1
+ storm-control broadcast level percent 10
+!
+!
+end
+[/configs/switch2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+!
+vlan 20
+!
+!
+end
+[/configs/switch1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface Fa0/1
+ switchport port-security
+ switchport port-security max-mac 2
+!
+!
+end
+[/configs/switch2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip dhcp pool 14
+ network 10.0.14.0 255.255.255.0
+ default-router 10.0.14.1
+ dns-server 10.0.1.1
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip dhcp pool VLAN30
+ network 10.0.2.0 255.255.255.0
+ exclude 10.0.2.1 10.0.2.5
+!
+!
+end
+[/configs/router3.cfg]",0.5,1,1,VERIFIED,,0,1,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ntp server 10.0.23.2
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+logging level informational
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/2
+ cdp enable
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+hostname Edge-R3
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,None,0.0,0,0,NO_VALID_CONFIG_BLOCKS,,0,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+router ospf 1
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+!
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+router ospf 1
+ network 10.0.14.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+!
+!
+end
+[/configs/router4.cfg]",1.0,4,4,VERIFIED,,4,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/1
+ ip ospf authentication message-digest
+ ip ospf authentication-key ospfkey
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/0
+ ip ospf authentication message-digest
+ ip ospf authentication-key ospfkey
+!
+!
+end
+[/configs/router2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip ospf hello-interval 5
+ ip ospf dead-interval 20
+!
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ ip ospf hello-interval 5
+ ip ospf dead-interval 20
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Loopback0
+ ip address 1.1.2.1 255.255.255.255
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Loopback0
+ ip address 1.1.3.1 255.255.255.255
+!
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Loopback0
+ ip address 1.1.4.1 255.255.255.255
+!
+!
+end
+[/configs/router4.cfg]",1.0,4,4,VERIFIED,,4,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/2
+ ip ospf cost 200
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ ip ospf cost 200
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip ospf passive-interface
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/0
+ ip ospf passive-interface
+!
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+no router ospf 1
+!
+end
+[/configs/router2.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+no router ospf 1
+!
+end
+[/configs/router4.cfg]",0.5,2,2,VERIFIED,,0,2,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip route 10.0.2.0 255.255.255.0 10.0.23.1
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip route 10.0.1.0 255.255.255.0 10.0.23.2
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip route 0.0.0.0 0.0.0.0 10.0.1.1
+!
+end
+[/configs/router2.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip route 0.0.0.0 0.0.0.0 10.0.1.1
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip route 10.0.14.0 255.255.255.0 10.0.24.2
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip route 10.0.14.0 255.255.255.0 10.0.24.2
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip route 10.0.23.0 255.255.255.0 10.0.12.2
+!
+end
+[/configs/router1.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip route 10.0.23.0 255.255.255.0 10.0.24.1
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+no ip route 10.0.1.0 255.255.255.0
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+no ip route 10.0.1.0 255.255.255.0
+!
+end
+[/configs/router4.cfg]",0.5,2,2,VERIFIED,,0,2,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip route 10.0.34.0 255.255.255.0 10.0.14.2
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip route 10.0.34.0 255.255.255.0 10.0.24.2
+!
+end
+[/configs/router2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
+access-list 1 permit 10.0.1.0 0.0.0.255
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip nat inside
+!
+interface Ethernet0/0
+ ip nat outside
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip access-list extended DENY_TELNET
+ deny tcp 10.0.12.0 0.0.0.255 any eq 23
+ permit ip any any
+!
+interface Ethernet0/0
+ ip access-group DENY_TELNET in
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip access-list extended SSH_PERMIT
+ permit tcp 10.0.12.0 0.0.0.255 any eq 22
+ deny ip any any
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip access-list extended SSH_PERMIT
+ permit tcp 10.0.12.0 0.0.0.255 any eq 22
+ deny ip any any
+!
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip nat inside source static 10.0.1.10 10.0.12.100
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip nat inside source static 10.0.2.10 10.0.23.100
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip access-list extended ALLOW_HTTP
+ permit tcp 10.0.14.0 0.0.0.255 any eq 80
+ permit tcp 10.0.14.0 0.0.0.255 any eq 443
+!
+interface Ethernet0/0
+ ip access-group ALLOW_HTTP out
+!
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip access-list standard PERMIT_LAN2
+ permit 10.0.2.0 0.0.0.255
+!
+interface FastEthernet0/1
+ ip access-group PERMIT_LAN2 in
+!
+!
+end
+[/configs/router3.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+username admin privilege 15 secret secret123
+line vty 0 15
+ transport input ssh
+ login local
+!
+ip domain-name corp.net
+ip ssh version 2
+ip ssh public-key rsa modulus 2048
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+username admin privilege 15 secret secret123
+line vty 0 15
+ transport input ssh
+ login local
+!
+ip domain-name corp.net
+ip ssh version 2
+ip ssh public-key rsa modulus 2048
+!
+end
+[/configs/router3.cfg]",0.5,2,2,VERIFIED,,0,2,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+no cdp run
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+no cdp run
+!
+end
+[/configs/router2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+snmp-server community readonly RO
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+snmp-server community readonly RO
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+enable secret pass1
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+enable secret pass2
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+enable secret pass3
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+enable secret pass4
+!
+end
+[/configs/router4.cfg]",0.5,4,4,VERIFIED,,0,4,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+logging host 10.0.12.1
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+logging host 10.0.12.1
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+logging host 10.0.12.1
+!
+end
+[/configs/router4.cfg]",1.0,3,3,VERIFIED,,3,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ntp server 10.0.1.1
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ntp server 10.0.1.1
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ntp server 10.0.1.1
+!
+end
+[/configs/router4.cfg]",1.0,3,3,VERIFIED,,3,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ no ip proxy-arp
+!
+interface Ethernet0/1
+ no ip proxy-arp
+!
+interface Ethernet0/2
+ no ip proxy-arp
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/0
+ no ip proxy-arp
+!
+interface Ethernet0/1
+ no ip proxy-arp
+!
+interface Ethernet0/2
+ no ip proxy-arp
+!
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/1
+ mtu 1400
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/0
+ mtu 1400
+!
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/2
+ bandwidth 2000
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/0
+ bandwidth 2000
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ description Link to R4
+!
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ description Link to R3
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/2
+ shutdown
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ shutdown
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Loopback0
+ ip address 11.11.11.11 255.255.255.255
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Loopback0
+ ip address 22.22.22.22 255.255.255.255
+!
+!
+end
+[/configs/router2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10 root primary
+spanning-tree vlan 20 root secondary
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 30 root primary
+spanning-tree vlan 40 root secondary
+!
+end
+[/configs/switch2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ switchport native vlan 10
+!
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ switchport native vlan 30
+!
+!
+end
+[/configs/switch2.cfg]",0.5,2,2,VERIFIED,,0,2,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface vlan 10
+ ip address 10.0.1.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface vlan 30
+ ip address 10.0.2.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/switch2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+!
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface FastEthernet0/1
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+!
+!
+end
+[/configs/switch2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip dhcp pool VLAN10
+ network 10.0.1.0 255.255.255.0
+ exclude 10.0.1.1 10.0.1.10
+ default-router 10.0.1.1
+ dns-server 10.0.1.1
+!
+ip dhcp pool VLAN20
+ network 10.0.1.0 255.255.255.0
+ exclude 10.0.1.1 10.0.1.10
+ default-router 10.0.1.1
+ dns-server 10.0.1.1
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip dhcp pool VLAN30
+ network 10.0.2.0 255.255.255.0
+ exclude 10.0.2.1 10.0.2.10
+ default-router 10.0.2.1
+ dns-server 10.0.2.1
+!
+ip dhcp pool VLAN40
+ network 10.0.2.0 255.255.255.0
+ exclude 10.0.2.1 10.0.2.10
+ default-router 10.0.2.1
+ dns-server 10.0.2.1
+!
+!
+end
+[/configs/router3.cfg]",0.5,2,2,VERIFIED,,0,2,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ spanning-tree portfast
+!
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface FastEthernet0/1
+ spanning-tree portfast
+!
+!
+end
+[/configs/switch2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+vlan 20
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan add 10,20
+!
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+vlan 40
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan add 30,40
+!
+!
+end
+[/configs/switch2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/1
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/0
+ ip address 10.0.23.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+!
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+!
+interface Ethernet0/2
+ ip address 10.0.14.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+!
+interface Ethernet0/1
+ ip address 10.0.23.1 255.255.255.0
+ no shutdown
+!
+interface Ethernet0/2
+ ip address 10.0.24.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+!
+interface Ethernet0/1
+ ip address 10.0.34.1 255.255.255.0
+ no shutdown
+!
+interface Ethernet0/2
+!
+!
+end
+[/configs/router3.cfg]",1.0,3,3,VERIFIED,,3,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+hostname Router-R1
+enable secret sec1
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+hostname Router-R2
+enable secret sec2
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+hostname Router-R3
+enable secret sec3
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+hostname Router-R4
+enable secret sec4
+!
+end
+[/configs/router4.cfg]",0.5,4,4,VERIFIED,,0,4,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ntp server 10.0.1.1
+clock timezone UTC 0
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ntp server 10.0.1.1
+clock timezone UTC 0
+!
+end
+[/configs/router2.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ntp server 10.0.1.1
+clock timezone UTC 0
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ntp server 10.0.1.1
+clock timezone UTC 0
+!
+end
+[/configs/router4.cfg]",1.0,4,4,VERIFIED,,4,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip arp 10.0.1.10 0050.7966.6800 Ethernet0/0
+!
+end
+[/configs/router1.cfg]
+
+[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip arp 10.0.2.10 0050.7966.6801 Ethernet0/2
+!
+end
+[/configs/router3.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,None,0.0,0,0,NO_VALID_CONFIG_BLOCKS,,0,0,0,0
+Qwen2.5-7B-Instruct,None,0.0,0,0,NO_VALID_CONFIG_BLOCKS,,0,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/1
+ ip ospf authentication-key md5pass
+!
+!
+end
+[/configs/router1.cfg]
+
+[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/0
+ ip ospf authentication-key md5pass
+!
+!
+end
+[/configs/router2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ storm-control broadcast level percent 15
+!
+!
+end
+[/configs/switch1.cfg]
+
+[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface FastEthernet0/1
+ storm-control broadcast level percent 15
+!
+!
+end
+[/configs/switch2.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ arp timer 120
+!
+!
+end
+[/configs/router1.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router ospf 1
+ passive-interface default
+ no passive-interface Ethernet0/0
+!
+!
+end
+[/configs/router2.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip arp 10.0.14.1 0050.7966.6802 fast-refresh
+!
+end
+[/configs/router4.cfg]",1.0,1,1,VERIFIED,,1,0,0,0
+Qwen2.5-7B-Instruct,None,0.0,0,0,NO_VALID_CONFIG_BLOCKS,,0,0,0,0
+Qwen2.5-7B-Instruct,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router3.cfg]
+
+[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ ip address 10.0.24.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router4.cfg]",1.0,2,2,VERIFIED,,2,0,0,0
