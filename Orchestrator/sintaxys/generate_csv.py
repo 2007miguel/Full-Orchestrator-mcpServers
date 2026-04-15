@@ -2,9 +2,9 @@ import json
 import csv
 
 # Nombre del archivo JSON de entrada
-json_file_path = 'cuantizacion8.json'
+json_file_path = 'generation_results_sin_plan_q-int8_20260414_193204.json'
 # Nombre del archivo CSV de salida
-csv_file_path = 'cuantizacion8.csv'
+csv_file_path = 'llama_int8.csv'
 
 try:
     # Abrir y cargar el archivo JSON
