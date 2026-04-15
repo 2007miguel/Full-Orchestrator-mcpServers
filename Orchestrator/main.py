@@ -1,4 +1,5 @@
 import json
+import sys
 from pathlib import Path
 
 # Import core components of the orchestration system
@@ -7,51 +8,28 @@ from core.prompt_manager import PromptManager
 from core.requirement_loader import RequirementLoader
 from models.execution_context import ExecutionContext
 
-# --- Mock/Dummy Implementations for Demonstration ---
-# In a real-world scenario, these would be replaced by actual clients and loggers.
-
-class DummyMCPClient:
-    """
-    A mock Multi-Component Protocol (MCP) client that simulates calls to external tools.
-    It returns predefined successful responses to demonstrate the full pipeline.
-    """
-    def call_tool(self, tool_name: str, payload: dict) -> dict:
-        print(f"---  simulating call to tool: '{tool_name}' ---")
-
-        if tool_name == "flm":
-            # Simulate a successful response from the Foundational Language Model
-            return {
-                "status": "success",
-                "data": {
-                    "message": f"Simulated successful output from {tool_name}",
-                    "tool_payload": payload
-                }
-            }
-        elif tool_name == "verifier":
-            # Simulate a successful response from the network verifier
-            return {
-                "status": "success",
-                "data": {
-                    "is_compliant": True,
-                    "report": "Configuration is compliant and meets all checks."
-                }
-            }
-        
-        # Default failure response for unknown tools
-        return {
-            "status": "error",
-            "data": {"message": f"Tool '{tool_name}' not found."}
-        }
+# Import the real MCP Client Manager
+from mcp_client import MCPClientManager, SERVERS
 
 class ConsoleResultLogger:
     """
-    A simple logger that prints the final execution context to the console.
+    A simple logger that prints the final execution context to the console
+    and saves it to a file.
     """
     def save(self, context: ExecutionContext):
-        print("\n--- Execution Finished. Saving result to console. ---")
-        # Use the context's own serialization method for a clean output
-        print(json.dumps(context.to_dict(), indent=2))
+        print("\n--- Execution Finished. Saving result ---")
+        
+        # Guardar en archivo
+        results_dir = Path(__file__).parent / "results"
+        results_dir.mkdir(exist_ok=True)
+        filename = results_dir / f"execution_{context.metadata.get('request_id', 'unknown')}.json"
+        
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(context.to_dict(), f, indent=2, ensure_ascii=False)
+            
+        print(f"Resultado guardado en: {filename}")
         print("-----------------------------------------------------\n")
+
 
 def main():
     """
@@ -62,44 +40,57 @@ def main():
     # --- Dependency Injection Setup ---
 
     # 1. Define the path to the prompt templates
-    # Assuming 'main.py' is in the root and templates are in 'data/templates'
     templates_path = Path(__file__).parent / "templates"
 
     # 2. Instantiate all the necessary components
     requirement_loader = RequirementLoader()
     prompt_manager = PromptManager(templates_path=str(templates_path))
-    mcp_client = MCPClient() # Usamos el cliente real
+    
+    # 3. Setup MCP Client Manager
+    print("Iniciando servidores MCP...")
+    mcp_client_manager = MCPClientManager(SERVERS)
+    
+    try:
+        # Iniciar servidor Batfish
+        batfish_server = mcp_client_manager.server("batfish")
+        batfish_server.start()
+        batfish_server.initialize()
+        print("- Servidor Batfish iniciado correctamente.")
+
+        # Iniciar servidor FLM
+        flm_server = mcp_client_manager.server("flm")
+        flm_server.start()
+        flm_server.initialize()
+        print("- Servidor FLM iniciado correctamente.")
+
+    except Exception as e:
+        print(f"Error al inicializar servidores MCP: {e}")
+        mcp_client_manager.close_all()
+        sys.exit(1)
+
     result_logger = ConsoleResultLogger()
 
-    # 3. Instantiate the main controller with all its dependencies
+    # 4. Instantiate the main controller with all its dependencies
     controller = ExecutionController(
         prompt_manager=prompt_manager,
-        mcp_client=mcp_client,
+        mcp_client=mcp_client_manager,
         result_logger=result_logger
     )
 
-    # --- Test MCP connection by listing available tools ---
-    try:
-        mcp_client.call_tool("tools/list")
-    except Exception as e:
-        print(f"Failed to connect to MCP Server. Please check server implementation. Error: {e}")
- 
-    print("Topology Summary: ")
+    print("\nTopology Summary: ")
     print("""H1 → R1
 R1 → R2, R4
 R2 ↔ R4 ↔ R3
 R3 → H2""")
-    print("Enter your network requirement. Type 'exit' or 'quit' to stop.")
+    print("\nIngresa tu requerimiento de red. Escribe 'exit' o 'quit' para salir.")
 
     # --- Conversational Loop ---
-
-    while True:
-        try:
+    try:
+        while True:
             user_input = input("\n> ")
 
             if user_input.lower() in ["exit", "quit"]:
                 print("Exiting orchestrator.")
-                mcp_client.close() # Cierra el proceso del servidor al salir
                 break
 
             if not user_input.strip():
@@ -110,6 +101,7 @@ R3 → H2""")
             print(f"--- Requirement loaded (ID: {requirement['request_id']}) ---")
 
             # 2. Run the main orchestration pipeline
+            print("Ejecutando pipeline de orquestación...")
             final_context = controller.run(requirement)
 
             # 3. Provide feedback to the user based on the final state
@@ -120,22 +112,16 @@ R3 → H2""")
                 if final_context.error_message:
                     print(f"   Error: {final_context.error_message}")
 
-        except ValueError as e:
-            print(f"Error: {e}")
-        except KeyboardInterrupt:
-            print("\nExiting orchestrator by user interrupt.")
-            mcp_client.close() # Asegúrate de cerrar también con Ctrl+C
-            break
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            mcp_client.close() # Cierra en caso de un error inesperado
+    except ValueError as e:
+        print(f"Error: {e}")
+    except KeyboardInterrupt:
+        print("\nExiting orchestrator by user interrupt.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+    finally:
+        print("Cerrando servidores MCP...")
+        mcp_client_manager.close_all()
 
 
 if __name__ == "__main__":
-    # Ensure you have a folder structure like:
-    # /Orchestrator
-    #   - main.py
-    #   - /core
-    #   - /models
-    #   - /templates/*.txt
     main()

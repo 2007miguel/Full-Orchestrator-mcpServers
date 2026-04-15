@@ -228,11 +228,16 @@ class ExecutionController:
                     pass
             llm_config_output = llm_config_output.replace("\\n", "\n").replace('\\"', '"').replace("\\t", "\t")
 
+        # Parsear los comandos CLI devueltos por el LLM a formato Batfish
+        from utils.batfish_parser import BatfishPredictionParser
+        parser = BatfishPredictionParser(none_value="")
+        parsed_llm_config = parser.parse_prediction(llm_config_output)
+
         # 2. Obtener la configuración base completa desde el PromptManager
         base_config_text = self.prompt_manager.get_base_config_text()
 
-        # 3. Fusionar la base con los cambios del LLM para obtener el snapshot final
-        final_config_data = merge_snapshots(base_config_text, llm_config_output)
+        # 3. Fusionar la base con los cambios parseados del LLM para obtener el snapshot final
+        final_config_data = merge_snapshots(base_config_text, parsed_llm_config)
 
         # 4. Crear el snapshot para Batfish a partir de la configuración fusionada
         batfish_server = self.mcp_client.server("batfish")
