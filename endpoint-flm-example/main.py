@@ -41,6 +41,9 @@ def procesar_texto(entrada: EntradaTexto):
     Recibe un texto y responde con uno de los tres strings definidos,
     rotando la respuesta en cada llamada.
     """
+    # Imprime el contenido del prompt recibido
+    print(f"Request a /generate recibido con el prompt: '{entrada.prompt}'")
+
     # Selecciona la respuesta actual usando el contador
     respuesta_actual = RESPUESTAS[estado["contador"]]
 

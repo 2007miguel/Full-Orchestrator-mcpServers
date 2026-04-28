@@ -189,23 +189,90 @@ class ExecutionController:
 
     def _build_feedback(self, status_resp, warnings_resp, issues_resp) -> dict:
         """
-        Construye la retroalimentación estructurada para el modelo, priorizando
-        parseWarning y luego initIssues, ordenando corregir solo archivos fallidos.
+        Construye la retroalimentación en un formato más puntual y directo
+        para disminuir la longitud del JSON que recibe el modelo.
         """
         failed_status = self._extract_failed_files(status_resp)
+        if isinstance(failed_status, dict):
+            failed_status = failed_status.get("structuredContent", {}).get("results", [])
+            
+        failed_files = {r.get("file_name", ""): r.get("status", "UNKNOWN") for r in failed_status if isinstance(r, dict)}
         
-        feedback = {
-            "failed_files_parse_status": failed_status,
-            "instruction": "" # review the failed files and provide specific correction instructions, prioritizing parseWarning issues over initIssues, and only for the files that failed in fileParseStatus.
+        compact_errors = []
+        
+        # Extraer warnings
+        warnings_struct = warnings_resp.get("structuredContent", {}) if isinstance(warnings_resp, dict) else {}
+        warnings_results = warnings_struct.get("results", [])
+        
+        if warnings_results:
+            for w in warnings_results:
+                filename = w.get("filename", "")
+                if not filename and failed_files:
+                     filename = list(failed_files.keys())[0]
+                     
+                compact_errors.append({
+                    "File": filename,
+                    "Status": failed_files.get(filename, "UNKNOWN"),
+                    "Invalid line": w.get("text", "").strip() if w.get("text") else f"Line {w.get('line', 'Unknown')}",
+                    "Reason": w.get("comment", "Syntax is unrecognized")
+                })
+        else:
+            # Extraer issues si no hubo warnings
+            issues_struct = issues_resp.get("structuredContent", {}) if isinstance(issues_resp, dict) else {}
+            issues_results = issues_struct.get("results", [])
+            
+            if issues_results:
+                for issue in issues_results:
+                    source_lines = issue.get("source_lines", [])
+                    filename = source_lines[0].split(":")[0] if source_lines else (list(failed_files.keys())[0] if failed_files else "Unknown")
+                    
+                    compact_errors.append({
+                        "File": filename,
+                        "Status": failed_files.get(filename, "UNKNOWN"),
+                        "Invalid line": issue.get("line_text", "").strip(),
+                        "Reason": issue.get("details", "")
+                    })
+            else:
+                # Fallback si no hay warnings ni issues
+                for fname, status in failed_files.items():
+                    compact_errors.append({
+                        "File": fname,
+                        "Status": status,
+                        "Invalid line": "N/A",
+                        "Reason": "Parsing failed or partially unrecognized."
+                    })
+
+        return {
+            "errors": compact_errors,
+            "instruction": "Review the provided errors and provide specific correction instructions for the failed files."
         }
-        
-        if self._has_records(warnings_resp):
-            feedback["primary_correction_source_parseWarning"] = warnings_resp
-            
-        if self._has_records(issues_resp):
-            feedback["complementary_context_initIssues"] = issues_resp
-            
-        return feedback
+
+    def should_use_init_issues(self, parse_status_results, parse_warning_results):
+        failed_files = [
+            r for r in parse_status_results
+            if r["status"] in {"PARTIALLY_UNRECOGNIZED", "FAILED", "UNKNOWN"}
+        ]
+
+        if not failed_files:
+            return False
+
+        warnings = parse_warning_results.get("results", [])
+
+        if not warnings:
+            return True 
+
+        for w in warnings:
+            text = (w.get("text") or "").strip()
+            comment = (w.get("comment") or "").strip()
+            line = w.get("line")
+
+            if not text and line is None:
+                return True
+
+            if not comment:
+                return True
+
+        return False
 
     def _verify_configuration(self, context: ExecutionContext) -> bool:
         """
@@ -267,11 +334,18 @@ class ExecutionController:
             context.mark_success()
             return True
 
-        # 4. Si hay algun no-PASSED: ejecutar parseWarning e initIssues
+        # 4. Si hay algun no-PASSED: ejecutar parseWarning
         warnings_response = batfish_server.call_tool("parse_warning", {"aggregate_duplicates": True})
-        issues_response = batfish_server.call_tool("init_issues", {})
+        
+        # 5. Condicionalmente ejecutar initIssues basado en should_use_init_issues
+        parse_status_results = status_response.get("structuredContent", {}).get("results", [])
+        parse_warning_results = warnings_response.get("structuredContent", {})
+        
+        issues_response = {}
+        if self.should_use_init_issues(parse_status_results, parse_warning_results):
+            issues_response = batfish_server.call_tool("init_issues", {})
 
-        # 5 y 6. Construir la retroalimentación priorizada
+        # 6. Construir la retroalimentación en formato compacto
         feedback_data = self._build_feedback(status_response, warnings_response, issues_response)
         
         # Falló la verificacion, proveemos el feedback detallado
