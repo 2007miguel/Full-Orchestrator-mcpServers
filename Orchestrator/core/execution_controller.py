@@ -41,12 +41,29 @@ class ExecutionController:
         4. Verification
         5. Refinement loop (if needed)
         """
+        import time
+        start_time = time.time()
+        
         # Create a unique context to track this specific execution's state and history.
         context = ExecutionContext(requirement)
 
         try:
+            # Inicializar CSV a través de mcp-server-csv
+            try:
+                csv_server = self.mcp_client.server("csv")
+                if not csv_server._initialized:
+                    csv_server.start()
+                    csv_server.initialize()
+                csv_server.call_tool("create_csv", {
+                    "filename": "results",
+                    "headers": ["intent", "configuration", "time"]
+                })
+            except Exception as e:
+                print(f"Warning: Failed to initialize CSV logging: {e}")
+
             flm_server = self.mcp_client.server("flm")
 
+            '''
             # -----------------------------------
             # 1a. Classification
             # -----------------------------------
@@ -79,12 +96,13 @@ class ExecutionController:
 
             if tasks_response.get("isError", True):
                 context.mark_failed("Step generation failed.")
-                return context  # Exit early if step generation fails.
+                return context  # Exit early if step generation fails. 
+            '''
 
             # -----------------------------------
             # 2. Configuration Generation
             # -----------------------------------
-            config_prompt = self.prompt_manager.build_config_prompt(context)
+            config_prompt = self.prompt_manager.build_config_prompt_v2(context)
 
             config_response = flm_server.call_tool(
                 "send_prompt",
@@ -120,6 +138,30 @@ class ExecutionController:
             context.mark_failed(str(e))
 
         finally:
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            
+            # Extraer intent y configuración final
+            intent_str = str(requirement.get("intent", requirement.get("text", requirement))) if isinstance(requirement, dict) else str(requirement)
+            final_config = getattr(context, "generated_config", "")
+            
+            # Registrar resultados en el CSV
+            try:
+                csv_server = self.mcp_client.server("csv")
+                if not csv_server._initialized:
+                    csv_server.start()
+                    csv_server.initialize()
+                csv_server.call_tool("append_row", {
+                    "filename": "results.csv",
+                    "row": {
+                        "intent": intent_str,
+                        "configuration": final_config,
+                        "time": str(round(elapsed_time, 2))
+                    }
+                })
+            except Exception as e:
+                print(f"Warning: Failed to log results to CSV: {e}")
+
             # Always save the execution context, regardless of success or failure.
             self.result_logger.save(context)
 
@@ -294,6 +336,9 @@ class ExecutionController:
                 except Exception:
                     pass
             llm_config_output = llm_config_output.replace("\\n", "\n").replace('\\"', '"').replace("\\t", "\t")
+
+        # Guardamos la configuración limpia para registrarla luego en el CSV
+        context.generated_config = str(llm_config_output) if llm_config_output else ""
 
         # Parsear los comandos CLI devueltos por el LLM a formato Batfish
         from utils.batfish_parser import BatfishPredictionParser

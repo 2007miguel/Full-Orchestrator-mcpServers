@@ -84,6 +84,20 @@ class PromptManager:
             topology=self.topology_text
         )
 
+        return prompt 
+    
+    def build_config_prompt_v2(self, context):
+        """
+        Builds prompt for configuration generation.
+        """
+        user_text = context.intent
+
+        # Inserta los datos dinámicos en la plantilla.
+        prompt = self.config_prompt_template.format(
+            context_plan=user_text,
+            topology=self.topology_text
+        )
+
         return prompt
 
     def build_refinement_prompt(self, context):

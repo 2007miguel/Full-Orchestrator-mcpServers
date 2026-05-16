@@ -23,6 +23,11 @@ SERVERS: dict[str, list[str]] = {
     "flm": [
         str(BASE_PATH / "mcp-server-flm/venv/Scripts/python.exe"),
         str(BASE_PATH / "mcp-server-flm/server.py"),
+    ],
+    
+    "csv": [
+        str(BASE_PATH / "mcp-server-csv/venv/Scripts/python.exe"),
+        str(BASE_PATH / "mcp-server-csv/server.py"),
     ]
 }
 
