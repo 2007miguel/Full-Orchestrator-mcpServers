@@ -1,0 +1,1306 @@
+================================================================================
+Procesando URL base [1/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg.html
+Configuration Guide detectada: Interface and Hardware Components Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 19
+
+[1/19] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/19] Procesando chapter:
+Configuring Interface Characteristics
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_interface_characteristics.html
+Tablas extraídas en este chapter: 14
+Filas extraídas en este chapter: 93
+
+[3/19] Procesando chapter:
+Configuring Auto-MDIX
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_auto_mdix.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[4/19] Procesando chapter:
+Configuring Ethernet Management Port
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_ethernet_management_port.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[5/19] Procesando chapter:
+Checking Port Status and Connectivity
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/checking_port_status_and_connectivity.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 2
+
+[6/19] Procesando chapter:
+Configuring LLDP, LLDP-MED, and Wired Location Service
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_lldp__lldp_med__and_wired_location_service.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 51
+
+[7/19] Procesando chapter:
+Configuring System MTU
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_system_mtu.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 13
+
+[8/19] Procesando chapter:
+Configuring Per-Port MTU
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_per_port_mtu.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 5
+
+[9/19] Procesando chapter:
+Configuring Internal Power Supplies
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_internal_power_supplies.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 2
+
+[10/19] Procesando chapter:
+Configuring the Cisco Expandable Power System 2200
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_the_cisco_expandable_power_system__xps__2200.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 18
+
+[11/19] Procesando chapter:
+Configuring EEE
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_eee.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[12/19] Procesando chapter:
+Configuring Power over Ethernet
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_poe.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 20
+
+[13/19] Procesando chapter:
+Configuring Perpetual PoE and Fast POE
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_perpetual_poe_and_fast_poe.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[14/19] Procesando chapter:
+Configuring 2-event Classification
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_2_event_classification.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 5
+
+[15/19] Procesando chapter:
+Configuring Auto SmartPorts
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_auto_smartports.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 24
+
+[16/19] Procesando chapter:
+Configuring COAP Proxy Server
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_coap_proxy_server.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 18
+
+[17/19] Procesando chapter:
+Configuring USB 3.0 SSD
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_usb_3_0_ssd.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 11
+
+[18/19] Procesando chapter:
+Configuring an External USB Bluetooth Dongle
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/configuring_an_external_usb_bluetooth_dongle.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[19/19] Procesando chapter:
+Troubleshooting Interface and Hardware Components
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg/troubleshooting_for_interface_and_hardware_components.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/int_hw/b_1712_int_and_hw_9300_cg.html
+Chapters con tablas válidas: 16
+Total de tablas extraídas: 45
+Total de filas extraídas: 286
+
+
+================================================================================
+Procesando URL base [2/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg.html
+Configuration Guide detectada: VLAN Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 8
+
+[1/8] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/8] Procesando chapter:
+Configuring VTP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_vtp.html
+Tablas extraídas en este chapter: 7
+Filas extraídas en este chapter: 45
+
+[3/8] Procesando chapter:
+Configuring VLANs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_vlans.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 30
+
+[4/8] Procesando chapter:
+Configuring Voice VLANs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_voice_vlans.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 14
+
+[5/8] Procesando chapter:
+Configuring VLAN Trunks
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_vlan_trunks.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 73
+
+[6/8] Procesando chapter:
+Configuring Private VLANs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_private_vlans.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 79
+
+[7/8] Procesando chapter:
+Configuring Layer 3 Subinterfaces
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_layer_3_subinterfaces.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 5
+
+[8/8] Procesando chapter:
+Configuring Wired Dynamic PVLAN
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg/configuring_wired_dynamic_pvlan.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 17
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/vlan/b_1712_vlan_9300_cg.html
+Chapters con tablas válidas: 7
+Total de tablas extraídas: 29
+Total de filas extraídas: 263
+
+
+================================================================================
+Procesando URL base [3/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg.html
+Configuration Guide detectada: Layer 2 Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 16
+
+[1/16] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/16] Procesando chapter:
+Configuring Spanning Tree Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_spanning_tree_protocol.html
+Tablas extraídas en este chapter: 11
+Filas extraídas en este chapter: 50
+
+[3/16] Procesando chapter:
+Configuring Loop Detection Guard
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_loop_detection_guard.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 7
+
+[4/16] Procesando chapter:
+Configuring Multiple Spanning-Tree Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_multiple_spanning_tree_protocol.html
+Tablas extraídas en este chapter: 13
+Filas extraídas en este chapter: 60
+
+[5/16] Procesando chapter:
+Configuring Optional Spanning-Tree Features
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_optional_spanning_tree_features.html
+Tablas extraídas en este chapter: 9
+Filas extraídas en este chapter: 42
+
+[6/16] Procesando chapter:
+Configuring EtherChannels
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_etherchannels.html
+Tablas extraídas en este chapter: 16
+Filas extraídas en este chapter: 86
+
+[7/16] Procesando chapter:
+Configuring Precision Time Protocol (PTP)
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_precision_time_protocol__ptp_.html
+Tablas extraídas en este chapter: 9
+Filas extraídas en este chapter: 61
+
+[8/16] Procesando chapter:
+Configuring Generalized Precision Time Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_generalized_precision_time_protocol.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 23
+
+[9/16] Procesando chapter:
+Configuring Resilient Ethernet Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_resilient_ethernet_protocol.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 30
+
+[10/16] Procesando chapter:
+Configuring UniDirectional Link Detection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_unidirectional_link_detection.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 14
+
+[11/16] Procesando chapter:
+Configuring Layer 2 Protocol Tunneling
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_layer2_protocol_tunneling.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 43
+
+[12/16] Procesando chapter:
+Configuring IEEE 802.1Q Tunneling
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_ieee_802_1q_tunneling.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 11
+
+[13/16] Procesando chapter:
+Configuring VLAN Mapping
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_vlan_mapping.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 21
+
+[14/16] Procesando chapter:
+Configuring Audio Video Bridging
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/audio_video_bridging.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 43
+
+[15/16] Procesando chapter:
+Configuring Flexlink+
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/configuring_flexlink_.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 44
+
+[16/16] Procesando chapter:
+Troubleshooting Layer 2
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg/troubleshooting_for_layer_2.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/lyr2/b_1712_lyr2_9300_cg.html
+Chapters con tablas válidas: 14
+Total de tablas extraídas: 90
+Total de filas extraídas: 535
+
+
+================================================================================
+Procesando URL base [4/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg.html
+Configuration Guide detectada: IP Routing Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 27
+
+[1/27] Procesando chapter:
+Configuring Bidirectional Forwarding Detection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bidirectional_forwarding_detection.html
+Tablas extraídas en este chapter: 12
+Filas extraídas en este chapter: 90
+
+[2/27] Procesando chapter:
+Configuring BFD Support for EIGRP IPv6
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bfd_support_for_eigrp_ipv6.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 30
+
+[3/27] Procesando chapter:
+Configuring MSDP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_msdp.html
+Tablas extraídas en este chapter: 12
+Filas extraídas en este chapter: 80
+
+[4/27] Procesando chapter:
+Configuring IP Unicast Routing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ip_unicast_routing.html
+Tablas extraídas en este chapter: 13
+Filas extraídas en este chapter: 110
+
+[5/27] Procesando chapter:
+Configuring IPv6 Unicast Routing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ipv6_unicast_routing.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 64
+
+[6/27] Procesando chapter:
+Configuring RIP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_rip.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 50
+
+[7/27] Procesando chapter:
+Configuring OSPF
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ospf.html
+Tablas extraídas en este chapter: 7
+Filas extraídas en este chapter: 77
+
+[8/27] Procesando chapter:
+Configuring OSPF Link-State Database Overload Protection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ospf_link_state_database_overload_protection.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 17
+
+[9/27] Procesando chapter:
+Configuring OSPF Limit on Number of Redistributed Routes
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ospf_limit_on_number_of_redistributed_routes.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 27
+
+[10/27] Procesando chapter:
+Configuring OSPFv3 Fast Convergence - LSA and SPF Throttling
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ospfv3_fast_convergence_lsa_and_spf_throttling.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 14
+
+[11/27] Procesando chapter:
+Configuring OSPFv3 Authentication Support with IPsec
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ospfv3_authentication_support_with_ipsec.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 21
+
+[12/27] Procesando chapter:
+Configuring OSPFv3 Authentication Trailer
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_ospfv3_authentication_trailer.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 14
+
+[13/27] Procesando chapter:
+Configuring EIGRP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_eigrp.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 39
+
+[14/27] Procesando chapter:
+Configuring BGP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bgp.html
+Tablas extraídas en este chapter: 21
+Filas extraídas en este chapter: 234
+
+[15/27] Procesando chapter:
+Configuring BGP Large Community
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bgp_large_community.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 33
+
+[16/27] Procesando chapter:
+Configuring BGP Monitoring Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bgp_monitoring_protocol.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 40
+
+[17/27] Procesando chapter:
+Configuring BGP Next Hop Unchanged
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/bgp_next_hop_unchanged.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 10
+
+[18/27] Procesando chapter:
+Configuring BGP-VPN Distinguisher Attribute
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bgp_vpn_distinguisher_attribute.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 34
+
+[19/27] Procesando chapter:
+Configuring BGP-RT and VPN Distinguisher Attribute Rewrite Wildcard
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bgp_rt_and_vpn_distinguisher_attribute_rewrite_wildcard.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 34
+
+[20/27] Procesando chapter:
+Configuring BGP Support for 4-byte ASN
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_bgp_support_for_4_byte_asn.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 21
+
+[21/27] Procesando chapter:
+Configuring IS-IS Routing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_is_is_routing.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 67
+
+[22/27] Procesando chapter:
+Protocol-Independent Features
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/protocol_independent_features.html
+Tablas extraídas en este chapter: 13
+Filas extraídas en este chapter: 118
+
+[23/27] Procesando chapter:
+Configuring VRF aware PBR
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_vrf_aware_pbr.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 138
+
+[24/27] Procesando chapter:
+Configuring Multi-VRF CE
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_multi_vrf_ce.html
+Tablas extraídas en este chapter: 10
+Filas extraídas en este chapter: 98
+
+[25/27] Procesando chapter:
+Configuring Unicast Reverse Path Forwarding
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_unicast_reverse_path_forwarding.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[26/27] Procesando chapter:
+Configuring Generic Routing Encapsulation(GRE) Tunnel IP Source and Destination VRF Membership
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/configuring_generic_routing_encapsulation_gre__tunnel_ip_source_and_destination_vrf_membership.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 8
+
+[27/27] Procesando chapter:
+Troubleshooting IP Routing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg/troubleshooting_ip_routing.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/rtng/b_1712_rtng_9300_cg.html
+Chapters con tablas válidas: 26
+Total de tablas extraídas: 154
+Total de filas extraídas: 1474
+
+
+================================================================================
+Procesando URL base [5/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg.html
+Configuration Guide detectada: IP Addressing Services Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 19
+
+[1/19] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/19] Procesando chapter:
+IP Addressing Services Overview
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/ip_addressing_services_overview.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[3/19] Procesando chapter:
+IPv6 Client IP Address Learning
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_ipv6_client_ip_address_learning.html
+Tablas extraídas en este chapter: 12
+Filas extraídas en este chapter: 90
+
+[4/19] Procesando chapter:
+Configuring DHCP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_dhcp.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 50
+
+[5/19] Procesando chapter:
+DHCP Gleaning
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/dhcp_gleaning.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 8
+
+[6/19] Procesando chapter:
+DHCP Options Support
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/dhcp_options_support.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 15
+
+[7/19] Procesando chapter:
+DHCPv6 Options Support
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/dhcpv6_options_support.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 13
+
+[8/19] Procesando chapter:
+DHCPv6 Relay Source Configuration
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/dhcpv6_relay_source_configuration.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 9
+
+[9/19] Procesando chapter:
+Configuring IPv6 over IPv4 GRE Tunnels
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_ipv6_over_ipv4_gre_tunnels.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 7
+
+[10/19] Procesando chapter:
+Configuring GLBP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_glbp.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 64
+
+[11/19] Procesando chapter:
+Configuring HSRP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring___hsrp.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 56
+
+[12/19] Procesando chapter:
+Configuring NHRP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_nhrp.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 19
+
+[13/19] Procesando chapter:
+Configuring Network Address Translation
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_network_address_translation.html
+Tablas extraídas en este chapter: 12
+Filas extraídas en este chapter: 116
+
+[14/19] Procesando chapter:
+VRRPv3 Protocol Support
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/vrrpv3_protocol___support.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 21
+
+[15/19] Procesando chapter:
+Configuring WCCP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_wccp.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 39
+
+[16/19] Procesando chapter:
+Configuring Enhanced Object Tracking
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_enhanced___object_tracking.html
+Tablas extraídas en este chapter: 9
+Filas extraídas en este chapter: 82
+
+[17/19] Procesando chapter:
+Configuring TCP MSS Adjustment
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/configuring_tcp_mss_adjustment.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 10
+
+[18/19] Procesando chapter:
+Enhanced IPv6 Neighbor Discovery Cache Management
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/enhanced_ipv6_neighbor_discovery_cache_management.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 8
+
+[19/19] Procesando chapter:
+Troubleshooting IP Addressing Services
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg/troubleshooting_for_ip_addressing_services.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/ip/b_1712_ip_9300_cg.html
+Chapters con tablas válidas: 16
+Total de tablas extraídas: 71
+Total de filas extraídas: 607
+
+
+================================================================================
+Procesando URL base [6/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg.html
+Configuration Guide detectada: Security Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 51
+
+[1/51] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/51] Procesando chapter:
+Controlling Switch Access with Passwords and Privilege Levels
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/controlling_switch_access_with_passwords_and_privilege_levels.html
+Tablas extraídas en este chapter: 9
+Filas extraídas en este chapter: 40
+
+[3/51] Procesando chapter:
+Configuring Authentication
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_authentication.html
+Tablas extraídas en este chapter: 14
+Filas extraídas en este chapter: 87
+
+[4/51] Procesando chapter:
+Configuring Authorization
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_authorization.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[5/51] Procesando chapter:
+Configuring Accounting
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_accounting.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 15
+
+[6/51] Procesando chapter:
+Configuring Local Authentication and Authorization
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_local_authentication_and_authorization.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 8
+
+[7/51] Procesando chapter:
+Configuring AAA Authorization and Authentication Cache
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_aaa_authorization_and_authentication_cache.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 27
+
+[8/51] Procesando chapter:
+Configuring AAA Dead-Server Detection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_aaa_dead-server_detection.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 11
+
+[9/51] Procesando chapter:
+Configuring TACACS+
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_tacacs_.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 35
+
+[10/51] Procesando chapter:
+Device Sensor
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9-1712-sec-device-sensor.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 25
+
+[11/51] Procesando chapter:
+Configuring RADIUS
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_radius.html
+Tablas extraídas en este chapter: 12
+Filas extraídas en este chapter: 87
+
+[12/51] Procesando chapter:
+Configuring RadSec
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_radsec.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 21
+
+[13/51] Procesando chapter:
+Configuring RADIUS Server Load Balancing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/radius_server_load_balancing.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 12
+
+[14/51] Procesando chapter:
+Configuring MACsec Encryption
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/macsec_encryption.html
+Tablas extraídas en este chapter: 18
+Filas extraídas en este chapter: 158
+
+[15/51] Procesando chapter:
+Configuring Secure Shell
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_secure_shell__ssh_.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 15
+
+[16/51] Procesando chapter:
+Secure Shell Version 2 Support
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/secure_shell_version_2_support.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 50
+
+[17/51] Procesando chapter:
+Configuring SSH File Transfer Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_sftp.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[18/51] Procesando chapter:
+X.509v3 Certificates for SSH Authentication
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/x_509v3_certificates_for_ssh_authentication.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 29
+
+[19/51] Procesando chapter:
+SSH Algorithms for Common Criteria Certification
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/ssh_algorithms_for_common_criteria_certification.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 20
+
+[20/51] Procesando chapter:
+Configuring Secure Socket Layer HTTP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_secure_socket_layer_http.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 32
+
+[21/51] Procesando chapter:
+IPv4 ACLs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ipv4_acls.html
+Tablas extraídas en este chapter: 13
+Filas extraídas en este chapter: 77
+
+[22/51] Procesando chapter:
+IPv6 ACLs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ipv6_acls.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 42
+
+[23/51] Procesando chapter:
+Object Groups for ACLs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/object_groups_for_acls.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 41
+
+[24/51] Procesando chapter:
+Configuring Reflexive Access Lists
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ip_session_filtering_reflexive_access_lists.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 18
+
+[25/51] Procesando chapter:
+Configuring IP Source Guard
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ip_source_guard.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 16
+
+[26/51] Procesando chapter:
+Configuring Dynamic ARP Inspection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_dynamic_arp_inspection.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 35
+
+[27/51] Procesando chapter:
+Configuring IPv6 First Hop Security
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ipv6_first_hop_security.html
+Tablas extraídas en este chapter: 25
+Filas extraídas en este chapter: 166
+
+[28/51] Procesando chapter:
+Configuring Switch Integrated Security Features
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_sisf_based_device_tracking.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 33
+
+[29/51] Procesando chapter:
+Configuring IEEE 802.1x Port-Based Authentication
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ieee_802_1x_port_based_authentication.html
+Tablas extraídas en este chapter: 32
+Filas extraídas en este chapter: 235
+
+[30/51] Procesando chapter:
+Web-Based Authentication
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_web_based_authentication.html
+Tablas extraídas en este chapter: 9
+Filas extraídas en este chapter: 54
+
+[31/51] Procesando chapter:
+Identity Based Networking Services Overview
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns-overview.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[32/51] Procesando chapter:
+Change of Authorization Support
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns-coa-supp.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[33/51] Procesando chapter:
+Configuring Identity Control Policies
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns-cntrl-pol.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 74
+
+[34/51] Procesando chapter:
+Policy Classification Engine
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns_polcy_class_eng.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 15
+
+[35/51] Procesando chapter:
+Configuring Identity Service Templates
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns-svc-temp.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 13
+
+[36/51] Procesando chapter:
+Interface Templates
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9-1712-sec-ibns-interface-templates.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 17
+
+[37/51] Procesando chapter:
+Autoconf
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns_autoconf.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 23
+
+[38/51] Procesando chapter:
+eEdge Integration with MACsec
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns_macsec.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 18
+
+[39/51] Procesando chapter:
+Critical Voice VLAN Support
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9_1712_sec_ibns_crit_vce_vlan_supp.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 29
+
+[40/51] Procesando chapter:
+Configuring Local Authentication Using LDAP
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9-1712-sec-ibns-ldap-auth.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 15
+
+[41/51] Procesando chapter:
+Web Authentication Redirection to Original URL
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/m9-1712-sec-ibns-webauth-orign-url.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[42/51] Procesando chapter:
+Port-Based Traffic Control
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_port_based_traffic_control.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 18
+
+[43/51] Procesando chapter:
+Port Security
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/port_security.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 23
+
+[44/51] Procesando chapter:
+Configuring Control Plane Policing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_control_plane_policing.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 22
+
+[45/51] Procesando chapter:
+Configuring IPsec
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ipsec.html
+Error de conexión intento 1: [Errno 11001] getaddrinfo failed
+Tablas extraídas en este chapter: 7
+Filas extraídas en este chapter: 76
+
+[46/51] Procesando chapter:
+Configuring GRE over IPsec
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_gre_over_ipsec.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 26
+
+[47/51] Procesando chapter:
+Configuring IPsec NAT-Traversal
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_ipsec_nat_traversal.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 8
+
+[48/51] Procesando chapter:
+Configuring Authorization and Revocation of Certificates in a PKI
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_authorization_and_revocation_of_certificates_in_a_pki.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 44
+
+[49/51] Procesando chapter:
+Configuring Cisco Umbrella Integration
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/configuring_cisco_umbrella_integration.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 23
+
+[50/51] Procesando chapter:
+Secure Operation in FIPS Mode
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/secure_operation_in_fips_mode.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[51/51] Procesando chapter:
+Troubleshooting Security
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg/troubleshooting_for_security.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sec/b_1712_sec_9300_cg.html
+Chapters con tablas válidas: 45
+Total de tablas extraídas: 258
+Total de filas extraídas: 1845
+
+
+================================================================================
+Procesando URL base [7/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg.html
+Configuration Guide detectada: System Management Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 23
+
+[1/23] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/23] Procesando chapter:
+Administering the Device
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/administering_the_device.html
+Tablas extraídas en este chapter: 19
+Filas extraídas en este chapter: 122
+
+[3/23] Procesando chapter:
+Boot Integrity Visibility
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/boot_integrity_visibility.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 2
+
+[4/23] Procesando chapter:
+Performing Device Setup Configuration
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/performing_device_setup_configuration.html
+Tablas extraídas en este chapter: 7
+Filas extraídas en este chapter: 48
+
+[5/23] Procesando chapter:
+Configuring Application Visibility and Control in a Wired Network
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/application_visibility_and_control_in_a_wired_network.html
+Tablas extraídas en este chapter: 13
+Filas extraídas en este chapter: 149
+
+[6/23] Procesando chapter:
+Configuring SDM Templates
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/configuring_sdm_templates.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 5
+
+[7/23] Procesando chapter:
+Configuring System Message Logs
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/configuring_system_message_logs.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 31
+
+[8/23] Procesando chapter:
+Configuring Online Diagnostics
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/configuring_online_diagnostics.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 12
+
+[9/23] Procesando chapter:
+Consistency Checker
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/consistency_checker.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[10/23] Procesando chapter:
+Managing Configuration Files
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/managing_configuration_files.html
+Tablas extraídas en este chapter: 22
+Filas extraídas en este chapter: 102
+
+[11/23] Procesando chapter:
+Secure Copy
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/secure_copy.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 20
+
+[12/23] Procesando chapter:
+Configuration Replace and Configuration Rollback
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/configuration_replace_and_configuration_rollback.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 13
+
+[13/23] Procesando chapter:
+BIOS Protection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/bios_protection.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[14/23] Procesando chapter:
+Performing Extended Fast Software Upgrade
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/extended-fast-software-upgrade-xfsu.html
+Tablas extraídas en este chapter: 20
+Filas extraídas en este chapter: 154
+
+[15/23] Procesando chapter:
+Software Maintenance Upgrade
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/software_maintenance_upgrade.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 13
+
+[16/23] Procesando chapter:
+Working with the Flash File System
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/working_with_the_flash_file_system.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 12
+
+[17/23] Procesando chapter:
+Performing Factory Reset
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/simplified_factory_reset.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 2
+
+[18/23] Procesando chapter:
+Configuring Secure Storage
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/configuring_secure_storage.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 8
+
+[19/23] Procesando chapter:
+Conditional Debug and Radioactive Tracing
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/conditional_debug_and_radioactive_tracing.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 8
+
+[20/23] Procesando chapter:
+Consent Token
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/consent_token.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[21/23] Procesando chapter:
+Troubleshooting the Software Configuration
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/troubleshooting_the_software_configuration.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[22/23] Procesando chapter:
+Line Auto Consolidation
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/line_auto_consolidation.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[23/23] Procesando chapter:
+Troubleshooting System Management
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg/troubleshooting_for_system_management.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/sys_mgmt/b_1712_sys_mgmt_9300_cg.html
+Chapters con tablas válidas: 16
+Total de tablas extraídas: 107
+Total de filas extraídas: 701
+
+
+================================================================================
+Procesando URL base [8/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg.html
+Configuration Guide detectada: Network Management Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 15
+
+[1/15] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/15] Procesando chapter:
+Configuring Autoconf
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_autoconf.html
+Tablas extraídas en este chapter: 6
+Filas extraídas en este chapter: 41
+
+[3/15] Procesando chapter:
+Configuring Interface Templates
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_interface_templates.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 12
+
+[4/15] Procesando chapter:
+Configuring Cisco Plug and Play
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_cisco___plug_and_play.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[5/15] Procesando chapter:
+Configuring Identity Control Policies
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_identity_control_policies.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 85
+
+[6/15] Procesando chapter:
+Configuring Cisco Discovery Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_the_cisco_discovery_protocol.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 34
+
+[7/15] Procesando chapter:
+Configuring Simple Network Management Protocol
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_simple_network_management_protocol.html
+Tablas extraídas en este chapter: 5
+Filas extraídas en este chapter: 34
+
+[8/15] Procesando chapter:
+Configuring Cisco IOS IP Service Level Agreements
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_service_level_agreements.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 38
+
+[9/15] Procesando chapter:
+Configuring SPAN and RSPAN
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_span_and_rspan.html
+Tablas extraídas en este chapter: 10
+Filas extraídas en este chapter: 89
+
+[10/15] Procesando chapter:
+Configuring ERSPAN
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_erspan.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 59
+
+[11/15] Procesando chapter:
+Configuring Packet Capture
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_packet_capture.html
+Tablas extraídas en este chapter: 8
+Filas extraídas en este chapter: 52
+
+[12/15] Procesando chapter:
+Configuring Flexible NetFlow
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_flexible_netflow.html
+Tablas extraídas en este chapter: 7
+Filas extraídas en este chapter: 66
+
+[13/15] Procesando chapter:
+Configuring Encrypted Traffic Analytics
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_encrypted_traffic_analytics.html
+Tablas extraídas en este chapter: 4
+Filas extraídas en este chapter: 16
+
+[14/15] Procesando chapter:
+Configuring Network Detection and Response
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/configuring_network_detection_and_response.html
+Tablas extraídas en este chapter: 7
+Filas extraídas en este chapter: 57
+
+[15/15] Procesando chapter:
+Troubleshooting Network Management
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg/troubleshooting_nmgmt.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/nmgmt/b_1712_nmgmt_9300_cg.html
+Chapters con tablas válidas: 12
+Total de tablas extraídas: 70
+Total de filas extraídas: 583
+
+
+================================================================================
+Procesando URL base [9/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg.html
+Configuration Guide detectada: Quality of Service Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 5
+
+[1/5] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/5] Procesando chapter:
+Configuring Auto-QoS
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg/configuring_auto_qos.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 7
+
+[3/5] Procesando chapter:
+Configuring QoS
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg/configuring_qos.html
+Tablas extraídas en este chapter: 15
+Filas extraídas en este chapter: 134
+
+[4/5] Procesando chapter:
+Configuring Weighted Random Early Detection
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg/configuring_weighted_random_early_detection.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 27
+
+[5/5] Procesando chapter:
+Troubleshooting QoS
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg/troubleshooting_qos.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/qos/b_1712_qos_9300_cg.html
+Chapters con tablas válidas: 3
+Total de tablas extraídas: 20
+Total de filas extraídas: 168
+
+
+================================================================================
+Procesando URL base [10/10]:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg.html
+================================================================================
+Obteniendo URL base:
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg.html
+Configuration Guide detectada: Stacking and High Availability Configuration Guide, Cisco IOS XE Dublin 17.12.x (Catalyst 9300 Switches)
+Chapters encontrados: 7
+
+[1/7] Procesando chapter:
+Preface
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/m_pref.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+[2/7] Procesando chapter:
+Managing Switch Stacks
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/managing_switch_stacks.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 2
+
+[3/7] Procesando chapter:
+Configuring Nonstop Forwarding with Stateful Switchover
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/configuring_nsf_with_sso.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 7
+
+[4/7] Procesando chapter:
+Configuring Graceful Insertion and Removal
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/configuring_graceful_insertion_and_removal__gir_.html
+Tablas extraídas en este chapter: 3
+Filas extraídas en este chapter: 11
+
+[5/7] Procesando chapter:
+Configuring 1:1 Redundancy
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/configuring_1_1_redundancy.html
+Tablas extraídas en este chapter: 2
+Filas extraídas en este chapter: 4
+
+[6/7] Procesando chapter:
+Configuring High Speed Stacking
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/configuring_high_speed_stacking.html
+Tablas extraídas en este chapter: 1
+Filas extraídas en este chapter: 6
+
+[7/7] Procesando chapter:
+Troubleshooting Stacking and High Availability
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg/troubleshooting_for_stacking_and_high_availability.html
+Tablas extraídas en este chapter: 0
+Filas extraídas en este chapter: 0
+
+Resumen de esta URL base:
+URL base: https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/17-12/configuration_guide/stck_mgr_ha/b_1712_stck_mgr_ha_9300_cg.html
+Chapters con tablas válidas: 5
+Total de tablas extraídas: 8
+Total de filas extraídas: 30
+
+
+Proceso finalizado.
+CSV generado en: C:\Users\juan\Documents\Miguel\tesis\System\RAG\cisco_catalyst_9300_ios_xe_dublin_17_12_x.csv
+Chapters con tablas válidas total: 160
+Total de tablas extraídas: 852
+Total de filas extraídas: 6492
