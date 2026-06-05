@@ -1,0 +1,2097 @@
+entry,requirement,ground_truth
+1,Configure the IP address on R1's interface connecting to R4.,"R1# configure terminal
+R1(config)# interface Ethernet0/2
+R1(config-if)# ip address 10.0.14.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# end"
+2,Set the MTU to 1500 on R2's interface that connects to R3.,"R2# configure terminal
+R2(config)# interface Ethernet0/1
+R2(config-if)# mtu 1500
+R2(config-if)# end"
+3,Configure the loopback interface 1 on R3 with IP address 33.33.33.33/32.,"R3# configure terminal
+R3(config)# interface loopback 1
+R3(config-if)# ip address 33.33.33.33 255.255.255.255
+R3(config-if)# end"
+4,Enable the interface on R1 that connects to R4.,"R1# configure terminal
+R1(config)# interface Ethernet0/2
+R1(config-if)# no shutdown
+R1(config-if)# end"
+5,Shutdown R2's interface that connects to R4.,"R2# configure terminal
+R2(config)# interface Ethernet0/2
+R2(config-if)# shutdown
+R2(config-if)# end"
+6,Set the description 'Link to R3' on R2's interface that connects to R3.,"R2# configure terminal
+R2(config)# interface Ethernet0/1
+R2(config-if)# description Link to R3
+R2(config-if)# end"
+7,Set the bandwidth on R3's interface connecting to R2 to 1500 Kbps.,"R3# configure terminal
+R3(config)# interface Ethernet0/0
+R3(config-if)# bandwidth 1500
+R3(config-if)# end"
+8,Disable proxy ARP on R3's interface connecting to SW2.,"R3# configure terminal
+R3(config)# interface Ethernet0/2
+R3(config-if)# no ip proxy-arp
+R3(config-if)# end"
+9,Set the ARP timeout to 600 seconds on R4's interface that connects to R2.,"R4# configure terminal
+R4(config)# interface Ethernet0/1
+R4(config-if)# arp timeout 600
+R4(config-if)# end"
+10,Configure the loopback interface 0 on R4 with IP address 44.44.44.44/32.,"R4# configure terminal
+R4(config)# interface loopback 0
+R4(config-if)# ip address 44.44.44.44 255.255.255.255
+R4(config-if)# end"
+11,Configure a static route on R3 to reach the 10.0.1.0/24 network via R2.,"R3# configure terminal
+R3(config)# ip route 10.0.1.0 255.255.255.0 10.0.23.1
+R3(config)# end"
+12,Configure a static default route on R4 pointing to R1.,"R4# configure terminal
+R4(config)# ip route 0.0.0.0 0.0.0.0 10.0.14.1
+R4(config)# end"
+13,Configure a static route on R2 to reach the 10.0.1.0/24 network via R1.,"R2# configure terminal
+R2(config)# ip route 10.0.1.0 255.255.255.0 10.0.12.1
+R2(config)# end"
+14,Enable OSPF process 2 on R2 and advertise all its directly connected networks in area 0.,"R2# configure terminal
+R2(config)# router ospf 2
+R2(config-router)# network 10.0.12.0 0.0.0.255 area 0
+R2(config-router)# network 10.0.23.0 0.0.0.255 area 0
+R2(config-router)# network 10.0.24.0 0.0.0.255 area 0
+R2(config-router)# end"
+15,Set the OSPF router ID on R3 to 3.3.3.3.,"R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# router-id 3.3.3.3
+R3(config-router)# end"
+16,Set the OSPF cost to 50 on R2's interface that connects to R4.,"R2# configure terminal
+R2(config)# interface Ethernet0/2
+R2(config-if)# ip ospf cost 50
+R2(config-if)# end"
+17,Configure OSPF process 1 on R4 and set the interface connecting to R3 as passive.,"R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# passive-interface Ethernet0/2
+R4(config-router)# end"
+18,Remove the static default route on R4 pointing to R1.,"R4# configure terminal
+R4(config)# no ip route 0.0.0.0 0.0.0.0 10.0.14.1
+R4(config)# end"
+19,Configure the OSPF hello interval to 10 seconds on R3's interface that connects to R4.,"R3# configure terminal
+R3(config)# interface Ethernet0/1
+R3(config-if)# ip ospf hello-interval 10
+R3(config-if)# end"
+20,Configure OSPF authentication on R1's interface connecting to R4 using password netpass.,"R1# configure terminal
+R1(config)# interface Ethernet0/2
+R1(config-if)# ip ospf authentication
+R1(config-if)# ip ospf authentication-key netpass
+R1(config-if)# end"
+21,Configure an extended ACL on R1 to deny TCP traffic from 10.0.1.0/24 to any destination on port 23.,"R1# configure terminal
+R1(config)# ip access-list extended DENY_TELNET
+R1(config-ext-nacl)# deny tcp 10.0.1.0 0.0.0.255 any eq 23
+R1(config-ext-nacl)# permit ip any any
+R1(config-ext-nacl)# end"
+22,"Configure an extended ACL named DENY_TELNET on R1 to deny TCP traffic from 10.0.1.0/24 to any on port 23, permit all other traffic, and apply it inbound on R1's interface connected to SW1.","R1# configure terminal
+R1(config)# ip access-list extended DENY_TELNET
+R1(config-ext-nacl)# deny tcp 10.0.1.0 0.0.0.255 any eq 23
+R1(config-ext-nacl)# permit ip any any
+R1(config-ext-nacl)# exit
+R1(config)# interface Ethernet0/0
+R1(config-if)# ip access-group DENY_TELNET in
+R1(config-if)# end"
+23,Configure a standard ACL on R3 to permit traffic only from the 10.0.2.0/24 network.,"R3# configure terminal
+R3(config)# ip access-list standard PERMIT_LAN2
+R3(config-std-nacl)# permit 10.0.2.0 0.0.0.255
+R3(config-std-nacl)# end"
+24,Configure an extended ACL on R4 to deny ICMP traffic from any source to 10.0.14.0/24.,"R4# configure terminal
+R4(config)# ip access-list extended DENY_ICMP_R4
+R4(config-ext-nacl)# deny icmp any 10.0.14.0 0.0.0.255
+R4(config-ext-nacl)# permit ip any any
+R4(config-ext-nacl)# end"
+25,Enable SSH version 2 on R3 with domain name lab.local and generate RSA keys of 1024 bits.,"R3# configure terminal
+R3(config)# ip domain-name lab.local
+R3(config)# crypto key generate rsa modulus 1024
+R3(config)# ip ssh version 2
+R3(config)# end"
+26,Configure a VTY password on R4 for remote access.,"R4# configure terminal
+R4(config)# line vty 0 4
+R4(config-line)# password cisco123
+R4(config-line)# login
+R4(config-line)# end"
+27,Configure an enable secret password on R1.,"R1# configure terminal
+R1(config)# enable secret strongpass
+R1(config)# end"
+28,Configure a console password on R2.,"R2# configure terminal
+R2(config)# line console 0
+R2(config-line)# password consolepass
+R2(config-line)# login
+R2(config-line)# end"
+29,Enable AAA new-model on R3.,"R3# configure terminal
+R3(config)# aaa new-model
+R3(config)# end"
+30,Configure SNMP community string 'private' read-write on R1.,"R1# configure terminal
+R1(config)# snmp-server community private rw
+R1(config)# end"
+31,Create VLAN 20 on SW2.,"SW2# configure terminal
+SW2(config)# vlan 20
+SW2(config-vlan)# end"
+32,Configure PortFast and BPDU Guard on SW1's port connected to h1.,"SW1# configure terminal
+SW1(config)# interface Fa0/1
+SW1(config-if)# spanning-tree portfast
+SW1(config-if)# spanning-tree bpduguard enable
+SW1(config-if)# end"
+33,Set SW2 as the STP root bridge for VLAN 40.,"SW2# configure terminal
+SW2(config)# spanning-tree vlan 40 root primary
+SW2(config)# end"
+34,Set the native VLAN to 20 on SW1's trunk port.,"SW1# configure terminal
+SW1(config)# interface Fa0/24
+SW1(config-if)# switchport trunk native vlan 20
+SW1(config-if)# end"
+35,Configure a VLAN interface (SVI) on SW2 for VLAN 40 with IP address 10.0.4.1/24.,"SW2# configure terminal
+SW2(config)# interface vlan 40
+SW2(config-if)# ip address 10.0.4.1 255.255.255.0
+SW2(config-if)# no shutdown
+SW2(config-if)# end"
+36,Enable storm control for broadcasts on SW2's port connected to h2 at 10% threshold.,"SW2# configure terminal
+SW2(config)# interface Fa0/1
+SW2(config-if)# storm-control broadcast level 10
+SW2(config-if)# end"
+37,"Configure the trunk port on SW1 to allow only VLAN 10 and VLAN 20, and add VLAN 20 to SW1.","SW1# configure terminal
+SW1(config)# vlan 20
+SW1(config-vlan)# exit
+SW1(config)# interface Fa0/24
+SW1(config-if)# switchport trunk allowed vlan 10,20
+SW1(config-if)# end"
+38,Configure port security on SW2's port connected to h2 to allow a maximum of 2 MAC addresses.,"SW2# configure terminal
+SW2(config)# interface Fa0/1
+SW2(config-if)# switchport port-security
+SW2(config-if)# switchport port-security maximum 2
+SW2(config-if)# switchport port-security violation restrict
+SW2(config-if)# end"
+39,Configure a DHCP pool on R4 for the 10.0.14.0/24 network.,"R4# configure terminal
+R4(config)# ip dhcp pool LAN14
+R4(dhcp-config)# network 10.0.14.0 255.255.255.0
+R4(dhcp-config)# default-router 10.0.14.2
+R4(dhcp-config)# end"
+40,Exclude the first 5 addresses of the 10.0.2.0/24 network from the DHCP pool on R3.,"R3# configure terminal
+R3(config)# ip dhcp excluded-address 10.0.2.1 10.0.2.5
+R3(config)# end"
+41,Configure NTP server 10.0.23.2 on R3.,"R3# configure terminal
+R3(config)# ntp server 10.0.23.2
+R3(config)# end"
+42,Set the logging level to informational on R2.,"R2# configure terminal
+R2(config)# logging trap informational
+R2(config)# end"
+43,Enable CDP on R4's interface that connects to R3.,"R4# configure terminal
+R4(config)# interface Ethernet0/2
+R4(config-if)# cdp enable
+R4(config-if)# end"
+44,Set the hostname of R3 to Edge-R3.,"R3# configure terminal
+R3(config)# hostname Edge-R3
+R3(config)# end"
+45,Save the running configuration to startup configuration on R4.,R4# copy running-config startup-config
+46,"Enable OSPF process 1 on R1, R2, R3, and R4, advertising all directly connected networks in area 0.","R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# network 10.0.1.0 0.0.0.255 area 0
+R1(config-router)# network 10.0.12.0 0.0.0.255 area 0
+R1(config-router)# network 10.0.14.0 0.0.0.255 area 0
+R1(config-router)# end
+
+R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# network 10.0.12.0 0.0.0.255 area 0
+R2(config-router)# network 10.0.23.0 0.0.0.255 area 0
+R2(config-router)# network 10.0.24.0 0.0.0.255 area 0
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# network 10.0.23.0 0.0.0.255 area 0
+R3(config-router)# network 10.0.34.0 0.0.0.255 area 0
+R3(config-router)# network 10.0.2.0 0.0.0.255 area 0
+R3(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# network 10.0.14.0 0.0.0.255 area 0
+R4(config-router)# network 10.0.24.0 0.0.0.255 area 0
+R4(config-router)# network 10.0.34.0 0.0.0.255 area 0
+R4(config-router)# end"
+47,Configure OSPF authentication on the link between R1 and R2 using password ospfkey.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ip ospf authentication
+R1(config-if)# ip ospf authentication-key ospfkey
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip ospf authentication
+R2(config-if)# ip ospf authentication-key ospfkey
+R2(config-if)# end"
+48,Set the OSPF hello interval to 5 seconds and dead interval to 20 seconds on the link between R3 and R4.,"R3# configure terminal
+R3(config)# interface Ethernet0/1
+R3(config-if)# ip ospf hello-interval 5
+R3(config-if)# ip ospf dead-interval 20
+R3(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/2
+R4(config-if)# ip ospf hello-interval 5
+R4(config-if)# ip ospf dead-interval 20
+R4(config-if)# end"
+49,"Configure loopback 0 interfaces on R1, R2, R3, and R4 as OSPF router IDs.","R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# router-id 1.1.1.1
+R1(config-router)# end
+
+R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# router-id 2.2.2.2
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# router-id 3.3.3.3
+R3(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# router-id 4.4.4.4
+R4(config-router)# end"
+50,Set the OSPF cost to 200 on both ends of the link between R2 and R4.,"R2# configure terminal
+R2(config)# interface Ethernet0/2
+R2(config-if)# ip ospf cost 200
+R2(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/1
+R4(config-if)# ip ospf cost 200
+R4(config-if)# end"
+51,Configure passive interfaces on R1 and R3 for their interfaces connected to SW1 and SW2 respectively in OSPF process 1.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# passive-interface Ethernet0/0
+R1(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# passive-interface Ethernet0/2
+R3(config-router)# end"
+52,Remove OSPF process 1 from R2 and R4.,"R2# configure terminal
+R2(config)# no router ospf 1
+R2(config)# end
+
+R4# configure terminal
+R4(config)# no router ospf 1
+R4(config)# end"
+53,Configure static routes on R1 and R3 so that h1 and h2 can reach each other via R2.,"R1# configure terminal
+R1(config)# ip route 10.0.2.0 255.255.255.0 10.0.12.2
+R1(config)# end
+
+R3# configure terminal
+R3(config)# ip route 10.0.1.0 255.255.255.0 10.0.23.1
+R3(config)# end"
+54,Configure static default routes on R2 and R4 pointing to R1.,"R2# configure terminal
+R2(config)# ip route 0.0.0.0 0.0.0.0 10.0.12.1
+R2(config)# end
+
+R4# configure terminal
+R4(config)# ip route 0.0.0.0 0.0.0.0 10.0.14.1
+R4(config)# end"
+55,Configure static routes on R2 and R3 to reach the 10.0.14.0/24 network via R4.,"R2# configure terminal
+R2(config)# ip route 10.0.14.0 255.255.255.0 10.0.24.2
+R2(config)# end
+
+R3# configure terminal
+R3(config)# ip route 10.0.14.0 255.255.255.0 10.0.34.2
+R3(config)# end"
+56,Configure static routes on R1 and R4 to reach the 10.0.23.0/24 network via R2.,"R1# configure terminal
+R1(config)# ip route 10.0.23.0 255.255.255.0 10.0.12.2
+R1(config)# end
+
+R4# configure terminal
+R4(config)# ip route 10.0.23.0 255.255.255.0 10.0.24.1
+R4(config)# end"
+57,Remove the static routes to 10.0.1.0/24 from R3 and R4.,"R3# configure terminal
+R3(config)# no ip route 10.0.1.0 255.255.255.0 10.0.23.1
+R3(config)# end
+
+R4# configure terminal
+R4(config)# no ip route 10.0.1.0 255.255.255.0 10.0.14.1
+R4(config)# end"
+58,"Configure a static route on R1 to reach 10.0.34.0/24 via R4, and on R2 to reach the same network via R4.","R1# configure terminal
+R1(config)# ip route 10.0.34.0 255.255.255.0 10.0.14.2
+R1(config)# end
+
+R2# configure terminal
+R2(config)# ip route 10.0.34.0 255.255.255.0 10.0.24.2
+R2(config)# end"
+59,Configure NAT on R1: set Ethernet0/0 as inside and Ethernet0/1 as outside.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# ip nat inside
+R1(config-if)# interface Ethernet0/1
+R1(config-if)# ip nat outside
+R1(config-if)# end"
+60,Configure NAT on R3: set Ethernet0/2 as inside and Ethernet0/0 as outside.,"R3# configure terminal
+R3(config)# interface Ethernet0/2
+R3(config-if)# ip nat inside
+R3(config-if)# interface Ethernet0/0
+R3(config-if)# ip nat outside
+R3(config-if)# end"
+61,"Configure an extended ACL on R2 to deny Telnet from 10.0.12.0/24 to 10.0.23.0/24, and apply it inbound on the interface connecting to R1.","R2# configure terminal
+R2(config)# ip access-list extended DENY_TEL_R2
+R2(config-ext-nacl)# deny tcp 10.0.12.0 0.0.0.255 10.0.23.0 0.0.0.255 eq 23
+R2(config-ext-nacl)# permit ip any any
+R2(config-ext-nacl)# interface Ethernet0/0
+R2(config-if)# ip access-group DENY_TEL_R2 in
+R2(config-if)# end"
+62,Configure matching ACLs on R1 and R3 to permit only SSH traffic from the management network 10.0.12.0/24.,"R1# configure terminal
+R1(config)# ip access-list extended PERMIT_SSH
+R1(config-ext-nacl)# permit tcp 10.0.12.0 0.0.0.255 any eq 22
+R1(config-ext-nacl)# deny ip any any
+R1(config-ext-nacl)# end
+
+R3# configure terminal
+R3(config)# ip access-list extended PERMIT_SSH
+R3(config-ext-nacl)# permit tcp 10.0.12.0 0.0.0.255 any eq 22
+R3(config-ext-nacl)# deny ip any any
+R3(config-ext-nacl)# end"
+63,"Configure a static NAT entry on R1 translating 10.0.1.10 to 10.0.12.100, and a static NAT entry on R3 translating 10.0.2.10 to 10.0.23.100.","R1# configure terminal
+R1(config)# ip nat inside source static 10.0.1.10 10.0.12.100
+R1(config)# end
+
+R3# configure terminal
+R3(config)# ip nat inside source static 10.0.2.10 10.0.23.100
+R3(config)# end"
+64,"Configure an extended ACL on R4 to permit HTTP and HTTPS traffic from 10.0.14.0/24 to any, and apply it outbound on the interface connecting to R1.","R4# configure terminal
+R4(config)# ip access-list extended PERMIT_WEB
+R4(config-ext-nacl)# permit tcp 10.0.14.0 0.0.0.255 any eq 80
+R4(config-ext-nacl)# permit tcp 10.0.14.0 0.0.0.255 any eq 443
+R4(config-ext-nacl)# deny ip any any
+R4(config-ext-nacl)# interface Ethernet0/0
+R4(config-if)# ip access-group PERMIT_WEB out
+R4(config-if)# end"
+65,"Configure a standard ACL named PERMIT_LAN2 on R3 to permit traffic from 10.0.2.0/24, and apply it inbound on R3's interface connected to SW2. Remove any existing outbound ACL on that same interface.","R3# configure terminal
+R3(config)# ip access-list standard PERMIT_LAN2
+R3(config-std-nacl)# permit 10.0.2.0 0.0.0.255
+R3(config-std-nacl)# exit
+R3(config)# interface Ethernet0/2
+R3(config-if)# ip access-group PERMIT_LAN2 in
+R3(config-if)# no ip access-group PERMIT_LAN2 out
+R3(config-if)# end"
+66,"Enable SSH version 2 on R1 and R3, using domain name corp.net and RSA modulus 2048.","R1# configure terminal
+R1(config)# ip domain-name corp.net
+R1(config)# crypto key generate rsa modulus 2048
+R1(config)# ip ssh version 2
+R1(config)# end
+
+R3# configure terminal
+R3(config)# ip domain-name corp.net
+R3(config)# crypto key generate rsa modulus 2048
+R3(config)# ip ssh version 2
+R3(config)# end"
+67,Configure VTY lines on R2 and R4 to allow only SSH and require local authentication.,"R2# configure terminal
+R2(config)# line vty 0 4
+R2(config-line)# transport input ssh
+R2(config-line)# login local
+R2(config-line)# end
+
+R4# configure terminal
+R4(config)# line vty 0 4
+R4(config-line)# transport input ssh
+R4(config-line)# login local
+R4(config-line)# end"
+68,Disable CDP globally on R1 and R2.,"R1# configure terminal
+R1(config)# no cdp run
+R1(config)# end
+
+R2# configure terminal
+R2(config)# no cdp run
+R2(config)# end"
+69,Configure SNMP community string 'readonly' read-only on R3 and R4.,"R3# configure terminal
+R3(config)# snmp-server community readonly ro
+R3(config)# end
+
+R4# configure terminal
+R4(config)# snmp-server community readonly ro
+R4(config)# end"
+70,"Set enable secret passwords on all four routers: R1 uses pass1, R2 uses pass2, R3 uses pass3, R4 uses pass4.","R1# configure terminal
+R1(config)# enable secret pass1
+R1(config)# end
+
+R2# configure terminal
+R2(config)# enable secret pass2
+R2(config)# end
+
+R3# configure terminal
+R3(config)# enable secret pass3
+R3(config)# end
+
+R4# configure terminal
+R4(config)# enable secret pass4
+R4(config)# end"
+71,"Enable logging to syslog server 10.0.12.1 on R2, R3, and R4.","R2# configure terminal
+R2(config)# logging 10.0.12.1
+R2(config)# end
+
+R3# configure terminal
+R3(config)# logging 10.0.12.1
+R3(config)# end
+
+R4# configure terminal
+R4(config)# logging 10.0.12.1
+R4(config)# end"
+72,"Configure NTP server 10.0.1.1 on R2, R3, and R4.","R2# configure terminal
+R2(config)# ntp server 10.0.1.1
+R2(config)# end
+
+R3# configure terminal
+R3(config)# ntp server 10.0.1.1
+R3(config)# end
+
+R4# configure terminal
+R4(config)# ntp server 10.0.1.1
+R4(config)# end"
+73,Disable proxy ARP on all interfaces of R1 and R3.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# no ip proxy-arp
+R1(config-if)# interface Ethernet0/1
+R1(config-if)# no ip proxy-arp
+R1(config-if)# interface Ethernet0/2
+R1(config-if)# no ip proxy-arp
+R1(config-if)# end
+
+R3# configure terminal
+R3(config)# interface Ethernet0/0
+R3(config-if)# no ip proxy-arp
+R3(config-if)# interface Ethernet0/1
+R3(config-if)# no ip proxy-arp
+R3(config-if)# interface Ethernet0/2
+R3(config-if)# no ip proxy-arp
+R3(config-if)# end"
+74,Set the MTU to 1400 on both ends of the link between R2 and R3.,"R2# configure terminal
+R2(config)# interface Ethernet0/1
+R2(config-if)# mtu 1400
+R2(config-if)# end
+
+R3# configure terminal
+R3(config)# interface Ethernet0/0
+R3(config-if)# mtu 1400
+R3(config-if)# end"
+75,Set the bandwidth to 2000 Kbps on both ends of the link between R1 and R4.,"R1# configure terminal
+R1(config)# interface Ethernet0/2
+R1(config-if)# bandwidth 2000
+R1(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/0
+R4(config-if)# bandwidth 2000
+R4(config-if)# end"
+76,Assign descriptions to both ends of the link between R3 and R4.,"R3# configure terminal
+R3(config)# interface Ethernet0/1
+R3(config-if)# description Link to R4
+R3(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/2
+R4(config-if)# description Link to R3
+R4(config-if)# end"
+77,Shutdown the link between R2 and R4 on both ends.,"R2# configure terminal
+R2(config)# interface Ethernet0/2
+R2(config-if)# shutdown
+R2(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/1
+R4(config-if)# shutdown
+R4(config-if)# end"
+78,Configure loopback 0 interfaces on R1 and R2 with addresses 11.11.11.11/32 and 22.22.22.22/32 respectively.,"R1# configure terminal
+R1(config)# interface loopback 0
+R1(config-if)# ip address 11.11.11.11 255.255.255.255
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface loopback 0
+R2(config-if)# ip address 22.22.22.22 255.255.255.255
+R2(config-if)# end"
+79,Configure SW1 and SW2 with STP mode rapid-PVST and set each as root bridge for their respective access VLANs.,"SW1# configure terminal
+SW1(config)# spanning-tree mode rapid-pvst
+SW1(config)# spanning-tree vlan 10 root primary
+SW1(config)# end
+
+SW2# configure terminal
+SW2(config)# spanning-tree mode rapid-pvst
+SW2(config)# spanning-tree vlan 30 root primary
+SW2(config)# end"
+80,"Configure trunk ports on SW1 and SW2 to allow only their respective VLANs, and set native VLAN to 10 on SW1 and 30 on SW2.","SW1# configure terminal
+SW1(config)# interface Fa0/24
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan 10,20
+SW1(config-if)# switchport trunk native vlan 10
+SW1(config-if)# end
+
+SW2# configure terminal
+SW2(config)# interface Fa0/24
+SW2(config-if)# switchport mode trunk
+SW2(config-if)# switchport trunk allowed vlan 30,40
+SW2(config-if)# switchport trunk native vlan 30
+SW2(config-if)# end"
+81,"Configure SVIs on SW1 for VLAN 10 with IP 10.0.1.2/24 and on SW2 for VLAN 30 with IP 10.0.2.2/24, with their respective gateways.","SW1# configure terminal
+SW1(config)# interface vlan 10
+SW1(config-if)# ip address 10.0.1.2 255.255.255.0
+SW1(config-if)# no shutdown
+SW1(config-if)# ip default-gateway 10.0.1.1
+SW1(config-if)# end
+
+SW2# configure terminal
+SW2(config)# interface vlan 30
+SW2(config-if)# ip address 10.0.2.2 255.255.255.0
+SW2(config-if)# no shutdown
+SW2(config-if)# ip default-gateway 10.0.2.1
+SW2(config-if)# end"
+82,"Enable port security on both SW1 Fa0/1 and SW2 Fa0/1, allowing only 1 MAC address with violation mode shutdown.","SW1# configure terminal
+SW1(config)# interface Fa0/1
+SW1(config-if)# switchport port-security
+SW1(config-if)# switchport port-security maximum 1
+SW1(config-if)# switchport port-security violation shutdown
+SW1(config-if)# end
+
+SW2# configure terminal
+SW2(config)# interface Fa0/1
+SW2(config-if)# switchport port-security
+SW2(config-if)# switchport port-security maximum 1
+SW2(config-if)# switchport port-security violation shutdown
+SW2(config-if)# end"
+83,"Configure DHCP on R1 for 10.0.1.0/24 and on R3 for 10.0.2.0/24, excluding the first 10 addresses of each network.","R1# configure terminal
+R1(config)# ip dhcp excluded-address 10.0.1.1 10.0.1.10
+R1(config)# ip dhcp pool LAN1
+R1(dhcp-config)# network 10.0.1.0 255.255.255.0
+R1(dhcp-config)# default-router 10.0.1.1
+R1(dhcp-config)# end
+
+R3# configure terminal
+R3(config)# ip dhcp excluded-address 10.0.2.1 10.0.2.10
+R3(config)# ip dhcp pool LAN2
+R3(dhcp-config)# network 10.0.2.0 255.255.255.0
+R3(dhcp-config)# default-router 10.0.2.1
+R3(dhcp-config)# end"
+84,Configure PortFast on both SW1 Fa0/1 and SW2 Fa0/1.,"SW1# configure terminal
+SW1(config)# interface Fa0/1
+SW1(config-if)# spanning-tree portfast
+SW1(config-if)# end
+
+SW2# configure terminal
+SW2(config)# interface Fa0/1
+SW2(config-if)# spanning-tree portfast
+SW2(config-if)# end"
+85,Create VLAN 20 on SW1 and VLAN 40 on SW2.,"SW1# configure terminal
+SW1(config)# vlan 20
+SW1(config-vlan)# end
+
+SW2# configure terminal
+SW2(config)# vlan 40
+SW2(config-vlan)# end"
+86,Configure the R1-R2 link: assign IPs on both ends and enable the interfaces.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ip address 10.0.12.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip address 10.0.12.2 255.255.255.0
+R2(config-if)# no shutdown
+R2(config-if)# end"
+87,Configure the R2-R3 link: assign IPs on both ends and enable the interfaces.,"R2# configure terminal
+R2(config)# interface Ethernet0/1
+R2(config-if)# ip address 10.0.23.1 255.255.255.0
+R2(config-if)# no shutdown
+R2(config-if)# end
+
+R3# configure terminal
+R3(config)# interface Ethernet0/0
+R3(config-if)# ip address 10.0.23.2 255.255.255.0
+R3(config-if)# no shutdown
+R3(config-if)# end"
+88,Configure the R1-R4 link and the R2-R4 link: assign IPs on both ends of each link and enable all interfaces.,"R1# configure terminal
+R1(config)# interface Ethernet0/2
+R1(config-if)# ip address 10.0.14.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/0
+R4(config-if)# ip address 10.0.14.2 255.255.255.0
+R4(config-if)# no shutdown
+R4(config-if)# interface Ethernet0/1
+R4(config-if)# ip address 10.0.24.2 255.255.255.0
+R4(config-if)# no shutdown
+R4(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/2
+R2(config-if)# ip address 10.0.24.1 255.255.255.0
+R2(config-if)# no shutdown
+R2(config-if)# end"
+89,"Configure hostnames and enable secrets on all routers: R1 as Router-R1 with secret sec1, R2 as Router-R2 with secret sec2, R3 as Router-R3 with secret sec3, R4 as Router-R4 with secret sec4.","R1# configure terminal
+R1(config)# hostname Router-R1
+R1(config)# enable secret sec1
+R1(config)# end
+
+R2# configure terminal
+R2(config)# hostname Router-R2
+R2(config)# enable secret sec2
+R2(config)# end
+
+R3# configure terminal
+R3(config)# hostname Router-R3
+R3(config)# enable secret sec3
+R3(config)# end
+
+R4# configure terminal
+R4(config)# hostname Router-R4
+R4(config)# enable secret sec4
+R4(config)# end"
+90,"Configure NTP on all routers to synchronize with server 10.0.1.1, and set the clock timezone to UTC.","R1# configure terminal
+R1(config)# ntp server 10.0.1.1
+R1(config)# clock timezone UTC 0
+R1(config)# end
+
+R2# configure terminal
+R2(config)# ntp server 10.0.1.1
+R2(config)# clock timezone UTC 0
+R2(config)# end
+
+R3# configure terminal
+R3(config)# ntp server 10.0.1.1
+R3(config)# clock timezone UTC 0
+R3(config)# end
+
+R4# configure terminal
+R4(config)# ntp server 10.0.1.1
+R4(config)# clock timezone UTC 0
+R4(config)# end"
+91,"Configure static ARP entries on R1 for h1 (10.0.1.10, MAC 0050.7966.6800) and on R3 for h2 (10.0.2.10, MAC 0050.7966.6801).","R1# configure terminal
+R1(config)# arp 10.0.1.10 0050.7966.6800 arpa
+R1(config)# end
+
+R3# configure terminal
+R3(config)# arp 10.0.2.10 0050.7966.6801 arpa
+R3(config)# end"
+92,Disable DHCP service on R2 and R4.,"R2# configure terminal
+R2(config)# no service dhcp
+R2(config)# end
+
+R4# configure terminal
+R4(config)# no service dhcp
+R4(config)# end"
+93,"Save the running configuration to startup configuration on R1, R2, R3, and R4.","R1# copy running-config startup-config
+
+R2# copy running-config startup-config
+
+R3# copy running-config startup-config
+
+R4# copy running-config startup-config"
+94,Configure OSPF MD5 authentication on both ends of the link between R1 and R2 using key-id 1 and password md5pass.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ip ospf authentication message-digest
+R1(config-if)# ip ospf message-digest-key 1 md5 md5pass
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip ospf authentication message-digest
+R2(config-if)# ip ospf message-digest-key 1 md5 md5pass
+R2(config-if)# end"
+95,Configure storm control for broadcasts at 15% on SW1 Fa0/1 and SW2 Fa0/1.,"SW1# configure terminal
+SW1(config)# interface Fa0/1
+SW1(config-if)# storm-control broadcast level 15
+SW1(config-if)# end
+
+SW2# configure terminal
+SW2(config)# interface Fa0/1
+SW2(config-if)# storm-control broadcast level 15
+SW2(config-if)# end"
+96,Configure the ARP timeout to 120 seconds on R1's interface connected to SW1.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# arp timeout 120
+R1(config-if)# end"
+97,Configure OSPF process 1 on R2 and set all interfaces as passive except Ethernet0/0.,"R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# passive-interface default
+R2(config-router)# no passive-interface Ethernet0/0
+R2(config-router)# end"
+98,Configure a static ARP entry on R4 for IP 10.0.14.1 with MAC address 0050.7966.6802.,"R4# configure terminal
+R4(config)# arp 10.0.14.1 0050.7966.6802 arpa
+R4(config)# end"
+99,Set the logging buffer size to 16384 bytes on R3.,"R3# configure terminal
+R3(config)# logging buffered 16384
+R3(config)# end"
+100,Configure the R3-R4 link: assign IPs on both ends and enable the interfaces.,"R3# configure terminal
+R3(config)# interface Ethernet0/1
+R3(config-if)# ip address 10.0.34.1 255.255.255.0
+R3(config-if)# no shutdown
+R3(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/2
+R4(config-if)# ip address 10.0.34.2 255.255.255.0
+R4(config-if)# no shutdown
+R4(config-if)# end"
+101,Configure BGP process 65001 on R1 and establish an eBGP peering with R2 using AS 65002.,"R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 10.0.12.2 remote-as 65002
+R1(config-router)# end"
+102,Advertise the 10.0.1.0/24 network into BGP on R1.,"R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# network 10.0.1.0 mask 255.255.255.0
+R1(config-router)# end"
+103,Configure BGP on R2 (AS 65002) with eBGP peers toward R1 (AS 65001) and R3 (AS 65003).,"R2# configure terminal
+R2(config)# router bgp 65002
+R2(config-router)# neighbor 10.0.12.1 remote-as 65001
+R2(config-router)# neighbor 10.0.23.2 remote-as 65003
+R2(config-router)# end"
+104,Set the BGP router-id to 1.1.1.1 on R1.,"R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# bgp router-id 1.1.1.1
+R1(config-router)# end"
+105,"Configure an iBGP session between R1 and R4, both in AS 65001, using their loopback 0 addresses as update-source.","R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 44.44.44.44 remote-as 65001
+R1(config-router)# neighbor 44.44.44.44 update-source Loopback0
+R1(config-router)# end
+
+R4# configure terminal
+R4(config)# router bgp 65001
+R4(config-router)# neighbor 11.11.11.11 remote-as 65001
+R4(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R4(config-router)# end"
+106,"Apply a route-map named SET_LOCAL_PREF to the BGP neighbor on R2 facing R1, setting local preference to 200 for all inbound prefixes.","R2# configure terminal
+R2(config)# route-map SET_LOCAL_PREF permit 10
+R2(config-route-map)# set local-preference 200
+R2(config-route-map)# exit
+R2(config)# router bgp 65002
+R2(config-router)# neighbor 10.0.12.1 route-map SET_LOCAL_PREF in
+R2(config-router)# end"
+107,Configure BGP soft reconfiguration inbound on R1 for the peer connecting to R2.,"R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 10.0.12.2 soft-reconfiguration inbound
+R1(config-router)# end"
+108,Set the BGP timers to keepalive 10 and hold-time 30 on R3 for its eBGP peer toward R2.,"R3# configure terminal
+R3(config)# router bgp 65003
+R3(config-router)# neighbor 10.0.23.1 timers 10 30
+R3(config-router)# end"
+109,"Configure a BGP prefix-list named ALLOW_10 on R1 to permit only 10.0.0.0/8 prefixes, and apply it outbound to the peer facing R2.","R1# configure terminal
+R1(config)# ip prefix-list ALLOW_10 seq 10 permit 10.0.0.0/8 le 32
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 10.0.12.2 prefix-list ALLOW_10 out
+R1(config-router)# end"
+110,Enable BGP next-hop-self on R1 for its iBGP peer R4 so that R4 can resolve BGP routes.,"R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 44.44.44.44 next-hop-self
+R1(config-router)# end"
+111,"Configure a BGP community on R2 that tags routes received from R1 with community 65001:100, using a route-map named TAG_R1.","R2# configure terminal
+R2(config)# route-map TAG_R1 permit 10
+R2(config-route-map)# set community 65001:100
+R2(config-route-map)# exit
+R2(config)# router bgp 65002
+R2(config-router)# neighbor 10.0.12.1 route-map TAG_R1 in
+R2(config-router)# neighbor 10.0.12.1 send-community
+R2(config-router)# end"
+112,Advertise a default route into BGP on R2 toward R3.,"R2# configure terminal
+R2(config)# router bgp 65002
+R2(config-router)# neighbor 10.0.23.2 default-originate
+R2(config-router)# end"
+113,Configure BGP on R4 (AS 65001) and set the MED to 50 for all prefixes advertised to R2.,"R4# configure terminal
+R4(config)# route-map SET_MED permit 10
+R4(config-route-map)# set metric 50
+R4(config-route-map)# exit
+R4(config)# router bgp 65001
+R4(config-router)# neighbor 10.0.24.1 remote-as 65002
+R4(config-router)# neighbor 10.0.24.1 route-map SET_MED out
+R4(config-router)# end"
+114,Remove the eBGP session between R2 and R3 and clear BGP neighbors on R2.,"R2# configure terminal
+R2(config)# router bgp 65002
+R2(config-router)# no neighbor 10.0.23.2 remote-as 65003
+R2(config-router)# end
+R2# clear ip bgp 10.0.23.2"
+115,Configure BGP aggregate address 10.0.0.0/8 on R1 with the summary-only keyword to suppress more-specific prefixes.,"R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# aggregate-address 10.0.0.0 255.0.0.0 summary-only
+R1(config-router)# end"
+116,Enable EIGRP autonomous system 100 on R1 and advertise all directly connected networks.,"R1# configure terminal
+R1(config)# router eigrp 100
+R1(config-router)# network 0.0.0.0
+R1(config-router)# no auto-summary
+R1(config-router)# end"
+117,"Configure EIGRP 100 on R2 and R3, advertising all directly connected networks and disabling auto-summary.","R2# configure terminal
+R2(config)# router eigrp 100
+R2(config-router)# network 0.0.0.0
+R2(config-router)# no auto-summary
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router eigrp 100
+R3(config-router)# network 0.0.0.0
+R3(config-router)# no auto-summary
+R3(config-router)# end"
+118,Set the EIGRP hello interval to 5 seconds and hold time to 15 seconds on R1's interface connecting to R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ip hello-interval eigrp 100 5
+R1(config-if)# ip hold-time eigrp 100 15
+R1(config-if)# end"
+119,Configure EIGRP MD5 authentication on the link between R1 and R4 using key-chain EIGRP_KEY with key 1 and password eigrppass.,"R1# configure terminal
+R1(config)# key chain EIGRP_KEY
+R1(config-keychain)# key 1
+R1(config-keychain-key)# key-string eigrppass
+R1(config-keychain-key)# exit
+R1(config)# interface Ethernet0/2
+R1(config-if)# ip authentication mode eigrp 100 md5
+R1(config-if)# ip authentication key-chain eigrp 100 EIGRP_KEY
+R1(config-if)# end
+
+R4# configure terminal
+R4(config)# key chain EIGRP_KEY
+R4(config-keychain)# key 1
+R4(config-keychain-key)# key-string eigrppass
+R4(config-keychain-key)# exit
+R4(config)# interface Ethernet0/0
+R4(config-if)# ip authentication mode eigrp 100 md5
+R4(config-if)# ip authentication key-chain eigrp 100 EIGRP_KEY
+R4(config-if)# end"
+120,Set the EIGRP bandwidth percent to 50 on R2's interface toward R4 to limit EIGRP traffic.,"R2# configure terminal
+R2(config)# interface Ethernet0/2
+R2(config-if)# ip bandwidth-percent eigrp 100 50
+R2(config-if)# end"
+121,Configure a passive interface in EIGRP 100 on R3 for the interface connecting to SW2.,"R3# configure terminal
+R3(config)# router eigrp 100
+R3(config-router)# passive-interface Ethernet0/2
+R3(config-router)# end"
+122,Set the EIGRP variance to 2 on R1 so that unequal-cost load balancing is enabled.,"R1# configure terminal
+R1(config)# router eigrp 100
+R1(config-router)# variance 2
+R1(config-router)# end"
+123,"Configure a stub router for EIGRP 100 on R4, advertising only connected and summary routes.","R4# configure terminal
+R4(config)# router eigrp 100
+R4(config-router)# eigrp stub connected summary
+R4(config-router)# end"
+124,Set the EIGRP router-id to 4.4.4.4 on R4 for autonomous system 100.,"R4# configure terminal
+R4(config)# router eigrp 100
+R4(config-router)# eigrp router-id 4.4.4.4
+R4(config-router)# end"
+125,Remove EIGRP process 100 from R3 and R4.,"R3# configure terminal
+R3(config)# no router eigrp 100
+R3(config)# end
+
+R4# configure terminal
+R4(config)# no router eigrp 100
+R4(config)# end"
+126,Redistribute OSPF process 1 into EIGRP 100 on R2 with a seed metric of 10000 1 255 1 1500.,"R2# configure terminal
+R2(config)# router eigrp 100
+R2(config-router)# redistribute ospf 1 metric 10000 1 255 1 1500
+R2(config-router)# end"
+127,Redistribute EIGRP 100 into OSPF process 1 on R2 as external type 2 with a metric of 20.,"R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# redistribute eigrp 100 subnets metric 20 metric-type 2
+R2(config-router)# end"
+128,"Redistribute static routes into OSPF process 1 on R1, tagging them with tag 99.","R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# redistribute static subnets tag 99
+R1(config-router)# end"
+129,Configure mutual redistribution between OSPF 1 and BGP 65001 on R1: inject BGP routes into OSPF and OSPF routes into BGP.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# redistribute bgp 65001 subnets
+R1(config-router)# exit
+R1(config)# router bgp 65001
+R1(config-router)# redistribute ospf 1
+R1(config-router)# end"
+130,Use a route-map named REDIST_FILTER on R3 to redistribute only the 10.0.2.0/24 prefix from connected routes into OSPF process 1.,"R3# configure terminal
+R3(config)# ip prefix-list ONLY_LAN2 seq 10 permit 10.0.2.0/24
+R3(config)# route-map REDIST_FILTER permit 10
+R3(config-route-map)# match ip address prefix-list ONLY_LAN2
+R3(config-route-map)# exit
+R3(config)# router ospf 1
+R3(config-router)# redistribute connected subnets route-map REDIST_FILTER
+R3(config-router)# end"
+131,Redistribute connected routes into EIGRP 100 on R1 so that the LAN network behind SW1 is reachable via EIGRP.,"R1# configure terminal
+R1(config)# router eigrp 100
+R1(config-router)# redistribute connected metric 10000 1 255 1 1500
+R1(config-router)# end"
+132,"Configure R4 to redistribute BGP 65001 routes into EIGRP 100, filtering with a route-map named BGP_TO_EIGRP that permits only prefixes in the 10.0.0.0/8 range.","R4# configure terminal
+R4(config)# ip prefix-list PRIV10 seq 10 permit 10.0.0.0/8 le 32
+R4(config)# route-map BGP_TO_EIGRP permit 10
+R4(config-route-map)# match ip address prefix-list PRIV10
+R4(config-route-map)# exit
+R4(config)# router eigrp 100
+R4(config-router)# redistribute bgp 65001 metric 10000 1 255 1 1500 route-map BGP_TO_EIGRP
+R4(config-router)# end"
+133,"On R2, set an administrative distance of 200 for EIGRP external routes to prefer OSPF paths.","R2# configure terminal
+R2(config)# router eigrp 100
+R2(config-router)# distance eigrp 90 200
+R2(config-router)# end"
+134,Configure a distribute-list on R3 using prefix-list BLOCK_DEFAULT to prevent the default route from being redistributed into OSPF process 1.,"R3# configure terminal
+R3(config)# ip prefix-list BLOCK_DEFAULT seq 5 deny 0.0.0.0/0
+R3(config)# ip prefix-list BLOCK_DEFAULT seq 10 permit 0.0.0.0/0 le 32
+R3(config)# router ospf 1
+R3(config-router)# distribute-list prefix BLOCK_DEFAULT out
+R3(config-router)# end"
+135,"Redistribute OSPF process 1 into BGP 65002 on R2, ensuring subnets are included.","R2# configure terminal
+R2(config)# router bgp 65002
+R2(config-router)# redistribute ospf 1
+R2(config-router)# end"
+136,Enable MPLS IP forwarding on R1's interface connecting to R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# mpls ip
+R1(config-if)# end"
+137,"Enable MPLS LDP on all core-facing interfaces of R2 (interfaces connecting to R1, R3, and R4).","R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# interface Ethernet0/1
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# interface Ethernet0/2
+R2(config-if)# mpls ip
+R2(config-if)# end"
+138,Set the MPLS LDP router-id to the loopback 0 address on R1 and force it.,"R1# configure terminal
+R1(config)# mpls ldp router-id Loopback0 force
+R1(config)# end"
+139,Configure MPLS LDP on the link between R3 and R4 on both ends.,"R3# configure terminal
+R3(config)# interface Ethernet0/1
+R3(config-if)# mpls ip
+R3(config-if)# end
+
+R4# configure terminal
+R4(config)# interface Ethernet0/2
+R4(config-if)# mpls ip
+R4(config-if)# end"
+140,Set the MPLS label range on R1 from 100 to 199.,"R1# configure terminal
+R1(config)# mpls label range 100 199
+R1(config)# end"
+141,Enable MPLS LDP session protection on R2 for all LDP neighbors.,"R2# configure terminal
+R2(config)# mpls ldp session protection
+R2(config)# end"
+142,Configure MPLS LDP MD5 authentication between R1 and R2 using password ldppass.,"R1# configure terminal
+R1(config)# mpls ldp neighbor 10.0.12.2 password ldppass
+R1(config)# end
+
+R2# configure terminal
+R2(config)# mpls ldp neighbor 10.0.12.1 password ldppass
+R2(config)# end"
+143,Disable MPLS IP on R4's interface toward R1 and verify the change.,"R4# configure terminal
+R4(config)# interface Ethernet0/0
+R4(config-if)# no mpls ip
+R4(config-if)# end
+R4# show mpls interfaces Ethernet0/0"
+144,"Configure a GRE tunnel between R1 and R3: tunnel interface 0 on R1 with source Ethernet0/1 and destination 10.0.23.2, and assign IP 172.16.13.1/30.","R1# configure terminal
+R1(config)# interface Tunnel0
+R1(config-if)# ip address 172.16.13.1 255.255.255.252
+R1(config-if)# tunnel source Ethernet0/1
+R1(config-if)# tunnel destination 10.0.23.2
+R1(config-if)# end"
+145,"Configure the GRE tunnel endpoint on R3: tunnel interface 0 with source Ethernet0/0 and destination 10.0.12.1, and assign IP 172.16.13.2/30.","R3# configure terminal
+R3(config)# interface Tunnel0
+R3(config-if)# ip address 172.16.13.2 255.255.255.252
+R3(config-if)# tunnel source Ethernet0/0
+R3(config-if)# tunnel destination 10.0.12.1
+R3(config-if)# end"
+146,"Configure an IKEv1 ISAKMP policy 10 on R1 with AES encryption, SHA hash, pre-shared authentication, group 2, and lifetime 86400.","R1# configure terminal
+R1(config)# crypto isakmp policy 10
+R1(config-isakmp)# encryption aes
+R1(config-isakmp)# hash sha
+R1(config-isakmp)# authentication pre-share
+R1(config-isakmp)# group 2
+R1(config-isakmp)# lifetime 86400
+R1(config-isakmp)# end"
+147,Set the IPSec pre-shared key for the peer at R2's address (10.0.12.2) on R1 to ipseckey.,"R1# configure terminal
+R1(config)# crypto isakmp key ipseckey address 10.0.12.2
+R1(config)# end"
+148,Configure an IPSec transform set named TS1 on R1 using esp-aes and esp-sha-hmac.,"R1# configure terminal
+R1(config)# crypto ipsec transform-set TS1 esp-aes esp-sha-hmac
+R1(cfg-crypto-trans)# end"
+149,"Create a crypto map named CMAP on R1, sequence 10, with peer 10.0.12.2, transform-set TS1, and match address ACL 110.","R1# configure terminal
+R1(config)# access-list 110 permit ip 10.0.1.0 0.0.0.255 10.0.2.0 0.0.0.255
+R1(config)# crypto map CMAP 10 ipsec-isakmp
+R1(config-crypto-map)# set peer 10.0.12.2
+R1(config-crypto-map)# set transform-set TS1
+R1(config-crypto-map)# match address 110
+R1(config-crypto-map)# end"
+150,Apply the crypto map CMAP to R1's interface facing R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# crypto map CMAP
+R1(config-if)# end"
+151,Configure a GRE over IPSec tunnel between R2 and R4 so that traffic between their loopbacks is encrypted.,"R2# configure terminal
+R2(config)# crypto isakmp policy 20
+R2(config-isakmp)# encryption aes
+R2(config-isakmp)# hash sha
+R2(config-isakmp)# authentication pre-share
+R2(config-isakmp)# group 2
+R2(config-isakmp)# exit
+R2(config)# crypto isakmp key tunnelkey address 10.0.24.2
+R2(config)# crypto ipsec transform-set TS2 esp-aes esp-sha-hmac
+R2(cfg-crypto-trans)# exit
+R2(config)# interface Tunnel1
+R2(config-if)# ip address 172.16.24.1 255.255.255.252
+R2(config-if)# tunnel source Ethernet0/2
+R2(config-if)# tunnel destination 10.0.24.2
+R2(config-if)# tunnel protection ipsec profile PROF24
+R2(config-if)# end
+
+R4# configure terminal
+R4(config)# crypto isakmp policy 20
+R4(config-isakmp)# encryption aes
+R4(config-isakmp)# hash sha
+R4(config-isakmp)# authentication pre-share
+R4(config-isakmp)# group 2
+R4(config-isakmp)# exit
+R4(config)# crypto isakmp key tunnelkey address 10.0.24.1
+R4(config)# crypto ipsec transform-set TS2 esp-aes esp-sha-hmac
+R4(cfg-crypto-trans)# exit
+R4(config)# interface Tunnel1
+R4(config-if)# ip address 172.16.24.2 255.255.255.252
+R4(config-if)# tunnel source Ethernet0/1
+R4(config-if)# tunnel destination 10.0.24.1
+R4(config-if)# tunnel protection ipsec profile PROF24
+R4(config-if)# end"
+152,Set the tunnel keepalive to 10 seconds with 3 retries on R1's GRE tunnel 0.,"R1# configure terminal
+R1(config)# interface Tunnel0
+R1(config-if)# keepalive 10 3
+R1(config-if)# end"
+153,Configure a class-map named VOIP on R1 to match DSCP ef traffic.,"R1# configure terminal
+R1(config)# class-map match-all VOIP
+R1(config-cmap)# match dscp ef
+R1(config-cmap)# end"
+154,Create a policy-map named QOS_OUT on R1 that prioritizes VOIP class with a bandwidth of 512 Kbps and gives BEST_EFFORT class the remaining bandwidth.,"R1# configure terminal
+R1(config)# class-map match-all BEST_EFFORT
+R1(config-cmap)# match any
+R1(config-cmap)# exit
+R1(config)# policy-map QOS_OUT
+R1(config-pmap)# class VOIP
+R1(config-pmap-c)# priority 512
+R1(config-pmap-c)# exit
+R1(config-pmap)# class BEST_EFFORT
+R1(config-pmap-c)# fair-queue
+R1(config-pmap-c)# end"
+155,Apply the policy-map QOS_OUT outbound on R1's interface toward R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# service-policy output QOS_OUT
+R1(config-if)# end"
+156,"Configure a class-map on R2 to match HTTP traffic on port 80 and HTTPS on port 443, named WEB_TRAFFIC.","R2# configure terminal
+R2(config)# class-map match-any WEB_TRAFFIC
+R2(config-cmap)# match protocol http
+R2(config-cmap)# match protocol https
+R2(config-cmap)# end"
+157,Create a policy-map SHAPE_WEB on R2 that shapes WEB_TRAFFIC to 2 Mbps and applies it inbound on the interface connecting to R1.,"R2# configure terminal
+R2(config)# policy-map SHAPE_WEB
+R2(config-pmap)# class WEB_TRAFFIC
+R2(config-pmap-c)# shape average 2000000
+R2(config-pmap-c)# end
+R2(config)# interface Ethernet0/0
+R2(config-if)# service-policy input SHAPE_WEB
+R2(config-if)# end"
+158,Configure DSCP marking on R3: create a policy-map MARK_DSCP that marks VOIP class as ef and applies it inbound on the interface facing SW2.,"R3# configure terminal
+R3(config)# class-map match-all VOIP
+R3(config-cmap)# match dscp ef
+R3(config-cmap)# exit
+R3(config)# policy-map MARK_DSCP
+R3(config-pmap)# class VOIP
+R3(config-pmap-c)# set dscp ef
+R3(config-pmap-c)# end
+R3(config)# interface Ethernet0/2
+R3(config-if)# service-policy input MARK_DSCP
+R3(config-if)# end"
+159,"Configure a policing policy on R4 that limits all traffic on the interface connecting to R1 to 1 Mbps, dropping excess traffic.","R4# configure terminal
+R4(config)# class-map match-all ALL_TRAFFIC
+R4(config-cmap)# match any
+R4(config-cmap)# exit
+R4(config)# policy-map POLICE_1M
+R4(config-pmap)# class ALL_TRAFFIC
+R4(config-pmap-c)# police rate 1000000 bps conform-action transmit exceed-action drop
+R4(config-pmap-c)# end
+R4(config)# interface Ethernet0/0
+R4(config-if)# service-policy input POLICE_1M
+R4(config-if)# end"
+160,Remove the service-policy QOS_OUT from R1's interface toward R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# no service-policy output QOS_OUT
+R1(config-if)# end"
+161,Configure WRED on R2's interface facing R3 for the default class to enable congestion avoidance.,"R2# configure terminal
+R2(config)# policy-map WRED_POLICY
+R2(config-pmap)# class class-default
+R2(config-pmap-c)# random-detect
+R2(config-pmap-c)# end
+R2(config)# interface Ethernet0/1
+R2(config-if)# service-policy output WRED_POLICY
+R2(config-if)# end"
+162,"Configure OSPF multi-area: place the R1-R2 link in area 0, the R1-R4 link in area 14, and make R1 an ABR.","R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# network 10.0.12.0 0.0.0.255 area 0
+R1(config-router)# network 10.0.14.0 0.0.0.255 area 14
+R1(config-router)# end"
+163,"Configure R4 so that its interfaces are in OSPF area 14, and advertise a summary route 10.0.14.0/24 from area 14 into area 0 on R1.","R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# network 10.0.14.0 0.0.0.255 area 14
+R4(config-router)# end
+
+R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# area 14 range 10.0.14.0 255.255.255.0
+R1(config-router)# end"
+164,Configure area 14 as a stub area on R1 and R4.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# area 14 stub
+R1(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# area 14 stub
+R4(config-router)# end"
+165,Configure OSPF virtual-link between R1 and R3 through area 12 to extend the backbone.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# area 12 virtual-link 3.3.3.3
+R1(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# area 12 virtual-link 1.1.1.1
+R3(config-router)# end"
+166,Set the OSPF reference bandwidth to 1000 Mbps on all four routers so that cost calculation reflects modern link speeds.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# auto-cost reference-bandwidth 1000
+R1(config-router)# end
+
+R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# auto-cost reference-bandwidth 1000
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# auto-cost reference-bandwidth 1000
+R3(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# auto-cost reference-bandwidth 1000
+R4(config-router)# end"
+167,Configure OSPF to distribute a default route on R1 using always so that all routers receive a default via OSPF.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# default-information originate always
+R1(config-router)# end"
+168,Configure OSPF graceful restart (NSF) on R2 using the cisco helper mode.,"R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# nsf cisco helper
+R2(config-router)# end"
+169,Set the OSPF max-metric router-lsa on R3 at startup for 60 seconds to avoid black-holing traffic during boot.,"R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# max-metric router-lsa on-startup 60
+R3(config-router)# end"
+170,Create a VRF named CUST_A on R1 with route distinguisher 65001:10.,"R1# configure terminal
+R1(config)# ip vrf CUST_A
+R1(config-vrf)# rd 65001:10
+R1(config-vrf)# end"
+171,Assign R1's interface toward SW1 to VRF CUST_A and reconfigure its IP address.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# ip vrf forwarding CUST_A
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# end"
+172,Create VRF CUST_B on R3 with RD 65003:20 and assign the interface facing SW2 to it.,"R3# configure terminal
+R3(config)# ip vrf CUST_B
+R3(config-vrf)# rd 65003:20
+R3(config-vrf)# exit
+R3(config)# interface Ethernet0/2
+R3(config-if)# ip vrf forwarding CUST_B
+R3(config-if)# ip address 10.0.2.1 255.255.255.0
+R3(config-if)# end"
+173,Configure a static route within VRF CUST_A on R1 pointing to 10.0.2.0/24 via 10.0.12.2.,"R1# configure terminal
+R1(config)# ip route vrf CUST_A 10.0.2.0 255.255.255.0 10.0.12.2
+R1(config)# end"
+174,Configure ping within VRF CUST_A from R1 to verify reachability to 10.0.1.10.,R1# ping vrf CUST_A 10.0.1.10
+175,Add route-target export 65001:10 and import 65001:10 to VRF CUST_A on R1 to prepare for MPLS VPN.,"R1# configure terminal
+R1(config)# ip vrf CUST_A
+R1(config-vrf)# route-target export 65001:10
+R1(config-vrf)# route-target import 65001:10
+R1(config-vrf)# end"
+176,Remove VRF CUST_B from R3 and restore the interface facing SW2 to the global routing table with its original IP.,"R3# configure terminal
+R3(config)# no ip vrf CUST_B
+R3(config)# interface Ethernet0/2
+R3(config-if)# ip address 10.0.2.1 255.255.255.0
+R3(config-if)# end"
+177,Configure a time-based extended ACL on R1 that denies Telnet from 10.0.1.0/24 only during business hours (time-range BUSINESS 8:00 to 18:00 weekdays).,"R1# configure terminal
+R1(config)# time-range BUSINESS
+R1(config-time-range)# periodic weekdays 8:00 to 18:00
+R1(config-time-range)# exit
+R1(config)# ip access-list extended DENY_TELNET_BH
+R1(config-ext-nacl)# deny tcp 10.0.1.0 0.0.0.255 any eq 23 time-range BUSINESS
+R1(config-ext-nacl)# permit ip any any
+R1(config-ext-nacl)# end"
+178,"Configure a route-map named POLICY_ROUTE on R2 to forward HTTP traffic from 10.0.12.0/24 to next-hop R4 (10.0.24.2), and apply it inbound on the interface toward R1.","R2# configure terminal
+R2(config)# ip access-list extended MATCH_HTTP
+R2(config-ext-nacl)# permit tcp 10.0.12.0 0.0.0.255 any eq 80
+R2(config-ext-nacl)# exit
+R2(config)# route-map POLICY_ROUTE permit 10
+R2(config-route-map)# match ip address MATCH_HTTP
+R2(config-route-map)# set ip next-hop 10.0.24.2
+R2(config-route-map)# exit
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip policy route-map POLICY_ROUTE
+R2(config-if)# end"
+179,Configure a dynamic ACL (lock-and-key) on R4 that temporarily opens access from any host after successful Telnet authentication.,"R4# configure terminal
+R4(config)# username admin privilege 15 password lockkey
+R4(config)# ip access-list extended DYNAMIC_ACL
+R4(config-ext-nacl)# permit tcp any host 10.0.14.2 eq 23
+R4(config-ext-nacl)# dynamic TEMP_ACCESS timeout 5 permit ip any any
+R4(config-ext-nacl)# exit
+R4(config)# line vty 0 4
+R4(config-line)# login local
+R4(config-line)# autocommand access-enable host timeout 5
+R4(config-line)# exit
+R4(config)# interface Ethernet0/0
+R4(config-if)# ip access-group DYNAMIC_ACL in
+R4(config-if)# end"
+180,"Configure Zone-Based Policy Firewall on R3 to inspect inside traffic toward R2 and allow return traffic.","R3# configure terminal
+R3(config)# zone security INSIDE
+R3(config-sec-zone)# exit
+R3(config)# zone security OUTSIDE
+R3(config-sec-zone)# exit
+R3(config)# class-map type inspect match-any INSIDE_TRAFFIC
+R3(config-cmap)# match protocol tcp
+R3(config-cmap)# match protocol udp
+R3(config-cmap)# exit
+R3(config)# policy-map type inspect INSIDE_TO_OUTSIDE
+R3(config-pmap)# class type inspect INSIDE_TRAFFIC
+R3(config-pmap-c)# inspect
+R3(config-pmap-c)# exit
+R3(config-pmap)# exit
+R3(config)# zone-pair security ZP_INSIDE_OUTSIDE source INSIDE destination OUTSIDE
+R3(config-sec-zone-pair)# service-policy type inspect INSIDE_TO_OUTSIDE
+R3(config-sec-zone-pair)# exit
+R3(config)# interface Ethernet0/1
+R3(config-if)# zone-member security INSIDE
+R3(config-if)# exit
+R3(config)# interface Ethernet0/0
+R3(config-if)# zone-member security OUTSIDE
+R3(config-if)# end"
+181,"Use a route-map on R1 named SET_DSCP to set DSCP af11 for packets matching ACL 101, and apply it as a policy route on the interface toward SW1.","R1# configure terminal
+R1(config)# access-list 101 permit ip 10.0.1.0 0.0.0.255 any
+R1(config)# route-map SET_DSCP permit 10
+R1(config-route-map)# match ip address 101
+R1(config-route-map)# set ip dscp af11
+R1(config-route-map)# exit
+R1(config)# interface Ethernet0/0
+R1(config-if)# ip policy route-map SET_DSCP
+R1(config-if)# end"
+182,"Configure an extended named ACL PERMIT_MGMT on R2 to allow SSH and SNMP from 10.0.12.0/24 only, deny everything else, and apply it inbound on the interface toward R4.","R2# configure terminal
+R2(config)# ip access-list extended PERMIT_MGMT
+R2(config-ext-nacl)# permit tcp 10.0.12.0 0.0.0.255 any eq 22
+R2(config-ext-nacl)# permit udp 10.0.12.0 0.0.0.255 any eq 161
+R2(config-ext-nacl)# deny ip any any
+R2(config-ext-nacl)# exit
+R2(config)# interface Ethernet0/2
+R2(config-if)# ip access-group PERMIT_MGMT in
+R2(config-if)# end"
+183,"On R3, configure a route-map named PREFER_R2 that sets the BGP weight to 200 for prefixes received from R2, so that R3 prefers paths via R2.","R3# configure terminal
+R3(config)# route-map PREFER_R2 permit 10
+R3(config-route-map)# set weight 200
+R3(config-route-map)# exit
+R3(config)# router bgp 65003
+R3(config-router)# neighbor 10.0.23.1 route-map PREFER_R2 in
+R3(config-router)# end"
+184,"Configure Zone-Based Policy Firewall on R1 to inspect TCP and UDP traffic from the interface facing SW1 and allow return traffic.","R1# configure terminal
+R1(config)# zone security INSIDE
+R1(config-sec-zone)# exit
+R1(config)# zone security OUTSIDE
+R1(config-sec-zone)# exit
+R1(config)# class-map type inspect match-any TCP_UDP_TRAFFIC
+R1(config-cmap)# match protocol tcp
+R1(config-cmap)# match protocol udp
+R1(config-cmap)# exit
+R1(config)# policy-map type inspect INSIDE_TO_OUTSIDE
+R1(config-pmap)# class type inspect TCP_UDP_TRAFFIC
+R1(config-pmap-c)# inspect
+R1(config-pmap-c)# exit
+R1(config-pmap)# exit
+R1(config)# zone-pair security ZP_INSIDE_OUTSIDE source INSIDE destination OUTSIDE
+R1(config-sec-zone-pair)# service-policy type inspect INSIDE_TO_OUTSIDE
+R1(config-sec-zone-pair)# exit
+R1(config)# interface Ethernet0/0
+R1(config-if)# zone-member security INSIDE
+R1(config-if)# exit
+R1(config)# interface Ethernet0/1
+R1(config-if)# zone-member security OUTSIDE
+R1(config-if)# end"
+185,"Enable BGP 65001 on R1 and R4, configure iBGP between them using loopback addresses, and ensure OSPF advertises the loopbacks so the session comes up.","R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# network 11.11.11.11 0.0.0.0 area 0
+R1(config-router)# exit
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 44.44.44.44 remote-as 65001
+R1(config-router)# neighbor 44.44.44.44 update-source Loopback0
+R1(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# network 44.44.44.44 0.0.0.0 area 0
+R4(config-router)# exit
+R4(config)# router bgp 65001
+R4(config-router)# neighbor 11.11.11.11 remote-as 65001
+R4(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R4(config-router)# end"
+186,Configure MPLS LDP on all four routers' core-facing interfaces and set each router's LDP router-id to its loopback 0.,"R1# configure terminal
+R1(config)# mpls ldp router-id Loopback0 force
+R1(config)# interface Ethernet0/1
+R1(config-if)# mpls ip
+R1(config-if)# exit
+R1(config)# interface Ethernet0/2
+R1(config-if)# mpls ip
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# mpls ldp router-id Loopback0 force
+R2(config)# interface Ethernet0/0
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# interface Ethernet0/1
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# interface Ethernet0/2
+R2(config-if)# mpls ip
+R2(config-if)# end
+
+R3# configure terminal
+R3(config)# mpls ldp router-id Loopback0 force
+R3(config)# interface Ethernet0/0
+R3(config-if)# mpls ip
+R3(config-if)# exit
+R3(config)# interface Ethernet0/1
+R3(config-if)# mpls ip
+R3(config-if)# end
+
+R4# configure terminal
+R4(config)# mpls ldp router-id Loopback0 force
+R4(config)# interface Ethernet0/0
+R4(config-if)# mpls ip
+R4(config-if)# exit
+R4(config)# interface Ethernet0/1
+R4(config-if)# mpls ip
+R4(config-if)# exit
+R4(config)# interface Ethernet0/2
+R4(config-if)# mpls ip
+R4(config-if)# end"
+187,"Redistribute EIGRP 100 into OSPF 1 on R2 and R3 simultaneously, ensuring routes carry subnets and metric-type 2.","R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# redistribute eigrp 100 subnets metric-type 2
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# redistribute eigrp 100 subnets metric-type 2
+R3(config-router)# end"
+188,Configure a QoS policy on R1 and R3 that marks voice traffic (DSCP ef) as priority and shapes everything else to 5 Mbps on their LAN-facing interfaces.,"R1# configure terminal
+R1(config)# class-map match-all VOICE
+R1(config-cmap)# match dscp ef
+R1(config-cmap)# exit
+R1(config)# class-map match-all DATA
+R1(config-cmap)# match any
+R1(config-cmap)# exit
+R1(config)# policy-map LAN_QOS
+R1(config-pmap)# class VOICE
+R1(config-pmap-c)# priority 512
+R1(config-pmap-c)# exit
+R1(config-pmap)# class DATA
+R1(config-pmap-c)# shape average 5000000
+R1(config-pmap-c)# end
+R1(config)# interface Ethernet0/0
+R1(config-if)# service-policy output LAN_QOS
+R1(config-if)# end
+
+R3# configure terminal
+R3(config)# class-map match-all VOICE
+R3(config-cmap)# match dscp ef
+R3(config-cmap)# exit
+R3(config)# class-map match-all DATA
+R3(config-cmap)# match any
+R3(config-cmap)# exit
+R3(config)# policy-map LAN_QOS
+R3(config-pmap)# class VOICE
+R3(config-pmap-c)# priority 512
+R3(config-pmap-c)# exit
+R3(config-pmap)# class DATA
+R3(config-pmap-c)# shape average 5000000
+R3(config-pmap-c)# end
+R3(config)# interface Ethernet0/2
+R3(config-if)# service-policy output LAN_QOS
+R3(config-if)# end"
+189,"Configure full mesh iBGP among R1, R2, R3, and R4 (all in AS 65001), using loopback 0 as update-source, with next-hop-self on each session.","R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# neighbor 22.22.22.22 remote-as 65001
+R1(config-router)# neighbor 22.22.22.22 update-source Loopback0
+R1(config-router)# neighbor 22.22.22.22 next-hop-self
+R1(config-router)# neighbor 33.33.33.33 remote-as 65001
+R1(config-router)# neighbor 33.33.33.33 update-source Loopback0
+R1(config-router)# neighbor 33.33.33.33 next-hop-self
+R1(config-router)# neighbor 44.44.44.44 remote-as 65001
+R1(config-router)# neighbor 44.44.44.44 update-source Loopback0
+R1(config-router)# neighbor 44.44.44.44 next-hop-self
+R1(config-router)# end
+
+R2# configure terminal
+R2(config)# router bgp 65001
+R2(config-router)# neighbor 11.11.11.11 remote-as 65001
+R2(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R2(config-router)# neighbor 11.11.11.11 next-hop-self
+R2(config-router)# neighbor 33.33.33.33 remote-as 65001
+R2(config-router)# neighbor 33.33.33.33 update-source Loopback0
+R2(config-router)# neighbor 33.33.33.33 next-hop-self
+R2(config-router)# neighbor 44.44.44.44 remote-as 65001
+R2(config-router)# neighbor 44.44.44.44 update-source Loopback0
+R2(config-router)# neighbor 44.44.44.44 next-hop-self
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router bgp 65001
+R3(config-router)# neighbor 11.11.11.11 remote-as 65001
+R3(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R3(config-router)# neighbor 11.11.11.11 next-hop-self
+R3(config-router)# neighbor 22.22.22.22 remote-as 65001
+R3(config-router)# neighbor 22.22.22.22 update-source Loopback0
+R3(config-router)# neighbor 22.22.22.22 next-hop-self
+R3(config-router)# neighbor 44.44.44.44 remote-as 65001
+R3(config-router)# neighbor 44.44.44.44 update-source Loopback0
+R3(config-router)# neighbor 44.44.44.44 next-hop-self
+R3(config-router)# end
+
+R4# configure terminal
+R4(config)# router bgp 65001
+R4(config-router)# neighbor 11.11.11.11 remote-as 65001
+R4(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R4(config-router)# neighbor 11.11.11.11 next-hop-self
+R4(config-router)# neighbor 22.22.22.22 remote-as 65001
+R4(config-router)# neighbor 22.22.22.22 update-source Loopback0
+R4(config-router)# neighbor 22.22.22.22 next-hop-self
+R4(config-router)# neighbor 33.33.33.33 remote-as 65001
+R4(config-router)# neighbor 33.33.33.33 update-source Loopback0
+R4(config-router)# neighbor 33.33.33.33 next-hop-self
+R4(config-router)# end"
+190,"Configure GRE tunnels between R1-R3 and R2-R4, then run OSPF over the tunnels so that h1 and h2 can reach each other through the tunnel paths.","R1# configure terminal
+R1(config)# interface Tunnel0
+R1(config-if)# ip address 172.16.13.1 255.255.255.252
+R1(config-if)# tunnel source Ethernet0/1
+R1(config-if)# tunnel destination 10.0.23.2
+R1(config-if)# exit
+R1(config)# router ospf 1
+R1(config-router)# network 172.16.13.0 0.0.0.3 area 0
+R1(config-router)# end
+
+R3# configure terminal
+R3(config)# interface Tunnel0
+R3(config-if)# ip address 172.16.13.2 255.255.255.252
+R3(config-if)# tunnel source Ethernet0/0
+R3(config-if)# tunnel destination 10.0.12.1
+R3(config-if)# exit
+R3(config)# router ospf 1
+R3(config-router)# network 172.16.13.0 0.0.0.3 area 0
+R3(config-router)# end
+
+R2# configure terminal
+R2(config)# interface Tunnel1
+R2(config-if)# ip address 172.16.24.1 255.255.255.252
+R2(config-if)# tunnel source Ethernet0/2
+R2(config-if)# tunnel destination 10.0.24.2
+R2(config-if)# exit
+R2(config)# router ospf 1
+R2(config-router)# network 172.16.24.0 0.0.0.3 area 0
+R2(config-router)# end
+
+R4# configure terminal
+R4(config)# interface Tunnel1
+R4(config-if)# ip address 172.16.24.2 255.255.255.252
+R4(config-if)# tunnel source Ethernet0/1
+R4(config-if)# tunnel destination 10.0.23.1
+R4(config-if)# exit
+R4(config)# router ospf 1
+R4(config-router)# network 172.16.24.0 0.0.0.3 area 0
+R4(config-router)# end"
+191,"Configure VRF CUST_A on R1 and R2, assign the interfaces on the R1-R2 link to CUST_A, and set up a static route within the VRF so that CUST_A traffic is forwarded correctly.","R1# configure terminal
+R1(config)# ip vrf CUST_A
+R1(config-vrf)# rd 65001:10
+R1(config-vrf)# exit
+R1(config)# interface Ethernet0/1
+R1(config-if)# ip vrf forwarding CUST_A
+R1(config-if)# ip address 10.0.12.1 255.255.255.0
+R1(config-if)# exit
+R1(config)# ip route vrf CUST_A 10.0.2.0 255.255.255.0 10.0.12.2
+R1(config)# end
+
+R2# configure terminal
+R2(config)# ip vrf CUST_A
+R2(config-vrf)# rd 65001:10
+R2(config-vrf)# exit
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip vrf forwarding CUST_A
+R2(config-if)# ip address 10.0.12.2 255.255.255.0
+R2(config-if)# exit
+R2(config)# ip route vrf CUST_A 10.0.1.0 255.255.255.0 10.0.12.1
+R2(config)# end"
+192,"Configure mutual redistribution between BGP 65001 and OSPF 1 on R1, and between BGP 65002 and OSPF 1 on R2, using route-maps to tag redistributed routes and prevent routing loops.","R1# configure terminal
+R1(config)# route-map OSPF_TO_BGP permit 10
+R1(config-route-map)# match tag 100
+R1(config-route-map)# exit
+R1(config)# route-map BGP_TO_OSPF permit 10
+R1(config-route-map)# set tag 200
+R1(config-route-map)# exit
+R1(config)# router ospf 1
+R1(config-router)# redistribute bgp 65001 subnets route-map BGP_TO_OSPF
+R1(config-router)# exit
+R1(config)# router bgp 65001
+R1(config-router)# redistribute ospf 1 route-map OSPF_TO_BGP
+R1(config-router)# end
+
+R2# configure terminal
+R2(config)# route-map OSPF_TO_BGP permit 10
+R2(config-route-map)# match tag 100
+R2(config-route-map)# exit
+R2(config)# route-map BGP_TO_OSPF permit 10
+R2(config-route-map)# set tag 200
+R2(config-route-map)# exit
+R2(config)# router ospf 1
+R2(config-router)# redistribute bgp 65002 subnets route-map BGP_TO_OSPF
+R2(config-router)# exit
+R2(config)# router bgp 65002
+R2(config-router)# redistribute ospf 1 route-map OSPF_TO_BGP
+R2(config-router)# end"
+193,"Configure end-to-end QoS: mark voice DSCP ef at SW1's uplink toward R1, propagate the marking through R1 and R2, and apply a priority queue policy on R2's interface toward R3.","R1# configure terminal
+R1(config)# class-map match-all VOICE
+R1(config-cmap)# match dscp ef
+R1(config-cmap)# exit
+R1(config)# policy-map PROPAGATE_QOS
+R1(config-pmap)# class VOICE
+R1(config-pmap-c)# set dscp ef
+R1(config-pmap-c)# end
+R1(config)# interface Ethernet0/0
+R1(config-if)# service-policy input PROPAGATE_QOS
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# class-map match-all VOICE
+R2(config-cmap)# match dscp ef
+R2(config-cmap)# exit
+R2(config)# policy-map PQ_TOWARD_R3
+R2(config-pmap)# class VOICE
+R2(config-pmap-c)# priority 512
+R2(config-pmap-c)# end
+R2(config)# interface Ethernet0/1
+R2(config-if)# service-policy output PQ_TOWARD_R3
+R2(config-if)# end"
+194,"Configure OSPF multi-area with area 0 on the R1-R2 and R2-R3 links, area 14 on R1-R4, and area 23 on R3-R4; make R2 and R3 ABRs with appropriate network statements.","R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# network 10.0.12.0 0.0.0.255 area 0
+R1(config-router)# network 10.0.14.0 0.0.0.255 area 14
+R1(config-router)# end
+
+R2# configure terminal
+R2(config)# router ospf 1
+R2(config-router)# network 10.0.12.0 0.0.0.255 area 0
+R2(config-router)# network 10.0.23.0 0.0.0.255 area 0
+R2(config-router)# network 10.0.24.0 0.0.0.255 area 0
+R2(config-router)# end
+
+R3# configure terminal
+R3(config)# router ospf 1
+R3(config-router)# network 10.0.23.0 0.0.0.255 area 0
+R3(config-router)# network 10.0.34.0 0.0.0.255 area 23
+R3(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# network 10.0.14.0 0.0.0.255 area 14
+R4(config-router)# network 10.0.34.0 0.0.0.255 area 23
+R4(config-router)# end"
+195,"Configure IPSec between R1 and R3 to encrypt traffic between the 10.0.1.0/24 and 10.0.2.0/24 networks, using AES-256 and SHA-256.","R1# configure terminal
+R1(config)# crypto isakmp policy 30
+R1(config-isakmp)# encryption aes 256
+R1(config-isakmp)# hash sha256
+R1(config-isakmp)# authentication pre-share
+R1(config-isakmp)# group 14
+R1(config-isakmp)# exit
+R1(config)# crypto isakmp key securekey address 10.0.23.2
+R1(config)# crypto ipsec transform-set TS_AES256 esp-aes 256 esp-sha256-hmac
+R1(cfg-crypto-trans)# exit
+R1(config)# access-list 120 permit ip 10.0.1.0 0.0.0.255 10.0.2.0 0.0.0.255
+R1(config)# crypto map MAP_R1R3 30 ipsec-isakmp
+R1(config-crypto-map)# set peer 10.0.23.2
+R1(config-crypto-map)# set transform-set TS_AES256
+R1(config-crypto-map)# match address 120
+R1(config-crypto-map)# exit
+R1(config)# interface Ethernet0/1
+R1(config-if)# crypto map MAP_R1R3
+R1(config-if)# end
+
+R3# configure terminal
+R3(config)# crypto isakmp policy 30
+R3(config-isakmp)# encryption aes 256
+R3(config-isakmp)# hash sha256
+R3(config-isakmp)# authentication pre-share
+R3(config-isakmp)# group 14
+R3(config-isakmp)# exit
+R3(config)# crypto isakmp key securekey address 10.0.12.1
+R3(config)# crypto ipsec transform-set TS_AES256 esp-aes 256 esp-sha256-hmac
+R3(cfg-crypto-trans)# exit
+R3(config)# access-list 120 permit ip 10.0.2.0 0.0.0.255 10.0.1.0 0.0.0.255
+R3(config)# crypto map MAP_R3R1 30 ipsec-isakmp
+R3(config-crypto-map)# set peer 10.0.12.1
+R3(config-crypto-map)# set transform-set TS_AES256
+R3(config-crypto-map)# match address 120
+R3(config-crypto-map)# exit
+R3(config)# interface Ethernet0/0
+R3(config-if)# crypto map MAP_R3R1
+R3(config-if)# end"
+196,"Configure BGP route reflector on R2 (AS 65001) with R1 and R3 as clients, so that iBGP routes are propagated without a full mesh.","R2# configure terminal
+R2(config)# router bgp 65001
+R2(config-router)# bgp cluster-id 2
+R2(config-router)# neighbor 11.11.11.11 remote-as 65001
+R2(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R2(config-router)# neighbor 11.11.11.11 route-reflector-client
+R2(config-router)# neighbor 33.33.33.33 remote-as 65001
+R2(config-router)# neighbor 33.33.33.33 update-source Loopback0
+R2(config-router)# neighbor 33.33.33.33 route-reflector-client
+R2(config-router)# end"
+197,"Configure EIGRP 100 on all four routers with MD5 authentication on all core links, so that neighborships only form between authenticated peers.","R1# configure terminal
+R1(config)# key chain EKEY
+R1(config-keychain)# key 1
+R1(config-keychain-key)# key-string eigrpauth
+R1(config-keychain-key)# exit
+R1(config)# router eigrp 100
+R1(config-router)# network 0.0.0.0
+R1(config-router)# no auto-summary
+R1(config-router)# exit
+R1(config)# interface Ethernet0/1
+R1(config-if)# ip authentication mode eigrp 100 md5
+R1(config-if)# ip authentication key-chain eigrp 100 EKEY
+R1(config-if)# exit
+R1(config)# interface Ethernet0/2
+R1(config-if)# ip authentication mode eigrp 100 md5
+R1(config-if)# ip authentication key-chain eigrp 100 EKEY
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# key chain EKEY
+R2(config-keychain)# key 1
+R2(config-keychain-key)# key-string eigrpauth
+R2(config-keychain-key)# exit
+R2(config)# router eigrp 100
+R2(config-router)# network 0.0.0.0
+R2(config-router)# no auto-summary
+R2(config-router)# exit
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip authentication mode eigrp 100 md5
+R2(config-if)# ip authentication key-chain eigrp 100 EKEY
+R2(config-if)# exit
+R2(config)# interface Ethernet0/1
+R2(config-if)# ip authentication mode eigrp 100 md5
+R2(config-if)# ip authentication key-chain eigrp 100 EKEY
+R2(config-if)# exit
+R2(config)# interface Ethernet0/2
+R2(config-if)# ip authentication mode eigrp 100 md5
+R2(config-if)# ip authentication key-chain eigrp 100 EKEY
+R2(config-if)# end
+
+R3# configure terminal
+R3(config)# key chain EKEY
+R3(config-keychain)# key 1
+R3(config-keychain-key)# key-string eigrpauth
+R3(config-keychain-key)# exit
+R3(config)# router eigrp 100
+R3(config-router)# network 0.0.0.0
+R3(config-router)# no auto-summary
+R3(config-router)# exit
+R3(config)# interface Ethernet0/0
+R3(config-if)# ip authentication mode eigrp 100 md5
+R3(config-if)# ip authentication key-chain eigrp 100 EKEY
+R3(config-if)# exit
+R3(config)# interface Ethernet0/1
+R3(config-if)# ip authentication mode eigrp 100 md5
+R3(config-if)# ip authentication key-chain eigrp 100 EKEY
+R3(config-if)# end
+
+R4# configure terminal
+R4(config)# key chain EKEY
+R4(config-keychain)# key 1
+R4(config-keychain-key)# key-string eigrpauth
+R4(config-keychain-key)# exit
+R4(config)# router eigrp 100
+R4(config-router)# network 0.0.0.0
+R4(config-router)# no auto-summary
+R4(config-router)# exit
+R4(config)# interface Ethernet0/0
+R4(config-if)# ip authentication mode eigrp 100 md5
+R4(config-if)# ip authentication key-chain eigrp 100 EKEY
+R4(config-if)# exit
+R4(config)# interface Ethernet0/1
+R4(config-if)# ip authentication mode eigrp 100 md5
+R4(config-if)# ip authentication key-chain eigrp 100 EKEY
+R4(config-if)# exit
+R4(config)# interface Ethernet0/2
+R4(config-if)# ip authentication mode eigrp 100 md5
+R4(config-if)# ip authentication key-chain eigrp 100 EKEY
+R4(config-if)# end"
+198,"Configure VRF-Lite with two VRFs (CUST_A and CUST_B) on R2, assign one interface per VRF, and set up static routes within each VRF to reach the respective LANs.","R2# configure terminal
+R2(config)# ip vrf CUST_A
+R2(config-vrf)# rd 65001:10
+R2(config-vrf)# exit
+R2(config)# ip vrf CUST_B
+R2(config-vrf)# rd 65001:20
+R2(config-vrf)# exit
+R2(config)# interface Ethernet0/0
+R2(config-if)# ip vrf forwarding CUST_A
+R2(config-if)# ip address 10.0.12.2 255.255.255.0
+R2(config-if)# exit
+R2(config)# interface Ethernet0/1
+R2(config-if)# ip vrf forwarding CUST_B
+R2(config-if)# ip address 10.0.23.1 255.255.255.0
+R2(config-if)# exit
+R2(config)# ip route vrf CUST_A 10.0.1.0 255.255.255.0 10.0.12.1
+R2(config)# ip route vrf CUST_B 10.0.2.0 255.255.255.0 10.0.23.2
+R2(config)# end"
+199,Configure BGP 65001 on R1 and R4 with iBGP using route reflector on R1 as server and R4 as client; ensure OSPF carries the loopbacks needed for the session.,"R1# configure terminal
+R1(config)# router ospf 1
+R1(config-router)# network 11.11.11.11 0.0.0.0 area 0
+R1(config-router)# exit
+R1(config)# router bgp 65001
+R1(config-router)# bgp cluster-id 1
+R1(config-router)# neighbor 44.44.44.44 remote-as 65001
+R1(config-router)# neighbor 44.44.44.44 update-source Loopback0
+R1(config-router)# neighbor 44.44.44.44 route-reflector-client
+R1(config-router)# end
+
+R4# configure terminal
+R4(config)# router ospf 1
+R4(config-router)# network 44.44.44.44 0.0.0.0 area 0
+R4(config-router)# exit
+R4(config)# router bgp 65001
+R4(config-router)# neighbor 11.11.11.11 remote-as 65001
+R4(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R4(config-router)# end"
+200,"Configure a full service-provider-like stack on R2: enable MPLS LDP on all core interfaces, redistribute OSPF into BGP 65002, set up route reflector for two iBGP clients (R1 loopback 11.11.11.11 and R3 loopback 33.33.33.33), and apply a QoS policy that prioritizes DSCP ef traffic outbound on the interface toward R3.","R2# configure terminal
+R2(config)# mpls ldp router-id Loopback0 force
+R2(config)# interface Ethernet0/0
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# interface Ethernet0/1
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# interface Ethernet0/2
+R2(config-if)# mpls ip
+R2(config-if)# exit
+R2(config)# router bgp 65002
+R2(config-router)# bgp cluster-id 2
+R2(config-router)# neighbor 11.11.11.11 remote-as 65002
+R2(config-router)# neighbor 11.11.11.11 update-source Loopback0
+R2(config-router)# neighbor 11.11.11.11 route-reflector-client
+R2(config-router)# neighbor 33.33.33.33 remote-as 65002
+R2(config-router)# neighbor 33.33.33.33 update-source Loopback0
+R2(config-router)# neighbor 33.33.33.33 route-reflector-client
+R2(config-router)# redistribute ospf 1
+R2(config-router)# exit
+R2(config)# class-map match-all VOICE
+R2(config-cmap)# match dscp ef
+R2(config-cmap)# exit
+R2(config)# policy-map PQ_R3
+R2(config-pmap)# class VOICE
+R2(config-pmap-c)# priority 512
+R2(config-pmap-c)# end
+R2(config)# interface Ethernet0/1
+R2(config-if)# service-policy output PQ_R3
+R2(config-if)# end"
+201,Enable IPv6 unicast routing on R1.,"R1# configure terminal
+R1(config)# ipv6 unicast-routing
+R1(config)# end"
+202,Configure the IPv6 address 2001:db8:1::1/64 on R1's interface connecting to SW1.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# ipv6 address 2001:db8:1::1/64
+R1(config-if)# no shutdown
+R1(config-if)# end"
+203,Configure the IPv6 address 2001:db8:12::1/64 on R1's interface connecting to R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ipv6 address 2001:db8:12::1/64
+R1(config-if)# no shutdown
+R1(config-if)# end"
+204,Configure an IPv6 address on R1's Loopback0 interface using 2001:db8:ffff::1/128.,"R1# configure terminal
+R1(config)# interface Loopback0
+R1(config-if)# ipv6 address 2001:db8:ffff::1/128
+R1(config-if)# end"
+205,Assign a manual link-local address fe80::1 to R1's interface facing R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ipv6 address fe80::1 link-local
+R1(config-if)# end"
+206,Configure an IPv6 static route on R1 to reach 2001:db8:2::/64 via R2's link-local address fe80::2 on Ethernet0/1.,"R1# configure terminal
+R1(config)# ipv6 route 2001:db8:2::/64 Ethernet0/1 fe80::2
+R1(config)# end"
+207,Configure an IPv6 default route on R3 pointing to R2's interface address 2001:db8:23::1.,"R3# configure terminal
+R3(config)# ipv6 route ::/0 2001:db8:23::1
+R3(config)# end"
+208,Enable OSPFv3 process 1 on R1 and set the router-id to 1.1.1.1.,"R1# configure terminal
+R1(config)# ipv6 router ospf 1
+R1(config-rtr)# router-id 1.1.1.1
+R1(config-rtr)# end"
+209,Enable OSPFv3 process 1 area 0 on R1's interface connecting to R2.,"R1# configure terminal
+R1(config)# interface Ethernet0/1
+R1(config-if)# ipv6 ospf 1 area 0
+R1(config-if)# end"
+210,"Configure OSPFv3 on R2 and R3: set router-ids, assign all core interfaces to area 0.","R2# configure terminal
+R2(config)# ipv6 router ospf 1
+R2(config-rtr)# router-id 2.2.2.2
+R2(config-rtr)# exit
+R2(config)# interface Ethernet0/0
+R2(config-if)# ipv6 ospf 1 area 0
+R2(config-if)# exit
+R2(config)# interface Ethernet0/1
+R2(config-if)# ipv6 ospf 1 area 0
+R2(config-if)# exit
+R2(config)# interface Ethernet0/2
+R2(config-if)# ipv6 ospf 1 area 0
+R2(config-if)# end
+
+R3# configure terminal
+R3(config)# ipv6 router ospf 1
+R3(config-rtr)# router-id 3.3.3.3
+R3(config-rtr)# exit
+R3(config)# interface Ethernet0/0
+R3(config-if)# ipv6 ospf 1 area 0
+R3(config-if)# exit
+R3(config)# interface Ethernet0/1
+R3(config-if)# ipv6 ospf 1 area 0
+R3(config-if)# end"
+211,"Place R4's interface toward R1 in OSPFv3 area 14, and its interface toward R2 in area 0.","R4# configure terminal
+R4(config)# ipv6 router ospf 1
+R4(config-rtr)# router-id 4.4.4.4
+R4(config-rtr)# exit
+R4(config)# interface Ethernet0/0
+R4(config-if)# ipv6 ospf 1 area 14
+R4(config-if)# exit
+R4(config)# interface Ethernet0/1
+R4(config-if)# ipv6 ospf 1 area 0
+R4(config-if)# end"
+212,Configure R3's interface facing SW2 as a passive interface in OSPFv3 process 1.,"R3# configure terminal
+R3(config)# ipv6 router ospf 1
+R3(config-rtr)# passive-interface Ethernet0/2
+R3(config-rtr)# end"
+213,Configure an IPv6 named ACL BLOCK_TELNET6 on R1 that denies Telnet (port 23) from 2001:db8:1::/64 and permits everything else.,"R1# configure terminal
+R1(config)# ipv6 access-list BLOCK_TELNET6
+R1(config-ipv6-acl)# deny tcp 2001:db8:1::/64 any eq 23
+R1(config-ipv6-acl)# permit ipv6 any any
+R1(config-ipv6-acl)# end"
+214,Apply the IPv6 ACL BLOCK_TELNET6 inbound on R1's interface facing SW1.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# ipv6 traffic-filter BLOCK_TELNET6 in
+R1(config-if)# end"
+215,Configure an IPv6 ACL on R2 that blocks ICMPv6 echo-request from 2001:db8:1::/64 but allows all other ICMPv6 messages.,"R2# configure terminal
+R2(config)# ipv6 access-list LIMIT_ICMP6
+R2(config-ipv6-acl)# deny icmp 2001:db8:1::/64 any echo-request
+R2(config-ipv6-acl)# permit icmp any any
+R2(config-ipv6-acl)# permit ipv6 any any
+R2(config-ipv6-acl)# end"
+216,Configure an IPv6 ACL on R3 that explicitly permits ICMPv6 Neighbor Discovery messages (neighbor-solicitation and neighbor-advertisement) so that NDP is not broken.,"R3# configure terminal
+R3(config)# ipv6 access-list PERMIT_NDP
+R3(config-ipv6-acl)# permit icmp any any nd-ns
+R3(config-ipv6-acl)# permit icmp any any nd-na
+R3(config-ipv6-acl)# permit ipv6 any any
+R3(config-ipv6-acl)# end"
+217,"Configure BGP 65001 on R1 and activate the IPv6 address-family, advertising the prefix 2001:db8:1::/64.","R1# configure terminal
+R1(config)# router bgp 65001
+R1(config-router)# no bgp default ipv4-unicast
+R1(config-router)# neighbor 2001:db8:12::2 remote-as 65002
+R1(config-router)# address-family ipv6
+R1(config-router-af)# neighbor 2001:db8:12::2 activate
+R1(config-router-af)# network 2001:db8:1::/64
+R1(config-router-af)# exit-address-family
+R1(config-router)# end"
+218,Activate the BGP IPv6 neighbor 2001:db8:12::1 (R1) on R2 within address-family ipv6 and advertise 2001:db8:2::/64.,"R2# configure terminal
+R2(config)# router bgp 65002
+R2(config-router)# no bgp default ipv4-unicast
+R2(config-router)# neighbor 2001:db8:12::1 remote-as 65001
+R2(config-router)# address-family ipv6
+R2(config-router-af)# neighbor 2001:db8:12::1 activate
+R2(config-router-af)# network 2001:db8:2::/64
+R2(config-router-af)# exit-address-family
+R2(config-router)# end"
+219,"Configure a GRE tunnel between R1 and R3 to carry IPv6 traffic, assigning IPv6 addresses 2001:db8:tun::1/64 and 2001:db8:tun::2/64 on each end.","R1# configure terminal
+R1(config)# interface Tunnel10
+R1(config-if)# ipv6 address 2001:db8:tun::1/64
+R1(config-if)# tunnel source Ethernet0/1
+R1(config-if)# tunnel destination 10.0.23.2
+R1(config-if)# tunnel mode gre ip
+R1(config-if)# end
+
+R3# configure terminal
+R3(config)# interface Tunnel10
+R3(config-if)# ipv6 address 2001:db8:tun::2/64
+R3(config-if)# tunnel source Ethernet0/0
+R3(config-if)# tunnel destination 10.0.12.1
+R3(config-if)# tunnel mode gre ip
+R3(config-if)# end"
+220,Redistribute OSPFv3 process 1 routes into BGP IPv6 address-family on R2.,"R2# configure terminal
+R2(config)# router bgp 65002
+R2(config-router)# address-family ipv6
+R2(config-router-af)# redistribute ospf 1
+R2(config-router-af)# exit-address-family
+R2(config-router)# end"
+221,"Configure a stateless DHCPv6 pool on R1 named IPV6_POOL that provides DNS server 2001:db8::53 and domain cisco.local, and apply it to the interface facing SW1.","R1# configure terminal
+R1(config)# ipv6 dhcp pool IPV6_POOL
+R1(config-dhcpv6)# dns-server 2001:db8::53
+R1(config-dhcpv6)# domain-name cisco.local
+R1(config-dhcpv6)# exit
+R1(config)# interface Ethernet0/0
+R1(config-if)# ipv6 dhcp server IPV6_POOL
+R1(config-if)# end"
+222,Enable SLAAC on R1's interface facing SW1 by configuring the IPv6 prefix and enabling RA advertisements with a valid prefix announcement.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# ipv6 address 2001:db8:1::1/64
+R1(config-if)# ipv6 nd prefix 2001:db8:1::/64
+R1(config-if)# no ipv6 nd suppress-ra
+R1(config-if)# end"
+223,"Configure an EtherChannel using LACP active mode on SW1 with interfaces Fa0/1 and Fa0/2, creating Port-channel 1.","SW1# configure terminal
+SW1(config)# interface range Fa0/1 - 2
+SW1(config-if-range)# channel-group 1 mode active
+SW1(config-if-range)# end"
+224,"Configure EtherChannel between SW1 (LACP active) and SW2 (LACP passive) using interfaces Fa0/1 and Fa0/2, creating Port-channel 1 on both switches.","SW1# configure terminal
+SW1(config)# interface range Fa0/1 - 2
+SW1(config-if-range)# channel-group 1 mode active
+SW1(config-if-range)# end
+
+SW2# configure terminal
+SW2(config)# interface range Fa0/1 - 2
+SW2(config-if-range)# channel-group 1 mode passive
+SW2(config-if-range)# end"
+225,Configure Port-channel 1 on SW1 as a trunk port.,"SW1# configure terminal
+SW1(config)# interface Port-channel1
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# end"
+226,Configure Port-channel 1 on SW2 as an access port in VLAN 10.,"SW2# configure terminal
+SW2(config)# interface Port-channel1
+SW2(config-if)# switchport mode access
+SW2(config-if)# switchport access vlan 10
+SW2(config-if)# end"
+227,Allow only VLANs 10 and 30 on the trunk Port-channel 1 of SW1.,"SW1# configure terminal
+SW1(config)# interface Port-channel1
+SW1(config-if)# switchport trunk allowed vlan 10,30
+SW1(config-if)# end"
+228,Set the native VLAN to 99 on Port-channel 1 on both SW1 and SW2.,"SW1# configure terminal
+SW1(config)# interface Port-channel1
+SW1(config-if)# switchport trunk native vlan 99
+SW1(config-if)# end
+
+SW2# configure terminal
+SW2(config)# interface Port-channel1
+SW2(config-if)# switchport trunk native vlan 99
+SW2(config-if)# end"
+229,"Configure a Layer 3 EtherChannel on R1 using Ethernet0/1 and Ethernet0/2: remove switchport, create Port-channel 2, and assign IP 10.0.99.1/30.","R1# configure terminal
+R1(config)# interface range Ethernet0/1 - 2
+R1(config-if-range)# no switchport
+R1(config-if-range)# channel-group 2 mode active
+R1(config-if-range)# exit
+R1(config)# interface Port-channel2
+R1(config-if)# no switchport
+R1(config-if)# ip address 10.0.99.1 255.255.255.252
+R1(config-if)# end"
+230,"Assign the IP address 10.0.99.2/30 to Port-channel 2 on R2, which is configured as a Layer 3 EtherChannel.","R2# configure terminal
+R2(config)# interface range Ethernet0/0 - 1
+R2(config-if-range)# no switchport
+R2(config-if-range)# channel-group 2 mode active
+R2(config-if-range)# exit
+R2(config)# interface Port-channel2
+R2(config-if)# no switchport
+R2(config-if)# ip address 10.0.99.2 255.255.255.252
+R2(config-if)# end"
+231,Shut down the physical interfaces Fa0/1 and Fa0/2 on SW1 before modifying the EtherChannel configuration.,"SW1# configure terminal
+SW1(config)# interface range Fa0/1 - 2
+SW1(config-if-range)# shutdown
+SW1(config-if-range)# end"
+232,Remove the EtherChannel Port-channel 1 from SW2 and reset Fa0/1 and Fa0/2 to their default configuration.,"SW2# configure terminal
+SW2(config)# no interface Port-channel1
+SW2(config)# interface range Fa0/1 - 2
+SW2(config-if-range)# no channel-group
+SW2(config-if-range)# switchport mode access
+SW2(config-if-range)# no shutdown
+SW2(config-if-range)# end"
+233,Enable LLDP globally on R1.,"R1# configure terminal
+R1(config)# lldp run
+R1(config)# end"
+234,Enable LLDP transmit and receive on R2's interface connecting to R3.,"R2# configure terminal
+R2(config)# interface Ethernet0/1
+R2(config-if)# lldp transmit
+R2(config-if)# lldp receive
+R2(config-if)# end"
+235,Disable LLDP on R1's interface facing SW1 to prevent neighbor discovery on the access segment.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# no lldp transmit
+R1(config-if)# no lldp receive
+R1(config-if)# end"
+236,Enable LLDP globally on R3 and disable CDP on the same router so that only LLDP is used for neighbor discovery.,"R3# configure terminal
+R3(config)# lldp run
+R3(config)# no cdp run
+R3(config)# end"
+237,Configure HSRP group 1 on R1's interface facing SW1 with virtual IP 10.0.1.254.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# standby 1 ip 10.0.1.254
+R1(config-if)# end"
+238,Configure HSRP group 1 on R2's interface facing SW1 with the same virtual IP 10.0.1.254.,"R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# standby 1 ip 10.0.1.254
+R2(config-if)# end"
+239,Set the HSRP group 1 virtual IP to 10.0.1.254 on both R1 and R2 so the hosts in 10.0.1.0/24 use a redundant gateway.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# standby 1 ip 10.0.1.254
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# standby 1 ip 10.0.1.254
+R2(config-if)# end"
+240,"Set HSRP priority to 110 on R1 and 90 on R2 for group 1, so that R1 becomes the active router.","R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# standby 1 priority 110
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# standby 1 priority 90
+R2(config-if)# end"
+241,Enable HSRP preempt on R1 for group 1 so it reclaims the active role after recovering from a failure.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# standby 1 preempt
+R1(config-if)# end"
+242,Configure HSRP tracking on R1 for group 1: track Ethernet0/1 and decrement priority by 20 if that interface goes down.,"R1# configure terminal
+R1(config)# track 1 interface Ethernet0/1 line-protocol
+R1(config)# interface Ethernet0/0
+R1(config-if)# standby 1 track 1 decrement 20
+R1(config-if)# end"
+243,"Configure HSRP on R1 and R2 for group 1 with tracking: R1 has priority 110 and tracks Ethernet0/1 with a decrement of 25, R2 has priority 90 and preempt enabled.","R1# configure terminal
+R1(config)# track 1 interface Ethernet0/1 line-protocol
+R1(config)# interface Ethernet0/0
+R1(config-if)# standby 1 ip 10.0.1.254
+R1(config-if)# standby 1 priority 110
+R1(config-if)# standby 1 preempt
+R1(config-if)# standby 1 track 1 decrement 25
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# standby 1 ip 10.0.1.254
+R2(config-if)# standby 1 priority 90
+R2(config-if)# standby 1 preempt
+R2(config-if)# end"
+244,Configure VRRP group 1 on R1's interface facing SW1 with virtual IP 10.0.1.254.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# vrrp 1 ip 10.0.1.254
+R1(config-if)# end"
+245,Set VRRP priority to 120 on R1 and 100 on R2 for group 1 on the interface toward SW1.,"R1# configure terminal
+R1(config)# interface Ethernet0/0
+R1(config-if)# vrrp 1 priority 120
+R1(config-if)# end
+
+R2# configure terminal
+R2(config)# interface Ethernet0/0
+R2(config-if)# vrrp 1 ip 10.0.1.254
+R2(config-if)# vrrp 1 priority 100
+R2(config-if)# end"
+246,Enable VRRP preempt on R1 for group 1 and configure interface tracking so that priority decrements by 30 if Ethernet0/1 goes down.,"R1# configure terminal
+R1(config)# track 2 interface Ethernet0/1 line-protocol
+R1(config)# interface Ethernet0/0
+R1(config-if)# vrrp 1 ip 10.0.1.254
+R1(config-if)# vrrp 1 priority 120
+R1(config-if)# vrrp 1 preempt
+R1(config-if)# vrrp 1 track 2 decrement 30
+R1(config-if)# end"
