@@ -2,9 +2,9 @@ import json
 import csv
 
 # Nombre del archivo JSON de entrada
-json_file_path = 'generation_results_sin_plan_q-int8_20260414_193204.json'
+json_file_path = 'RAG + FINETUNING.json'
 # Nombre del archivo CSV de salida
-csv_file_path = 'llama_int8.csv'
+csv_file_path = 'RAG_FINETUNING.csv'
 
 try:
     # Abrir y cargar el archivo JSON
@@ -20,14 +20,26 @@ try:
         # Escribir la cabecera
         writer.writeheader()
 
-        # Iterar sobre cada resultado en la lista "results" del JSON
-        for result in data.get('results', []):
-            model_name = result.get('model_name')
-            
-            # Iterar sobre cada predicción en la lista "predictions"
-            if model_name and 'predictions' in result:
-                for prediction in result['predictions']:
-                    # Escribir una fila por cada predicción
+        # --- Lógica para la estructura original (lista de resultados) ---
+        if 'results' in data and isinstance(data.get('results'), list):
+            # Iterar sobre cada resultado en la lista "results" del JSON
+            for result in data.get('results', []):
+                model_name = result.get('model_name')
+                
+                # Iterar sobre cada predicción en la lista "predictions"
+                if model_name and 'predictions' in result:
+                    for prediction in result['predictions']:
+                        # Escribir una fila por cada predicción
+                        writer.writerow({
+                            'model_name': model_name,
+                            'predictions': prediction
+                        })
+        # --- Nueva lógica para la estructura de un solo resultado en la raíz ---
+        elif 'model' in data and 'predictions' in data:
+            model_name = data.get('model')
+            predictions = data.get('predictions', [])
+            if model_name and isinstance(predictions, list):
+                for prediction in predictions:
                     writer.writerow({
                         'model_name': model_name,
                         'predictions': prediction

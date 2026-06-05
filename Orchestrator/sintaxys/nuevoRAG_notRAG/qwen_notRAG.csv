@@ -1,0 +1,762 @@
+model_name,predictions
+Qwen2.5-7B-Base+NoRAG_topo,R1(config)#hostname R1
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#enable secret Str0ng!Pass
+R1(config)#enable password cisco123"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config-line)#line console 0
+R2(config-line)#exec-timeout 10 30"
+Qwen2.5-7B-Base+NoRAG_topo,R3(config)#no exec-timeout
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#description Link to SW1
+R1(config-if)#ip address 10.0.1.1 255.255.255.0
+R1(config-if)#no shutdown"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#interface vlan 20
+SW1(config-if)#ip address 10.0.20.1 255.255.255.0
+SW1(config-if)#no shutdown"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#router rip v2
+R1(config-router)#network 10.0.1.0
+R1(config-router)#network 10.0.12.0
+R1(config-router)#no auto-summary"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#interface Loopback0
+R2(config-if)#ip address 192.168.100.1 255.255.255.255
+R2(config-if)#exit
+R2(config)#interface Loopback1
+R2(config-if)#ipv6 address 2001:db8:1::1/128
+R2(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip domain-name network.lab
+R1(config)#ip name-server 8.8.8.8"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#interface Loopback0
+R3(config-if)#ip address 10.255.0.1 255.255.255.255
+R3(config-if)#ipv6 address 2001:db8:ffff::1/128"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config)#hostname R4
+R4(config)#enable secret MyS3cr3t
+R4(config)#no exec-timeout"
+Qwen2.5-7B-Base+NoRAG_topo,R1(config)#ip routing
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#aaa new-model
+R1(config)#aaa authentication login default group tacacs+ local
+R1(config)#aaa authorization exec default group tacacs+ local
+R1(config)#aaa accounting exec default start-stop group tacacs+
+R1(config)#tacacs-server host 10.0.0.10 key TacKey!
+R1(config)#ip domain-name example.com
+R1(config)#crypto key generate rsa
+R1(config)#ip ssh version 2
+R1(config)#ip ssh time-out 60
+R1(config)#ip ssh cipher aes128-cbc
+R1(config)#ip ssh authentication-retries 2"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#hostname R1
+R1(config)#enable secret T0p$ecret
+R1(config)#ip domain-name wan.corp
+R1(config)#no ip domain-lookup
+R1(config)#line con 0
+R1(config-line)#exec-timeout 5 0
+R1(config-line)#exit
+R1(config)#line vty 0 15
+R1(config-line)#login
+R1(config-line)#exec-timeout 10 0
+R1(config-line)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/1
+R1(config-if)#description 'WAN to R2'
+R1(config-if)#ip address 10.0.12.1 255.255.255.0
+R1(config-if)#no shutdown
+R1(config-if)#ip default-gateway 10.0.12.2"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#hostname SW1
+SW1(config)#enable secret Admin!2024"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#router rip v2
+R2(config-router)#no auto-summary
+R2(config-router)#passive-interface Ethernet0/0"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#interface Vlan10
+SW1(config-if)#ip address 10.0.10.1 255.255.255.0
+SW1(config-if)#no shutdown
+SW1(config-if)#exit
+
+SW1(config)#interface Vlan20
+SW1(config-if)#ip address 10.0.20.1 255.255.255.0
+SW1(config-if)#no shutdown
+SW1(config-if)#exit
+
+SW1(config)#interface Vlan30
+SW1(config-if)#ip address 10.0.30.1 255.255.255.0
+SW1(config-if)#no shutdown
+SW1(config-if)#exit
+
+SW1(config)#interface Vlan99
+SW1(config-if)#ip address 10.0.99.1 255.255.255.0
+SW1(config-if)#no shutdown
+SW1(config-if)#exit
+
+SW1(config)#ip default-gateway 10.0.99.254"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#interface Loopback0
+R3(config-if)#ip address 1.1.1.1 255.255.255.255
+R3(config-if)#exit
+R3(config)#interface Loopback1
+R3(config-if)#ip address 2.2.2.2 255.255.255.255
+R3(config-if)#exit
+R3(config)#router ospf
+R3(config-router)#router-id 1.1.1.1"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#hostname R2
+R2(config)#enable secret P@ssw0rd!
+R2(config)#ip domain-name branch.corp
+R2(config)#ip name-server 8.8.8.8
+R2(config)#no ip domain-lookup
+R2(config)#interface Loopback0
+R2(Loopback0-config)#ip address 10.255.1.1 255.255.255.255
+R2(Loopback0-config)#exit
+R2(config)#line console 0
+R2(config-line)#exec-timeout 5 0
+R2(config-line)#exit
+R2(config)#line vty 0 15
+R2(config-line)#exec-timeout 15 0
+R2(config-line)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0.10
+R1(config-subif)# encapsulation dot1q 10
+R1(config-subif)# ip address 10.0.10.1 255.255.255.0"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2.40
+R3(config-subif)# encapsulation dot1q 40 native
+R3(config-subif)# exit
+R3(config-if)# interface bridge-group 2
+R3(config-br)# vlan 40
+R3(config-br)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface FastEthernet0/0
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)# interface FastEthernet0/1
+R1(config-if)# ip address 10.0.12.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)# interface FastEthernet0/2
+R1(config-if)# ip address 10.0.14.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)# interface FastEthernet0/0.10
+R1(config-subif)# encapsulation dot1q 10
+R1(config-subif)# ip address 10.0.10.1 255.255.255.0
+R1(config-subif)# no shutdown
+R1(config-subif)# exit
+R1(config)# interface FastEthernet0/0.20
+R1(config-subif)# encapsulation dot1q 20
+R1(config-subif)# ip address 10.0.20.1 255.255.255.0
+R1(config-subif"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface fastethernet 0/1  
+SW1(config-if)#mdix auto"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface FastEthernet0/24
+SW1(config-if)#switchport mode trunk
+SW1(config-if)#switchport trunk encapsulation dot1q"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0.20
+R1(config-subif)# ip address 10.0.20.1 255.255.255.0"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2.30
+R3(config-subif)# ip address 10.0.30.1 255.255.255.0"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2.30
+R3(config-if)# encapsulation dot1q 30
+R3(config-if)# switchport mode trunk
+R3(config-if)# switchport trunk allowed vlan add 30
+R3(config-if)# switchport trunk group 1"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0.10
+R1(config-subif)# encapsulation dot1q 10
+R1(config-subif)# ip address 10.0.10.1 255.255.255.0
+R1(config-subif)# exit
+
+R1(config-if)# interface Ethernet0/0.20
+R1(config-subif)# encapsulation dot1q 20
+R1(config-subif)# ip address 10.0.20.1 255.255.255.0
+R1(config-subif)# exit
+
+R1(config)# ip routing"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config-if)# interface Ethernet0/1  
+R4(config-if)# ip unnumbered Loopback0  
+R4(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config-if)# interface Ethernet0/0  
+R2(config-if)# ip address 10.0.12.2 255.255.255.0  
+R2(config-if)# no shutdown"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)#interface Ethernet0/2
+R3(config-if)#ip address 10.0.2.1 255.255.255.0
+R3(config-if)#description LAN to SW2
+R3(config-if)#no shutdown"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#interface Tunnel0
+R1(config-if)#ip address 172.16.0.1 255.255.255.252
+R1(config-if)#tunnel source 10.0.1.1
+R1(config-if)#tunnel destination 10.0.12.2"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#crypto isakmp policy 1
+R1(config-isakmp-policy)#encryption aes
+R1(config-isakmp-policy)#hash sha
+R1(config-isakmp-policy)#authentication pre-share
+R1(config-isakmp-policy)#encryption-group 1
+R1(config-isakmp-policy)#group 2
+R1(config-isakmp-policy)#exit
+R1(config)#crypto isakmp key SecretKey123 address 10.0.12.2
+R1(config)#crypto ipsec transform-set myset esp-aes esp-sha-hmac
+R1(config)#crypto ipsec security-association lifetime seconds 86400
+R1(config)#interface Ethernet0/1
+R1(config-if)#ipsec transform-set myset
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0.10
+R1(config-subif)# ip address 10.0.10.129 255.255.255.128"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config-if)#interface Loopback0
+R4(config-if)#ip address 10.0.0.1 255.255.255.255"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# encapsulation dot1q 1
+R1(config-if)# ip address 10.0.10.1 255.255.255.0
+R1(config-if)# exit
+R1(config-if)# interface Ethernet0/0.10
+R1(config-subif)# encapsulation dot1q 10
+R1(config-subif)# ip address 10.0.10.1 255.255.255.0
+R1(config-subif)# exit
+R1(config-if)# interface Ethernet0/0.20
+R1(config-subif)# encapsulation dot1q 20
+R1(config-subif)# ip address 10.0.20.1 255.255.255.0
+R1(config-subif)# exit
+R1(config-if)# interface Ethernet0/0.30
+R1(config-subif)# encapsulation dot1q 30
+R1(config-subif)# ip address 10.0.30.1 255.255.255.0
+R1(config-subif)# exit
+R1(config-if)# interface Ethernet0/0.99
+R1(config-subif)# encapsulation dot1q 99
+R1(config-subif)# ip address 10.0.99.1"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2
+R3(config-if)# encapsulation dot1q 30
+R3(config-if)# ip address 10.0.30.1 255.255.255.0
+R3(config-if)# exit
+R3(config-if)# interface Ethernet0/2
+R3(config-if)# encapsulation dot1q 40 native
+R3(config-if)# ip address 10.0.40.1 255.255.255.0
+R3(config-if)# exit
+R3(config)# ip routing
+R3(config)# interface Loopback0
+R3(config-if)# ip address 10.255.3.3 255.255.255.255"
+Qwen2.5-7B-Base+NoRAG_topo,"SW2(config-if)#interface fastethernet 0/24
+SW2(config-if)#mdix auto
+SW2(config-if)#duplex full"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config-if)# interface Ethernet0/0
+R4(config-if)# ip unnumbered Loopback0
+R4(config-if)# exit
+
+R4(config-if)# interface Ethernet0/1
+R4(config-if)# ip unnumbered Loopback0"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface FastEthernet0/1  
+SW1(config-if)# lacp rate fast"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# spanning-tree vlan 10 uplinkfast max-update-rate 150
+SW1(config-if)# spanning-tree vlan 20 uplinkfast max-update-rate 150"
+Qwen2.5-7B-Base+NoRAG_topo,SW2(config-if)# spanning-tree vlan 30 guard root
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface fasteth0/1
+SW1(config-if)#lacp port-priority 16000"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface Fa0/1
+SW1(config-if)#switchport mode access
+SW1(config-if)#exit
+SW1(config-if)#interface Fa0/24
+SW1(config-if)#switchport mode trunk
+SW1(config-if)#exit
+SW1(config)#vtp mode transparent
+SW1(config)#vlan 30
+SW1(vlan-30)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW2(config)#vlan 30
+SW2(config-vlan)#exit
+SW2(config)#vlan 301
+SW2(config-vlan)#private-primary vlan 30
+SW2(config-vlan)#exit
+SW2(config)#vlan 302
+SW2(config-vlan)#private-community vlan 30
+SW2(config-vlan)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#vlan 10
+SW1(vlan-config)#aging-time 600"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface FastEthernet0/1
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan add 10,101
+SW1(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface Port-channel 1
+SW1(config-if)#ipv6 ra guard policy raguard-policy"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#vlan 10
+SW1(vlan-10)#spanning-tree priority 32768
+SW1(vlan-10)#spanning-tree uplinkfast forward-time 8
+SW1(vlan-10)#spanning-tree uplinkfast update-rate 200"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface FastEthernet0/1
+SW1(config-if)#channel-group 1 mode active
+SW1(config-if)#lacp rate fast
+SW1(config-if)#lacp port-priority 4096"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface Fa0/1
+SW1(config-if)# switchport mode private-vlan host-association
+SW1(config-if)# switchport private-vlan host-association 10 11
+SW1(config-if)# switchport private-vlan host-association 11 12
+SW1(config-if)# switchport private-vlan mapping 10 11
+SW1(config-if)# switchport private-vlan mapping 11 12
+SW1(config-if)# switchport private-vlan mapping 12 10
+SW1(config-if)# switchport trunk allowed vlan add 10 11
+SW1(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#vlan 10
+SW1(config-vlan)#name DATA
+SW1(config-vlan)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW2(config-if)# interface Fa0/1 
+SW2(config-if)# switchport mode access 
+SW2(config-if)# switchport access vlan 30"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface FastEthernet0/24
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan 10,20"
+Qwen2.5-7B-Base+NoRAG_topo,"SW2(config-if)# spanning-tree vlan 1 priority 8192
+SW2(config-if)# spanning-tree vlan 1 hello-time 2
+SW2(config-if)# spanning-tree vlan 1 max-age 20"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#vtp mode transparent
+SW1(config)#vlan 10
+SW1(config-vlan)#name DATA
+SW1(config-vlan)#exit
+SW1(config)#vlan 20
+SW1(config-vlan)#name VOICE
+SW1(config-vlan)#exit
+SW1(config)#vlan 30
+SW1(config-vlan)#name MANAGEMENT
+SW1(config-vlan)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#channel-group 1 mode active
+SW1(config-if)#channel-group 1 mode active
+SW1(config-if)#exit
+SW1(config)#interface range Fa0/1-24
+SW1(config-if-range)#channel-group 1 mode active
+SW1(config-if-range)#exit
+SW1(config)#interface GigabitEthernet0/1
+SW1(config-if)#ip load-sharing source-dest-ip
+SW1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW2(config-if)#interface fastethernet 0/1
+SW2(config-if)#lacp port-priority 64000"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface Fa0/24
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan add 10,999
+SW1(config-if)# exit
+SW1(config)# monitor-span source vlan 10 destination vlan 999
+SW1(config)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip access-list extended 110
+R1(config-ext-nacl)#permit tcp any host 10.0.0.0 eq telnet
+R1(config-ext-nacl)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#ip access-list extended BLOCK-WEB
+R2(config-ext-nacl)#deny tcp 192.168.2.0 0.0.0.255 any eq www
+R2(config-ext-nacl)#permit ip any any"
+Qwen2.5-7B-Base+NoRAG_topo,R2(config-if)#ip access-group BLOCK-WEB in interface Ethernet0/0
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface Fa0/1  
+SW1(config-if)# ip source guard 
+SW1(config-if)# ip source binding vlan 10 mac 00aa.bbcc.0001 ip 10.0.1.10"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface fa0/1
+SW1(config-if)#switchport mode access
+SW1(config-if)#switchport port-security
+SW1(config-if)#switchport port-security maximum 3
+SW1(config-if)#switchport port-security violation shutdown"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip service-object tcp
+R1(config-service-object)#service-object web-services
+R1(config-service-object)#port 80
+R1(config-service-object)#port 443"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip security-zone inside
+R1(config-sz)#ip security-zone outside
+R1(config-sz)#exit
+R1(config)#interface Ethernet0/1
+R1(config-if)#security-zone inside"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-acl)#ip access-list extended MGMT-ACL
+R3(config-ext-nacl)#10 permit ip any any
+R3(config-ext-nacl)#20 deny ip any any
+R3(config-ext-nacl)#30 permit ip any any"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config-acl)#access-list xyz123 line 25 permit ip host 10.5.5.10 any
+R4(config-acl)#access-list xyz123 line 30 deny ip host 10.6.6.1 255.255.255.0 any"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#ip access-list extended PROTECT-SERVER
+R2(config-ext-nacl)#deny ip 172.20.0.0 0.0.255.255 any
+R2(config-ext-nacl)#permit ip any any"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# ip access-group 120 out
+R1(config-if)# ip access-group LAN-IN in"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#zone-pair security INSIDE-to-OUTSIDE source-address any destination-address any
+R1(config-zp-sec-inside-to-outside)#inspection-policy ZBFW-POLICY"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)#interface Fa0/1
+SW1(config-if)#switchport mode access
+SW1(config-if)#switchport access vlan 20
+SW1(config-if)#switchport port-security
+SW1(config-if)#switchport port-security maximum 2
+SW1(config-if)#switchport port-security violation restrict"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface Fa0/1  
+SW1(config-if)# ip access-group 2 in"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip access-list standard 10
+R1(config-std-nacl)#permit ip host 192.168.1.100 any
+R1(config-std-nacl)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#ip nat outside
+R1(config-if)#exit
+R1(config)#ip access-list extended 1
+R1(config-ext-nacl)#permit ip any any
+R1(config-ext-nacl)#exit
+R1(config)#ip nat inside source list 1 interface Ethernet0/0 overload"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#ip access-list extended 150
+R3(config-ext-nacl)#deny icmp any any 
+R3(config-ext-nacl)#permit tcp any any eq 443 
+R3(config-ext-nacl)#permit udp any any eq 53 
+R3(config-ext-nacl)#permit tcp any host 10.0.23.1 eq 22 
+R3(config-ext-nacl)#deny ip any any log"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#zone-based-firewall zonename inside
+R1(config-zbwmz)#zone-based-firewall zonename dmz
+R1(config-zbwmz)#zone-based-firewall zonename outside
+R1(config-zbwmz)#interface Ethernet0/0
+R1(config-if)#zone-based-firewall inside
+R1(config-if)#interface Ethernet0/1
+R1(config-if)#zone-based-firewall dmz
+R1(config-if)#interface Ethernet0/2
+R1(config-if)#zone-based-firewall outside
+R1(config-if)#zone-pair security ZBFW-IN zone inside zone outside
+R1(config-zp)#permit any any
+R1(config-zp)#exit
+R1(config-if)#zone-pair security ZBFW-DMZ zone dmz zone outside
+R1(config-zp)#permit any any
+R1(config-zp)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#ip access-list standard 20  
+R2(config-std-nacl)#permit 192.168.1.0 0.0.0.255  
+R2(config-std-nacl)#deny any  
+R2(config-std-nacl)#line vty 0 4  
+R2(config-line)#ip access-group 20 in"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface Fa0/1 
+SW1(config-if)# switchport port-security 
+SW1(config-if)# switchport port-security maximum 2 
+SW1(config-if)# exit 
+
+SW1(config-if)# interface Fa0/2 
+SW1(config-if)# switchport port-security 
+SW1(config-if)# switchport port-security maximum 1 
+SW1(config-if)# shutdown 
+SW1(config-if)# exit 
+
+SW1(config-if)# interface Fa0/3 
+SW1(config-if)# switchport port-security 
+SW1(config-if)# switchport port-security maximum 3 
+SW1(config-if)# switchport port-security violation protect 
+SW1(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ipTestingModule HSRP
+R1(config-hsrp)#snmp trap enable
+R1(config-hsrp)#snmp server host 10.0.1.5 traps community netops"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#ip address 10.0.1.1 255.255.255.0
+R1(config-if)#standby 2 ip 10.0.1.1
+R1(config-if)#standby 2 priority 110
+R1(config-if)#standby 2 track ipmac 60
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2
+R3(config-if)# ip hsrp 10 icmp-redir-enable"
+Qwen2.5-7B-Base+NoRAG_topo,R1(config)#vrrp vrid 1 ip 10.0.1.254
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)#interface Ethernet0/2
+R3(config-if)#glbp 5 hello 5
+R3(config-if)#glbp 5 hold-time 15
+R3(config-if)#glbp 5 load-share weighted
+R3(config-if)#glbp 5 priority 120
+R3(config-if)#glbp 5 preempt-delay 30"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#standby 1 ip 10.0.1.254
+R1(config-if)#standby 1 priority 110
+R1(config-if)#standby 1 preempt
+R1(config-if)#standby 1 timer hello 3
+R1(config-if)#standby 1 timer hold 10"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2
+R3(config-if)# ipv6 vrrp-v3 group 10 virtual-ip 2001:db8:2::fe
+R3(config-if)# ipv6 vrrp-v3 group 10 priority 150
+R3(config-if)# ipv6 vrrp-v3 group 10 preempt-delay 5"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# standby 1 ip 10.0.1.254
+R1(config-if)# standby 1 priority 100
+R1(config-if)# standby 1 preempt
+R1(config-if)# standby 1 icmp redirect disable
+R1(config-if)# standby 1 track 1 ip next-hop 10.0.1.254
+R1(config-if)# standby 2 ip 10.0.1.254 follow-group 1"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#ip address 10.0.1.1 255.255.255.0
+R1(config-if)#standby 1 ip 10.0.1.254
+R1(config-if)#standby 1 priority 110
+R1(config-if)#standby 1 preempt"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# interface Ethernet0/2
+R3(config-if)# vrrp 1 ip 10.0.2.254
+R3(config-if)# vrrp 1 priority 120"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#track ip line-protocol Ethernet0/1
+R1(config-track)#hsrp 1 priority decrement 20"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#bfd interval 300 min_rx 300 multiplier 3
+R1(config-if)#standby 1 ip 10.0.1.2
+R1(config-if)#standby 1 priority 110
+R1(config-if)#standby 1 preempt"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)#interface Ethernet0/2
+R3(config-if)#ip glbp group 3 hello 3 s hold 10 s
+R3(config-if)#ip glbp group 3 redirect 1800 s
+R3(config-if)#ip glbp group 3 timeout 28800 s
+R3(config-if)#ip glbp group 3 load-balancing round-robin
+R3(config-if)#ip glbp group 3 priority 90
+R3(config-if)#ip glbp group 3 preempt-delay 45"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip vrrp vrid 5 priority 200 preempt-delay 60 advertise-interval 3
+R1(config-if)#interface Ethernet0/0
+R1(config-if)#ip vrrp 5 priority 200 preempt-delay 60 advertise-interval 3
+R1(config-if)#ip vrrp 5 virtual-ip 10.0.1.254"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# standby 1 ip 10.0.1.253
+R1(config-if)# standby 1 priority 110
+R1(config-if)# standby 1 preempt
+R1(config-if)# standby 1 timer hello 3
+R1(config-if)# standby 1 timer hold 10
+R1(config-if)# standby 2 ip 10.0.1.254
+R1(config-if)# standby 2 priority 90
+R1(config-if)# standby 2 preempt
+R1(config-if)# standby 2 timer hello 3
+R1(config-if)# standby 2 timer hold 10"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ipTestingModule hsrp
+R1(config-hsrp)#snmp trap enable
+R1(config-hsrp)#snmp server host 10.0.1.5 community monitor
+R1(config-hsrp)#snmp server host 10.0.1.6 community netmgmt
+R1(config-hsrp)#interface Ethernet0/0
+R1(config-if)#ip hsrp 10 redirect
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# ipv6 address 2001:db8:1::1/64
+R1(config-if)# vrrp 2 ip 10.0.1.254 priority 110 preempt
+R1(config-if)# vrrp 2 ipv6 2001:db8:1::fe priority 110"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)#interface Ethernet0/2
+R3(config-if)#glbp 10 hello-interval 5
+R3(config-if)#glbp 10 hold-time 18
+R3(config-if)#glbp 10 redirect-interval 1800
+R3(config-if)#glbp 10 timeout 28800
+R3(config-if)#glbp 10 host-dependent
+R3(config-if)#glbp 10 priority 150
+R3(config-if)#glbp 10 preempt-delay 30"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface GigabitEthernet0/0.10
+R1(config-subif)# encapsulation dot1Q 10
+R1(config-subif)# ip address 10.0.10.1 255.255.255.0
+R1(config-subif)# standby 1 ip 10.0.10.254
+R1(config-subif)# standby 1 priority 110
+R1(config-subif)# standby 1 preempt
+
+R1(config-if)# interface GigabitEthernet0/0.20
+R1(config-subif)# encapsulation dot1Q 20
+R1(config-subif)# ip address 10.0.20.1 255.255.255.0
+R1(config-subif)# standby 2 ip 10.0.20.254
+R1(config-subif)# standby 2 priority 110
+R1(config-subif)# standby 2 preempt
+
+R1(config-if)# interface GigabitEthernet0/0.30
+R1(config-subif)# encapsulation dot1Q 30
+R1(config-subif)# ip address 10.0.30.1 255.255.255.0
+R1(config-subif)# standby 3 ip 10.0.30.254
+R1(config-subif)# standby"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)#interface Ethernet0/2
+R3(config-if)#ip glbp group 1 virtual-ip 10.0.2.254
+R3(config-if)#ip glbp group 1 priority 100
+R3(config-if)#ip glbp group 1 load-balance round-robin"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#router bgp 65001
+R1(config-router)#neighbor 10.0.12.2 remote-as 65002
+R1(config-router)#no bgp default ipv4-unicast
+R1(config-router)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#router bgp 65001
+R1(config-router)#neighbor 10.0.12.2 remote-as 65002
+R1(config-router)#neighbor 10.0.12.2 update-source Loopback0
+R1(config-router)#address-family ipv4 unicast
+R1(config-router-af-ipv4)#network 10.0.1.0 mask 255.255.255.0
+R1(config-router-af-ipv4)#neighbor 10.0.12.2 activate
+R1(config-router-af-ipv4)#exit
+R1(config-router)#route-map SET-MED permit 10
+R1(config-router)#route-map SET-MED set-med 50
+R1(config-router)#router bgp 65001
+R1(config-router)#ip prefix-list MY-PREFIXSEQ seq 1 permit 10.0.1.0/24
+R1(config-router)#route-map SET-MED set-community no-advertise
+R1(config-router)#route-map SET-MED set-community no-export
+R1(config-router)#route-map SET-MED set-community no-import
+R1(config-router)#route-map SET-MED set-community no-synchronize
+R1(config-router)#route-map SET-MED set-community no-prepend
+R1(config-router)#route-map SET-MED set-community no-override
+R1(config-router)#route-map SET"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#router bgp 65002
+R2(config-router)#aggregate-address 10.0.0.0 255.0.0.0 summary-only as-set"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip vrf CUSTOMER-A
+R1(config-vrf)#rd 200:1
+R1(config-vrf)#route-target import 200:100
+R1(config-vrf)#route-target export 200:100
+R1(config-vrf)#interface Ethernet0/2
+R1(config-if)#vrf forwarding CUSTOMER-A
+R1(config-if)#ip address 10.0.14.1 255.255.255.0"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#router ospfv3 2
+R2(config-router)#adjacency stagger initial 5 maximum 30 ipv4-unicast
+R2(config-router)#adjacency stagger initial 5 maximum 30 ipv6-unicast"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#ip bgp 65001
+R2(config-bgp)#maximum-paths ibgp 4
+R2(config-bgp)#route-map RR-NEXTHOP out
+R2(config-route-map)#exit
+R1(config)#router bgp 65001
+R1(config-router)#bgp router-id 10.0.12.1
+R1(config-router)#neighbor 10.0.12.2 route-map RR-NEXTHOP out"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip vrf MGMT
+R1(config-vrf)#ip route vrf MGMT 192.168.50.0 255.255.255.0 10.0.12.2"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#router bgp 65002
+R2(config-router)#summary-only
+R2(config-router)#aggregate-address 10.0.0.0 255.0.0.0"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#router bgp 65001
+R1(config-router)#graceful-restart restart-time 300
+R1(config-router)#peer-group IBGP-PEERS
+R1(config-router)#peer IBGP-PEERS enable
+R1(config-router)#neighbor 10.0.12.2 peer-group IBGP-PEERS
+R1(config-router)#neighbor 10.0.14.2 peer-group IBGP-PEERS"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/1
+R1(config-if)#ip ospf network point-to-point
+R1(config-if)#ip ospf cost 10
+R1(config-if)#ip ospf message-digest-key 1 md5 ospfpass
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#router eigrp 100
+R2(config-router)#network 10.0.0.0 0.255.255.255
+R2(config-router)#network 172.16.0.0 0.15.255.255
+R2(config-router)#no auto-summary
+R2(config-router)#eigrp timer hello 5"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#ip vrf CORP
+R3(config-vrf)#rd 100:10
+R3(config-vrf)#ipv4 vrf CORP
+R3(config-vrf-af)#ip route 10.0.99.0 255.255.255.0 10.0.23.1
+R3(config-vrf-af)#ipv6 vrf CORP"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip prefix-list ADVERTISED seq 1 permit 10.0.0.0/8
+R1(config)#route-map POLICY-OUT permit 10
+R1(config-route-map)#match ip address ADVERTISED
+R1(config-route-map)#set local-preference 200
+R1(config-route-map)#!
+R1(config)#router bgp 65001
+R1(config-router)#neighbor 10.0.12.2 route-map POLICY-OUT out"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#router ospf 1
+R1(config-router)#router-id 1.1.1.1
+R1(config-router)#network 10.0.1.0 0.0.0.255 area 0"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#router ospf 1
+R2(config-router)#router-id 2.2.2.2
+R2(config-router)#network 10.0.12.0 0.0.0.255 area 0
+R2(config-router)#network 2.2.2.2 0.0.0.0 area 0"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#router bgp 65001
+R1(config-router)#neighbor 10.0.14.2 remote-as 65001
+R1(config-router)#end"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#router ospfv3 1
+R3(config-router)#ospf6 adjacency-stagger initial 10
+R3(config-router)#ospf6 adjacency-stagger maximum 50"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#ip prefix-list RR-SET-NH seq 5 permit 10.0.12.1/32 
+R2(config)#route-map RR-SET-NH 
+R2(config-route-map)#match ip address prefix-list RR-SET-NH 
+R2(config-route-map)#set next-hop 10.0.12.1 
+R2(config-route-map)#exit 
+R1(config)#router bgp 65001 
+R1(config-router)#neighbor 10.0.12.2 route-map RR-SET-NH out"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip precidence dscp ef class-map_voice
+R1(config)#policy-map qos-policy
+R1(config-pmap)#priority percent 1000 voice
+R1(config-pmap)#exit
+R1(config)#interface Ethernet0/0
+R1(config-if)#service-policy output qos-policy
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config)#ntp server 216.239.35.0
+R4(config)#clock timezone EST -5"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)#interface Ethernet0/0
+R1(config-if)#ip helper-address 10.0.1.5
+R1(config-if)#ip forward-protocol udp"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#ip vrf TENANT1
+R3(config-vrf)#rd 300:1
+R3(config-vrf)#route-target import 300:1
+R3(config-vrf)#route-target export 300:1
+R3(config-vrf)#interface Ethernet0/0
+R3(config-if)#vrf member TENANT1
+R3(config-if)#ip address 10.0.23.2 255.255.255.0"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config-if)# interface Ethernet0/2
+R2(config-if)# ip address 10.0.24.2 255.255.255.0
+R2(config-if)# ip unnumbered Loopback0
+R2(config-if)# no shutdown
+R2(config-if)# exit
+
+R2(config-if)# interface Loopback0
+R2(config-if)# ip address 10.255.2.2 255.255.255.255
+R2(config-if)# no shutdown
+R2(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#ip dhcp snooping 
+SW1(config)#ip dhcp snooping vlan 10 
+SW1(config)#interface FastEthernet0/24 
+SW1(config-if)#ip verify source port-trust"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# ipv6 address 2001:db8:1::1/64
+R1(config-if)# ipv6 unicast-routing"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config)#ip vrf BACKUP
+R4(config-vrf)#rd 200:2
+R4(config-vrf)#ipv4afi ipv4
+R4(config-vrf)#ip vrf forwarding BACKUP
+R4(config)#ip route vrf BACKUP 10.0.5.0 255.255.255.0 10.0.14.1 recursive-install"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config-if)# ip helper-address 10.0.2.5
+R3(config-if)# ip helper-address 10.0.2.5 udp-port 67
+R3(config-if)# ip helper-address 10.0.2.5 udp-port 69"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#interface Fa0/24
+SW1(config-if)#ip dhcp snooping trust
+SW1(config-if)#exit
+SW1(config)#ip dhcp snooping
+SW1(config)#ip dhcp snooping vlan 10
+SW1(config)#ip dhcp snooping vlan 20
+SW1(config)#ip dhcp snooping vlan 30
+SW1(config)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip vrf A
+R1(config-vrf)#rd 65500:1
+R1(config-vrf)#exit
+R1(config)#interface Ethernet0/1
+R1(config-if)#vrf forwarding A
+R1(config-if)#ip address 10.0.12.1 255.255.255.0
+R1(config-if)#exit
+R1(config)#ip vrf B
+R1(config-vrf)#rd 65500:2
+R1(config-vrf)#exit
+R1(config)#interface Ethernet0/2
+R1(config-if)#vrf forwarding B
+R1(config-if)#ip address 10.0.14.1 255.255.255.0
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config-if)# interface Ethernet0/0
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# ipv6 address 2001:db8:1::1/64
+R1(config-if)# ipv6 unicast-routing
+R1(config-if)# router ospf 1
+R1(config-if)# router ospf 1 ipv6
+R1(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip dhcp pool LAN-POOL
+R1(dhcp-config)#network 10.0.1.0 255.255.255.0
+R1(dhcp-config)#default-router 10.0.1.1
+R1(dhcp-config)#dns-server 8.8.8.8
+R1(dhcp-config)#exclude-address 10.0.1.1 10.0.1.10
+R1(dhcp-config)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config)#interface vlan 1
+SW1(config-if)#ip address 10.0.10.1 255.255.255.0
+SW1(config-if)#no shutdown"
+Qwen2.5-7B-Base+NoRAG_topo,"R2(config)#ip vrf ENTERPRISE
+R2(config-vrf)#rd 100:100
+R2(config-vrf)#route-target import 100:100
+R2(config-vrf)#route-target export 100:100"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface Fa0/24
+SW1(config-if)# switchport trunk allowed vlan 10,20
+SW1(config-if)# exit
+SW1(config)# ip dhcp snooping
+SW1(config)# ip dhcp snooping trust
+SW1(config)# interface Fa0/24
+SW1(config-if)# ip verify source
+SW1(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"SW1(config-if)# interface vlan 10
+SW1(config-if-vlan-10)# ip helper-address 10.0.1.1
+SW1(config-if-vlan-10)# exit
+SW1(config-if)# interface vlan 20
+SW1(config-if-vlan-20)# ip helper-address 10.0.1.1
+SW1(config-if-vlan-20)# exit
+SW1(config-if)# interface vlan 30
+SW1(config-if-vlan-30)# ip helper-address 10.0.1.1
+SW1(config-if-vlan-30)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config)#ntp authenticate
+R4(config)#ntp trusted-key 1
+R4(config)#ntp key-management md5 1 ntpkey"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config-if)# interface Ethernet0/1  
+R4(config-if)# ip unnumbered Ethernet0/0  
+R4(config-if)# no shutdown  
+R4(config-if)# exit  
+
+R4(config-if)# interface Ethernet0/0  
+R4(config-if)# no shutdown  
+R4(config-if)# exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R1(config)#ip vrf WAN
+R1(config-vrf)#rd 1:1
+R1(config-vrf)#interface Ethernet0/1
+R1(config-if)#vrf forwarding WAN
+R1(config-if)#ip address 10.0.12.1 255.255.255.0
+R1(config-if)#exit
+R1(config)#interface Ethernet0/2
+R1(config-if)#vrf forwarding WAN
+R1(config-if)#ip unnumbered Ethernet0/1
+R1(config-if)#exit"
+Qwen2.5-7B-Base+NoRAG_topo,"R3(config)#ipv6 unicast-routing  
+R3(config-if)#ipv6 address 2001:db8:23::2/64  
+R3(config-if)#ipv6 ospf 1 area 0"
+Qwen2.5-7B-Base+NoRAG_topo,"R4(config)#ip vrf VPN1
+R4(config-vrf)#rd 10:1
+R4(config-vrf)#interface Ethernet0/0
+R4(config-if)#ip vrf forwarding VPN1
+R4(config-if)#ip address 10.0.14.2 255.255.255.0"

@@ -1,0 +1,2026 @@
+model_name,predictions
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+enable secret Str0ng!Pass
+enable password cisco123
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+line console 0
+ exec-timeout 10 30
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+no exec-timeout
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ description Link to SW1
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface vlan 20
+ ip address 10.0.20.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router rip v2
+ network 10.0.1.0
+ network 10.0.12.0
+ no auto-summary
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Loopback0
+ ip address 192.168.100.1 255.255.255.255
+!
+interface Loopback1
+ ipv6 address 2001:db8:1::1/128
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip domain-name network.lab
+ip name-server 8.8.8.8
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Loopback0
+ ip address 10.255.0.1 255.255.255.255
+ ipv6 address 2001:db8:ffff::1/128
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+enable secret MyS3cr3t
+no exec-timeout
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip routing
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local
+!
+aaa authorization exec default group tacacs+ local
+!
+aaa accounting exec default start-stop group tacacs+
+!
+tacacs-server host 10.0.0.10 key TacKey!
+ip domain-name example.com
+crypto key generate rsa
+ip ssh version 2
+ip ssh time-out 60
+ip ssh cipher aes128-cbc
+ip ssh authentication-retries 2
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+enable secret T0p$ecret
+ip domain-name wan.corp
+no ip domain-lookup
+line con 0
+ exec-timeout 5 0
+!
+line vty 0 15
+ login
+ exec-timeout 10 0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/1
+ description 'WAN to R2'
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+ ip default-gateway 10.0.12.2
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+enable secret Admin!2024
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router rip v2
+ no auto-summary
+ passive-interface Ethernet0/0
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Vlan10
+ ip address 10.0.10.1 255.255.255.0
+ no shutdown
+!
+interface Vlan20
+ ip address 10.0.20.1 255.255.255.0
+ no shutdown
+!
+interface Vlan30
+ ip address 10.0.30.1 255.255.255.0
+ no shutdown
+!
+interface Vlan99
+ ip address 10.0.99.1 255.255.255.0
+ no shutdown
+!
+ip default-gateway 10.0.99.254
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Loopback1
+ ip address 2.2.2.2 255.255.255.255
+!
+router ospf
+ router-id 1.1.1.1
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+enable secret P@ssw0rd!
+ip domain-name branch.corp
+ip name-server 8.8.8.8
+no ip domain-lookup
+interface Loopback0
+!
+ip address 10.255.1.1 255.255.255.255
+line console 0
+ exec-timeout 5 0
+!
+line vty 0 15
+ exec-timeout 15 0
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0.10
+ encapsulation dot1q 10
+ ip address 10.0.10.1 255.255.255.0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2.40
+ encapsulation dot1q 40 native
+!
+interface bridge-group 2
+!
+vlan 40
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface FastEthernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+!
+interface FastEthernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+!
+interface FastEthernet0/2
+ ip address 10.0.14.1 255.255.255.0
+ no shutdown
+!
+interface FastEthernet0/0.10
+ encapsulation dot1q 10
+ ip address 10.0.10.1 255.255.255.0
+ no shutdown
+!
+interface FastEthernet0/0.20
+ encapsulation dot1q 20
+ ip address 10.0.20.1 255.255.255.0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface fastethernet 0/1
+ mdix auto
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk encapsulation dot1q
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0.20
+ ip address 10.0.20.1 255.255.255.0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2.30
+ ip address 10.0.30.1 255.255.255.0
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2.30
+ encapsulation dot1q 30
+ switchport mode trunk
+ switchport trunk allowed vlan add 30
+ switchport trunk group 1
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0.10
+ encapsulation dot1q 10
+ ip address 10.0.10.1 255.255.255.0
+!
+interface Ethernet0/0.20
+ encapsulation dot1q 20
+ ip address 10.0.20.1 255.255.255.0
+!
+ip routing
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ ip unnumbered Loopback0
+!
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ description LAN to SW2
+ no shutdown
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Tunnel0
+ ip address 172.16.0.1 255.255.255.252
+ tunnel source 10.0.1.1
+ tunnel destination 10.0.12.2
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+crypto isakmp policy 1
+ encryption aes
+ hash sha
+ authentication pre-share
+ encryption-group 1
+ group 2
+!
+crypto isakmp key SecretKey123 address 10.0.12.2
+!
+crypto ipsec transform-set myset esp-aes esp-sha-hmac
+crypto ipsec security-association lifetime seconds 86400
+interface Ethernet0/1
+ ipsec transform-set myset
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0.10
+ ip address 10.0.10.129 255.255.255.128
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Loopback0
+ ip address 10.0.0.1 255.255.255.255
+!
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ encapsulation dot1q 1
+ ip address 10.0.10.1 255.255.255.0
+!
+interface Ethernet0/0.10
+ encapsulation dot1q 10
+ ip address 10.0.10.1 255.255.255.0
+!
+interface Ethernet0/0.20
+ encapsulation dot1q 20
+ ip address 10.0.20.1 255.255.255.0
+!
+interface Ethernet0/0.30
+ encapsulation dot1q 30
+ ip address 10.0.30.1 255.255.255.0
+!
+interface Ethernet0/0.99
+ encapsulation dot1q 99
+ ip address 10.0.99.1
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ encapsulation dot1q 30
+ ip address 10.0.30.1 255.255.255.0
+!
+interface Ethernet0/2
+ encapsulation dot1q 40 native
+ ip address 10.0.40.1 255.255.255.0
+!
+ip routing
+interface Loopback0
+ ip address 10.255.3.3 255.255.255.255
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface fastethernet 0/24
+ mdix auto
+ duplex full
+!
+!
+end
+[/configs/switch2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/0
+ ip unnumbered Loopback0
+!
+interface Ethernet0/1
+ ip unnumbered Loopback0
+!
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ lacp rate fast
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface GigabitEthernet0/0
+ spanning-tree vlan 10 uplinkfast max-update-rate 150
+ spanning-tree vlan 20 uplinkfast max-update-rate 150
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface GigabitEthernet0/0
+ spanning-tree vlan 30 guard root
+!
+!
+end
+[/configs/switch2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface fasteth0/1
+ lacp port-priority 16000
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/1
+ switchport mode access
+!
+interface Fa0/24
+ switchport mode trunk
+!
+vtp mode transparent
+vlan 30
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+vlan 30
+!
+vlan 301
+ private-primary vlan 30
+!
+vlan 302
+ private-community vlan 30
+!
+!
+end
+[/configs/switch2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+vlan 10
+!
+aging-time 600
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ switchport mode trunk
+ switchport trunk allowed vlan add 10,101
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Port-channel 1
+ ipv6 ra guard policy raguard-policy
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+vlan 10
+!
+spanning-tree priority 32768
+spanning-tree uplinkfast forward-time 8
+spanning-tree uplinkfast update-rate 200
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/1
+ channel-group 1 mode active
+ lacp rate fast
+ lacp port-priority 4096
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/1
+ switchport mode private-vlan host-association
+ switchport private-vlan host-association 10 11
+ switchport private-vlan host-association 11 12
+ switchport private-vlan mapping 10 11
+ switchport private-vlan mapping 11 12
+ switchport private-vlan mapping 12 10
+ switchport trunk allowed vlan add 10 11
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+vlan 10
+ name DATA
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface Fa0/1
+ switchport mode access
+ switchport access vlan 30
+!
+!
+end
+[/configs/switch2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface GigabitEthernet0/0
+ spanning-tree vlan 1 priority 8192
+ spanning-tree vlan 1 hello-time 2
+ spanning-tree vlan 1 max-age 20
+!
+!
+end
+[/configs/switch2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+vtp mode transparent
+vlan 10
+ name DATA
+!
+vlan 20
+ name VOICE
+!
+vlan 30
+ name MANAGEMENT
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface GigabitEthernet0/0
+ channel-group 1 mode active
+ channel-group 1 mode active
+!
+interface range Fa0/1-24
+ channel-group 1 mode active
+!
+interface GigabitEthernet0/1
+ ip load-sharing source-dest-ip
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW2
+!
+interface fastethernet 0/1
+ lacp port-priority 64000
+!
+!
+end
+[/configs/switch2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/24
+ switchport mode trunk
+ switchport trunk allowed vlan add 10,999
+!
+monitor-span source vlan 10 destination vlan 999
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip access-list extended 110
+ permit tcp any host 10.0.0.0 eq telnet
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip access-list extended BLOCK-WEB
+ deny tcp 192.168.2.0 0.0.0.255 any eq www
+ permit ip any any
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface GigabitEthernet0/0
+ ip access-group BLOCK-WEB in interface Ethernet0/0
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/1
+ ip source guard
+ ip source binding vlan 10 mac 00aa.bbcc.0001 ip 10.0.1.10
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface fa0/1
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 3
+ switchport port-security violation shutdown
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip service-object tcp
+interface GigabitEthernet0/0
+ service-object web-services
+ port 80
+ port 443
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip security-zone inside
+interface GigabitEthernet0/0
+ ip security-zone outside
+!
+interface Ethernet0/1
+ security-zone inside
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip access-list extended MGMT-ACL
+ 10 permit ip any any
+ 20 deny ip any any
+ 30 permit ip any any
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface GigabitEthernet0/0
+ access-list xyz123 line 25 permit ip host 10.5.5.10 any
+ access-list xyz123 line 30 deny ip host 10.6.6.1 255.255.255.0 any
+!
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip access-list extended PROTECT-SERVER
+ deny ip 172.20.0.0 0.0.255.255 any
+ permit ip any any
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip access-group 120 out
+ ip access-group LAN-IN in
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+zone-pair security INSIDE-to-OUTSIDE source-address any destination-address any
+ inspection-policy ZBFW-POLICY
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/1
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation restrict
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/1
+ ip access-group 2 in
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip access-list standard 10
+ permit ip host 192.168.1.100 any
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip nat outside
+!
+ip access-list extended 1
+ permit ip any any
+!
+ip nat inside source list 1 interface Ethernet0/0 overload
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip access-list extended 150
+ deny icmp any any
+ permit tcp any any eq 443
+ permit udp any any eq 53
+ permit tcp any host 10.0.23.1 eq 22
+ deny ip any any log
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+zone-based-firewall zonename inside
+interface GigabitEthernet0/0
+ zone-based-firewall zonename dmz
+ zone-based-firewall zonename outside
+!
+interface Ethernet0/0
+ zone-based-firewall inside
+!
+interface Ethernet0/1
+ zone-based-firewall dmz
+!
+interface Ethernet0/2
+ zone-based-firewall outside
+!
+zone-pair security ZBFW-IN zone inside zone outside
+ permit any any
+!
+zone-pair security ZBFW-DMZ zone dmz zone outside
+ permit any any
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip access-list standard 20
+ permit 192.168.1.0 0.0.0.255
+ deny any
+!
+line vty 0 4
+ ip access-group 20 in
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/1
+ switchport port-security
+ switchport port-security maximum 2
+!
+interface Fa0/2
+ switchport port-security
+ switchport port-security maximum 1
+ shutdown
+!
+interface Fa0/3
+ switchport port-security
+ switchport port-security maximum 3
+ switchport port-security violation protect
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ipTestingModule HSRP
+interface GigabitEthernet0/0
+ snmp trap enable
+ snmp server host 10.0.1.5 traps community netops
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ standby 2 ip 10.0.1.1
+ standby 2 priority 110
+ standby 2 track ipmac 60
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip hsrp 10 icmp-redir-enable
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+vrrp vrid 1 ip 10.0.1.254
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ glbp 5 hello 5
+ glbp 5 hold-time 15
+ glbp 5 load-share weighted
+ glbp 5 priority 120
+ glbp 5 preempt-delay 30
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ standby 1 ip 10.0.1.254
+ standby 1 priority 110
+ standby 1 preempt
+ standby 1 timer hello 3
+ standby 1 timer hold 10
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ipv6 vrrp-v3 group 10 virtual-ip 2001:db8:2::fe
+ ipv6 vrrp-v3 group 10 priority 150
+ ipv6 vrrp-v3 group 10 preempt-delay 5
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ standby 1 ip 10.0.1.254
+ standby 1 priority 100
+ standby 1 preempt
+ standby 1 icmp redirect disable
+ standby 1 track 1 ip next-hop 10.0.1.254
+ standby 2 ip 10.0.1.254 follow-group 1
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ standby 1 ip 10.0.1.254
+ standby 1 priority 110
+ standby 1 preempt
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ vrrp 1 ip 10.0.2.254
+ vrrp 1 priority 120
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface GigabitEthernet0/0
+ track ip line-protocol Ethernet0/1
+ hsrp 1 priority decrement 20
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ bfd interval 300 min_rx 300 multiplier 3
+ standby 1 ip 10.0.1.2
+ standby 1 priority 110
+ standby 1 preempt
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip glbp group 3 hello 3 s hold 10 s
+ ip glbp group 3 redirect 1800 s
+ ip glbp group 3 timeout 28800 s
+ ip glbp group 3 load-balancing round-robin
+ ip glbp group 3 priority 90
+ ip glbp group 3 preempt-delay 45
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip vrrp vrid 5 priority 200 preempt-delay 60 advertise-interval 3
+interface Ethernet0/0
+ ip vrrp 5 priority 200 preempt-delay 60 advertise-interval 3
+ ip vrrp 5 virtual-ip 10.0.1.254
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ standby 1 ip 10.0.1.253
+ standby 1 priority 110
+ standby 1 preempt
+ standby 1 timer hello 3
+ standby 1 timer hold 10
+ standby 2 ip 10.0.1.254
+ standby 2 priority 90
+ standby 2 preempt
+ standby 2 timer hello 3
+ standby 2 timer hold 10
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ipTestingModule hsrp
+interface GigabitEthernet0/0
+ snmp trap enable
+ snmp server host 10.0.1.5 community monitor
+ snmp server host 10.0.1.6 community netmgmt
+!
+interface Ethernet0/0
+ ip hsrp 10 redirect
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ ipv6 address 2001:db8:1::1/64
+ vrrp 2 ip 10.0.1.254 priority 110 preempt
+ vrrp 2 ipv6 2001:db8:1::fe priority 110
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ glbp 10 hello-interval 5
+ glbp 10 hold-time 18
+ glbp 10 redirect-interval 1800
+ glbp 10 timeout 28800
+ glbp 10 host-dependent
+ glbp 10 priority 150
+ glbp 10 preempt-delay 30
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 10.0.10.1 255.255.255.0
+ standby 1 ip 10.0.10.254
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 10.0.20.1 255.255.255.0
+ standby 2 ip 10.0.20.254
+ standby 2 priority 110
+ standby 2 preempt
+!
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 10.0.30.1 255.255.255.0
+ standby 3 ip 10.0.30.254
+ standby
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface Ethernet0/2
+ ip glbp group 1 virtual-ip 10.0.2.254
+ ip glbp group 1 priority 100
+ ip glbp group 1 load-balance round-robin
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router bgp 65001
+ neighbor 10.0.12.2 remote-as 65002
+ no bgp default ipv4-unicast
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router bgp 65001
+ neighbor 10.0.12.2 remote-as 65002
+ neighbor 10.0.12.2 update-source Loopback0
+ address-family ipv4 unicast
+  network 10.0.1.0 mask 255.255.255.0
+  neighbor 10.0.12.2 activate
+!
+route-map SET-MED permit 10
+!
+route-map SET-MED set-med 50
+!
+router bgp 65001
+!
+ip prefix-list MY-PREFIXSEQ seq 1 permit 10.0.1.0/24
+!
+route-map SET-MED set-community no-advertise
+!
+route-map SET-MED set-community no-export
+!
+route-map SET-MED set-community no-import
+!
+route-map SET-MED set-community no-synchronize
+!
+route-map SET-MED set-community no-prepend
+!
+route-map SET-MED set-community no-override
+!
+route-map SET
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router bgp 65002
+ aggregate-address 10.0.0.0 255.0.0.0 summary-only as-set
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip vrf CUSTOMER-A
+ rd 200:1
+ route-target import 200:100
+ route-target export 200:100
+!
+interface Ethernet0/2
+ vrf forwarding CUSTOMER-A
+!
+ ip address 10.0.14.1 255.255.255.0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router ospfv3 2
+ adjacency stagger initial 5 maximum 30 ipv4-unicast
+ adjacency stagger initial 5 maximum 30 ipv6-unicast
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip bgp 65001
+interface GigabitEthernet0/0
+ maximum-paths ibgp 4
+!
+route-map RR-NEXTHOP out
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router bgp 65001
+ bgp router-id 10.0.12.1
+ neighbor 10.0.12.2 route-map RR-NEXTHOP out
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip vrf MGMT
+ ip route vrf MGMT 192.168.50.0 255.255.255.0 10.0.12.2
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router bgp 65002
+ summary-only
+ aggregate-address 10.0.0.0 255.0.0.0
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router bgp 65001
+ graceful-restart restart-time 300
+ peer-group IBGP-PEERS
+ peer IBGP-PEERS enable
+ neighbor 10.0.12.2 peer-group IBGP-PEERS
+ neighbor 10.0.14.2 peer-group IBGP-PEERS
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/1
+ ip ospf network point-to-point
+ ip ospf cost 10
+ ip ospf message-digest-key 1 md5 ospfpass
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router eigrp 100
+ network 10.0.0.0 0.255.255.255
+ network 172.16.0.0 0.15.255.255
+ no auto-summary
+ eigrp timer hello 5
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip vrf CORP
+ rd 100:10
+ ipv4 vrf CORP
+ address-family ipv4
+  ip route 10.0.99.0 255.255.255.0 10.0.23.1
+  ipv6 vrf CORP
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip prefix-list ADVERTISED seq 1 permit 10.0.0.0/8
+!
+route-map POLICY-OUT permit 10
+ match ip address ADVERTISED
+ set local-preference 200
+ !
+!
+router bgp 65001
+ neighbor 10.0.12.2 route-map POLICY-OUT out
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router ospf 1
+ router-id 1.1.1.1
+ network 10.0.1.0 0.0.0.255 area 0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+router ospf 1
+ router-id 2.2.2.2
+ network 10.0.12.0 0.0.0.255 area 0
+ network 2.2.2.2 0.0.0.0 area 0
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router bgp 65001
+ neighbor 10.0.14.2 remote-as 65001
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+router ospfv3 1
+ ospf6 adjacency-stagger initial 10
+ ospf6 adjacency-stagger maximum 50
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip prefix-list RR-SET-NH seq 5 permit 10.0.12.1/32
+!
+route-map RR-SET-NH
+ match ip address prefix-list RR-SET-NH
+ set next-hop 10.0.12.1
+!
+!
+end
+[/configs/router2.cfg]
+
+[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+router bgp 65001
+ neighbor 10.0.12.2 route-map RR-SET-NH out
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip precidence dscp ef class-map_voice
+policy-map qos-policy
+ priority percent 1000 voice
+!
+interface Ethernet0/0
+ service-policy output qos-policy
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ntp server 216.239.35.0
+clock timezone EST -5
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip helper-address 10.0.1.5
+ ip forward-protocol udp
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ip vrf TENANT1
+ rd 300:1
+ route-target import 300:1
+ route-target export 300:1
+!
+interface Ethernet0/0
+ vrf member TENANT1
+!
+ ip address 10.0.23.2 255.255.255.0
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+interface Ethernet0/2
+ ip address 10.0.24.2 255.255.255.0
+ ip unnumbered Loopback0
+ no shutdown
+!
+interface Loopback0
+ ip address 10.255.2.2 255.255.255.255
+ no shutdown
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+ip dhcp snooping
+ip dhcp snooping vlan 10
+interface FastEthernet0/24
+ ip verify source port-trust
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ipv6 address 2001:db8:1::1/64
+ ipv6 unicast-routing
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip vrf BACKUP
+ rd 200:2
+ ipv4afi ipv4
+!
+ip vrf forwarding BACKUP
+!
+ip route vrf BACKUP 10.0.5.0 255.255.255.0 10.0.14.1 recursive-install
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+interface GigabitEthernet0/0
+ ip helper-address 10.0.2.5
+ ip helper-address 10.0.2.5 udp-port 67
+ ip helper-address 10.0.2.5 udp-port 69
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/24
+ ip dhcp snooping trust
+!
+ip dhcp snooping
+ip dhcp snooping vlan 10
+ip dhcp snooping vlan 20
+ip dhcp snooping vlan 30
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip vrf A
+ rd 65500:1
+!
+interface Ethernet0/1
+ vrf forwarding A
+!
+ ip address 10.0.12.1 255.255.255.0
+!
+ip vrf B
+ rd 65500:2
+!
+interface Ethernet0/2
+ vrf forwarding B
+!
+ ip address 10.0.14.1 255.255.255.0
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ ipv6 address 2001:db8:1::1/64
+ ipv6 unicast-routing
+!
+router ospf 1
+!
+router ospf 1 ipv6
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip dhcp pool LAN-POOL
+ address-family ipv4 unicast
+  network 10.0.1.0 255.255.255.0
+  default-router 10.0.1.1
+  dns-server 8.8.8.8
+  exclude-address 10.0.1.1 10.0.1.10
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface vlan 1
+ ip address 10.0.10.1 255.255.255.0
+ no shutdown
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router2.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R2
+!
+ip vrf ENTERPRISE
+ rd 100:100
+ route-target import 100:100
+ route-target export 100:100
+!
+!
+end
+[/configs/router2.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface Fa0/24
+ switchport trunk allowed vlan 10,20
+!
+ip dhcp snooping
+ip dhcp snooping trust
+interface Fa0/24
+ ip verify source
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/switch1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname SW1
+!
+interface vlan 10
+ ip helper-address 10.0.1.1
+!
+interface vlan 20
+ ip helper-address 10.0.1.1
+!
+interface vlan 30
+ ip helper-address 10.0.1.1
+!
+!
+end
+[/configs/switch1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ntp authenticate
+ntp trusted-key 1
+ntp key-management md5 1 ntpkey
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+interface Ethernet0/1
+ ip unnumbered Ethernet0/0
+ no shutdown
+!
+interface Ethernet0/0
+ no shutdown
+!
+!
+end
+[/configs/router4.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router1.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R1
+!
+ip vrf WAN
+ rd 1:1
+!
+interface Ethernet0/1
+ vrf forwarding WAN
+!
+ ip address 10.0.12.1 255.255.255.0
+!
+interface Ethernet0/2
+ vrf forwarding WAN
+!
+ ip unnumbered Ethernet0/1
+!
+!
+end
+[/configs/router1.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router3.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R3
+!
+ipv6 unicast-routing
+interface GigabitEthernet0/0
+ ipv6 address 2001:db8:23::2/64
+ ipv6 ospf 1 area 0
+!
+!
+end
+[/configs/router3.cfg]"
+Qwen2.5-7B-Base+NoRAG_topo,"[configs/router4.cfg]
+!RANCID-CONTENT-TYPE: cisco
+!
+hostname R4
+!
+ip vrf VPN1
+ rd 10:1
+!
+interface Ethernet0/0
+!
+ip vrf forwarding VPN1
+ ip address 10.0.14.2 255.255.255.0
+!
+!
+end
+[/configs/router4.cfg]"
