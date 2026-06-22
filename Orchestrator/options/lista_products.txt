@@ -1,0 +1,77 @@
+Routers
+1000 Series Integrated Services Routers
+4000 Series Integrated Services Routers
+8000 Series Routers
+8100 Series Secure Routers
+8200 Series Secure Routers
+8300 Series Secure Routers
+8500 Series Secure Routers
+ASR 1000 Series Aggregation Services Routers
+ASR 900 Series
+ASR 900 Series Aggregation Services Routers
+ASR 9000 Series Aggregation Services Routers
+ASR 920 Series
+ASR 920 Series Aggregation Services Router
+Catalyst 8200 Series Edge Platforms
+Catalyst 8300 Series Edge Platforms
+Catalyst 8500 Series Edge Platforms
+Catalyst 8500L Series Edge Platforms
+Catalyst IR1100 Rugged Series Routers
+Cisco 4000 Series Integrated Services Routers
+Cisco ASR 1000 Series Aggregation Services Routers
+Cisco ASR 900 Router Series
+Cisco ASR 900 Series
+Cisco ASR 920
+Cisco ASR 920 Router Series
+Cisco ASR 920 Routers
+Cisco ASR 920 Series
+Cisco ASR 920 Series Routers
+Cisco Catalyst 8000V Edge Software
+Cisco Catalyst 8300 Series Edge Platforms
+Cisco NCS 4200 Series
+Cisco NCS 520
+Cisco NCS 520 Series
+Cisco NCS 520 Series Router
+Cisco Network Convergence System 560 Series Routers
+Cloud Services Router 1000V Series
+NCS 4200 Series
+Network Convergence System 500 Series Routers
+Network Convergence System 540 Series Routers
+Network Convergence System 560 Series Routers
+Routers - Retired Products
+
+Switches
+C9350 Series Smart Switches
+C9610 Series Smart Switches
+Catalyst 3650 Series Switches
+Catalyst 3850 Series Switches
+Catalyst 9200 Series Switches
+Catalyst 9300 Series Switches
+Catalyst 9400 Series Switches
+Catalyst 9500 Series Switches
+Catalyst 9600 Series Switches
+Embedded Services 3300 Series Switches
+Switches - Retired Products
+
+Otros / ambiguos
+Catalyst 9800 Series Wireless Controllers
+Catalyst 9800 Wireless Controllers for Cloud
+Catalyst IE3200 Rugged Series
+Catalyst IE3300 Rugged Series
+Catalyst IE3400 Heavy Duty Series
+Catalyst IE3400 Rugged Series
+Cisco
+Cisco 1000 Series
+Cisco 1100 Series
+Collaboration Endpoints - Retired Products
+Conferencing - Retired Products
+Contact Center - Retired Products
+Network Convergence System 4200 Series
+Network Convergence System 5500 Series
+Optical Networking - Retired Products
+Security - Retired Products
+Servers - Unified Computing (UCS) Retired Products
+Storage Networking Retired Products
+Unified Border Element
+Video - Retired Products
+Wireless - Retired Products
