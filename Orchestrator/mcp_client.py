@@ -116,7 +116,7 @@ class MCPServerSession:
             self.config.command,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=None,   # deja logs visibles en consola
+            stderr=subprocess.DEVNULL,
             text=True,
             encoding="utf-8",
             bufsize=1,

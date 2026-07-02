@@ -35,9 +35,9 @@ class ExecutionController:
     def run(self, requirement: dict) -> ExecutionContext:
         """
         Executes the orchestration pipeline:
-        1. Classification
-        2. Step Generation
-        3. Configuration Generation
+        1. Intent normalization
+        2. RAG retrieval
+        3. Configuration generation
         4. Verification
         5. Refinement loop (if needed)
         """
@@ -62,6 +62,101 @@ class ExecutionController:
                 print(f"Warning: Failed to initialize CSV logging: {e}")
 
             flm_server = self.mcp_client.server("flm")
+
+            # -----------------------------------
+            # 1. Intent Normalization
+            # -----------------------------------
+            arch_base = self._build_arch_base(requirement.get("rag_filters", []))
+            context.rag_arch_base = arch_base
+
+            normalization_prompt = self.prompt_manager.build_intent_normalization_prompt(
+                context,
+                arch_base
+            )
+            normalization_response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": normalization_prompt}
+            )
+
+            context.update(normalization_prompt, normalization_response)
+
+            if normalization_response.get("isError", True):
+                context.mark_failed("Intent normalization failed.")
+                return context
+
+            normalized_intent = self._clean_model_text(
+                self._extract_response_text(normalization_response) or context.intent
+            )
+            context.normalized_intent = normalized_intent
+
+            # -----------------------------------
+            # 2. RAG Retrieval
+            # -----------------------------------
+            semantic_query = normalized_intent
+            context.rag_query = semantic_query
+
+            retrieval_response = flm_server.call_tool(
+                "retrieve_chunks",
+                {
+                    "semantic_query": semantic_query,
+                    "os": arch_base["os"],
+                    "version": arch_base["version"],
+                    "device_type": arch_base["device_type"],
+                    "product": arch_base["product"],
+                    "k": 4
+                }
+            )
+
+            if retrieval_response.get("isError", True):
+                context.update("RAG_RETRIEVAL", {"status": "failed", "data": retrieval_response})
+                context.mark_failed("RAG retrieval failed.")
+                return context
+
+            retrieval_data = self._extract_retrieval_data(retrieval_response)
+            retrieved_context = self._extract_retrieved_context(retrieval_data)
+            context.retrieved_chunks = retrieval_data.get("chunks", [])
+            context.retrieved_context = retrieved_context
+
+            context.update("RAG_RETRIEVAL", {
+                "status": "success",
+                "data": retrieval_data
+            })
+
+            # -----------------------------------
+            # 3. Configuration Generation
+            # -----------------------------------
+            config_prompt = self.prompt_manager.build_config_prompt_rag(
+                context,
+                retrieved_context
+            )
+
+            config_response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": config_prompt}
+            )
+
+            context.update(config_prompt, config_response)
+
+            if config_response.get("isError", True):
+                context.mark_failed("Configuration generation failed.")
+                return context
+
+            # -----------------------------------
+            # 4. Verification
+            # -----------------------------------
+            verification_success = self._verify_configuration(context)
+
+            # -----------------------------------
+            # 5. Refinement Loop (if needed)
+            # -----------------------------------
+            if not verification_success:
+                self._refinement_loop(context)
+
+            if context.state != ExecutionState.SUCCESS:
+                if context.state == ExecutionState.RUNNING:
+                    context.mark_failed("Execution finished without a successful verification.")
+
+            return context
 
             '''
             # -----------------------------------
@@ -170,6 +265,159 @@ class ExecutionController:
     # ==========================================================
     # PRIVATE METHODS
     # ==========================================================
+
+    def _build_arch_base(self, rag_filters: list[dict]) -> dict:
+        """
+        Builds the ARCH_BASE payload sent to the Colab retrieval endpoint.
+        Multiple CLI selections are merged into one architecture scope.
+        """
+        if not rag_filters:
+            raise ValueError("At least one RAG filter selection is required.")
+
+        arch_base = {
+            "os": [],
+            "version": [],
+            "device_type": [],
+            "product": [],
+        }
+
+        for item in rag_filters:
+            self._append_unique(arch_base["device_type"], item.get("device_type"))
+            self._append_unique(arch_base["product"], item.get("product"))
+            self._append_unique(arch_base["os"], item.get("operating_system") or item.get("os"))
+
+            for version in self._expand_version_family(item.get("version")):
+                self._append_unique(arch_base["version"], version)
+
+        missing = [key for key, value in arch_base.items() if not value]
+        if missing:
+            raise ValueError(f"Incomplete RAG filter selection. Missing: {', '.join(missing)}")
+
+        return arch_base
+
+    def _append_unique(self, values: list, value):
+        if value is None:
+            return
+        if isinstance(value, (list, tuple, set)):
+            for item in value:
+                self._append_unique(values, item)
+            return
+        text = str(value).strip()
+        if text and text.lower() != "not defined" and text not in values:
+            values.append(text)
+
+    def _expand_version_family(self, version) -> list[str]:
+        """
+        Expands a selected version into the version family variants used by
+        the RAG metadata, e.g. 17.12.1 -> 17.12.1, 17.12.x, 17.x.
+        """
+        if not version:
+            return []
+
+        text = str(version).strip()
+        if not text or text.lower() == "not defined":
+            return []
+
+        parts = text.split(".")
+        versions = [text]
+
+        if len(parts) >= 2:
+            family = f"{parts[0]}.{parts[1]}.x"
+            if family not in versions:
+                versions.append(family)
+
+        major = f"{parts[0]}.x"
+        if major not in versions:
+            versions.append(major)
+
+        return versions
+
+    def _extract_response_text(self, response: dict) -> str:
+        content = response.get("content", [])
+        if content and isinstance(content, list):
+            text = content[0].get("text", "")
+            if isinstance(text, str):
+                return text
+
+        data = response.get("data")
+        if isinstance(data, str):
+            return data
+
+        return ""
+
+    def _clean_model_text(self, text: str) -> str:
+        text = str(text or "").strip()
+        text = text.replace("```json", "").replace("```", "").strip()
+        for prefix in ["Normalized intent:", "Intent:", "Output:", "Result:", "Query:"]:
+            if text.lower().startswith(prefix.lower()):
+                text = text[len(prefix):].strip()
+        return text
+
+    def _build_rag_query(self, requirement: str, normalized_intent: str) -> str:
+        return (
+            "Normalized intent:\n"
+            f"{normalized_intent}\n\n"
+            "Original requirement:\n"
+            f"{requirement}"
+        ).strip()
+
+    def _extract_retrieval_data(self, response: dict) -> dict:
+        struct = response.get("structuredContent")
+        if isinstance(struct, dict) and struct:
+            return struct
+
+        data = response.get("data")
+        if isinstance(data, dict):
+            return data
+
+        text = self._extract_response_text(response)
+        if not text:
+            return {"retrieved_context": "No relevant Cisco documentation was retrieved."}
+
+        try:
+            parsed = json.loads(text)
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception:
+            pass
+
+        return {"retrieved_context": text}
+
+    def _extract_retrieved_context(self, retrieval_data: dict) -> str:
+        retrieved_context = retrieval_data.get("retrieved_context")
+        if isinstance(retrieved_context, str) and retrieved_context.strip():
+            return retrieved_context
+
+        chunks = retrieval_data.get("chunks", [])
+        if chunks:
+            return self._format_retrieved_chunks(chunks)
+
+        return "No relevant Cisco documentation was retrieved."
+
+    def _format_retrieved_chunks(self, chunks: list[dict]) -> str:
+        blocks = []
+        for index, chunk in enumerate(chunks, start=1):
+            parts = [
+                f"[DOCUMENTATION CHUNK {index}]",
+                f"Score: {float(chunk.get('score', 0.0)):.4f}",
+                f"Retrieval scope: {chunk.get('retrieval_scope', '')}",
+                f"Device type: {chunk.get('device_type', '')}",
+                f"Product: {chunk.get('product', '')}",
+                f"OS: {chunk.get('os', '')}",
+                f"Version: {chunk.get('version', '')}",
+                f"Guide: {chunk.get('configuration_guide', '')}",
+                f"Chapter: {chunk.get('chapter', '')}",
+                f"Section: {chunk.get('section', '')}",
+                "",
+                "Commands:",
+                str(chunk.get("commands", "")),
+                "",
+                "Examples:",
+                str(chunk.get("examples", "")),
+            ]
+            blocks.append("\n".join(parts).strip())
+
+        return "\n\n".join(blocks)
 
     def _check_parse_status(self, response: dict) -> bool:
         """
@@ -323,7 +571,7 @@ class ExecutionController:
         Builds feedback and updates context.
         """
         from utils.create_snapshot import create_snapshot_from_string
-        from utils.create_snapshot import merge_snapshots
+        from utils.create_snapshot import merge_snapshots_overlay
         import os
 
         # 1. Obtener la configuración parcial generada por el LLM
@@ -344,12 +592,24 @@ class ExecutionController:
         from utils.batfish_parser import BatfishPredictionParser
         parser = BatfishPredictionParser(none_value="")
         parsed_llm_config = parser.parse_prediction(llm_config_output)
+        if not str(parsed_llm_config or "").strip():
+            feedback_data = {
+                "errors": [{
+                    "File": "generated configuration",
+                    "Status": "UNPARSEABLE",
+                    "Invalid line": "N/A",
+                    "Reason": "The generated output could not be converted into a Batfish verification overlay."
+                }],
+                "instruction": "Repair the configuration while preserving the original requirement and valid commands."
+            }
+            context.update("VERIFICATION_CALL", {"status": "failed", "data": feedback_data})
+            return False
 
         # 2. Obtener la configuración base completa desde el PromptManager
         base_config_text = self.prompt_manager.get_base_config_text()
 
         # 3. Fusionar la base con los cambios parseados del LLM para obtener el snapshot final
-        final_config_data = merge_snapshots(base_config_text, parsed_llm_config)
+        final_config_data = merge_snapshots_overlay(base_config_text, parsed_llm_config)
 
         # 4. Crear el snapshot para Batfish a partir de la configuración fusionada
         batfish_server = self.mcp_client.server("batfish")
@@ -373,7 +633,7 @@ class ExecutionController:
         if all_passed:
             verification_data = {
                 "status": status_response,
-                "message": "Validacion exitosa: todos los estados son PASSED."
+                "message": "Validacion estructural exitosa: Batfish pudo parsear el snapshot con el overlay generado."
             }
             context.update("VERIFICATION_CALL", {"status": "success", "data": verification_data})
             context.mark_success()

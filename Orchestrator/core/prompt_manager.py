@@ -17,6 +17,8 @@ class PromptManager:
         self.classifier_promt_template = self._load_text("classifier_promt.txt")
         self.tasks_prompt_template = self._load_text("tasks_prompt.txt")
         self.config_prompt_template = self._load_text("config_prompt.txt")
+        self.intent_normalization_template = self._load_text("intent_normalization_prompt.txt")
+        self.config_rag_prompt_template = self._load_text("config_prompt_rag.txt")
         self.repair_template = self._load_text("post_verification_prompt.txt")
 
         # Load static base topology from config.txt as raw text
@@ -100,6 +102,30 @@ class PromptManager:
 
         return prompt
 
+    def build_intent_normalization_prompt(self, context, arch_base: dict) -> str:
+        """
+        Builds the first RAG prompt: normalize the user requirement into a
+        concise technical query for retrieval.
+        """
+        return self.intent_normalization_template.format(
+            requirement=context.intent,
+            os=arch_base.get("os", []),
+            version=arch_base.get("version", []),
+            device_type=arch_base.get("device_type", []),
+            product=arch_base.get("product", []),
+        )
+
+    def build_config_prompt_rag(self, context, retrieved_context: str) -> str:
+        """
+        Builds the generation prompt using the topology, user requirement,
+        and the retrieved Cisco documentation returned by Colab.
+        """
+        return self.config_rag_prompt_template.format(
+            topology=self.topology_text,
+            retrieved_context=retrieved_context or "No relevant Cisco documentation was retrieved.",
+            requirement=context.intent,
+        )
+
     def build_refinement_prompt(self, context):
         """
         Builds prompt for configuration repair based on verifier findings.
@@ -109,8 +135,10 @@ class PromptManager:
         verification_report = self._extract_latest_verification_report(context)
 
         prompt = self.repair_template.format(
+            requirement=context.intent,
             device_config=current_config if current_config else "{}",
             verification_report=json.dumps(verification_report, indent=2) if verification_report else "{}",
+            retrieved_context=self._build_repair_retrieved_context(context),
             topology=self.topology_text
         )
         return prompt
@@ -154,3 +182,33 @@ class PromptManager:
                 response = iteration.get("response", {})
                 return response.get("data", {})
         return {}
+
+    def _build_repair_retrieved_context(self, context) -> str:
+        chunks = getattr(context, "retrieved_chunks", []) or []
+        if chunks:
+            blocks = []
+            for index, chunk in enumerate(chunks[:2], start=1):
+                commands = self._clip_text(str(chunk.get("commands", "")), 700)
+                examples = self._clip_text(str(chunk.get("examples", "")), 700)
+                blocks.append("\n".join([
+                    f"[RETRIEVED CHUNK {index}]",
+                    f"Device type: {chunk.get('device_type', '')}",
+                    f"Product: {chunk.get('product', '')}",
+                    f"Version: {chunk.get('version', '')}",
+                    f"Section: {chunk.get('section', '')}",
+                    "Commands:",
+                    commands,
+                    "Examples:",
+                    examples,
+                ]).strip())
+            return "\n\n".join(blocks)
+
+        retrieved_context = getattr(context, "retrieved_context", "") or ""
+        return self._clip_text(retrieved_context, 1800) if retrieved_context else "No relevant Cisco documentation was retrieved."
+
+    @staticmethod
+    def _clip_text(text: str, limit: int) -> str:
+        text = " ".join(str(text or "").split())
+        if len(text) <= limit:
+            return text
+        return text[:limit].rsplit(" ", 1)[0] + " ..."

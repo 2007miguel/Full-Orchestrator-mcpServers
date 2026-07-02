@@ -77,8 +77,14 @@ class ExecutionContext:
             "id": self.id,
             "created_at": self.created_at,
             "intent": self.intent,
+            "metadata": self.metadata,
             "state": self.state.value,
             "iterations": self.iterations,
             "final_result": self.final_result,
-            "error_message": self.error_message
+            "error_message": self.error_message,
+            "rag_arch_base": getattr(self, "rag_arch_base", None),
+            "normalized_intent": getattr(self, "normalized_intent", None),
+            "rag_query": getattr(self, "rag_query", None),
+            "retrieved_chunks": getattr(self, "retrieved_chunks", []),
+            "retrieved_context": getattr(self, "retrieved_context", None),
         }

@@ -45,6 +45,109 @@ def merge_snapshots(base_content: str, update_content: str) -> str:
     
     return "\n".join(merged_content_parts)
 
+def merge_snapshots_overlay(base_content: str, update_content: str) -> str:
+    """
+    Merges generated device config as an overlay over the base snapshot.
+    Existing device files are preserved; generated top-level blocks add only
+    missing lines to matching blocks instead of replacing the whole file.
+    """
+    base_files = _parse_snapshot_to_dict(base_content)
+    update_files = _parse_snapshot_to_dict(update_content)
+
+    for path, update_file_content in update_files.items():
+        if path in base_files and path.startswith("configs/"):
+            base_files[path] = _overlay_config(base_files[path], update_file_content)
+        else:
+            base_files[path] = update_file_content
+
+    merged_content_parts = []
+    for path, file_content in base_files.items():
+        merged_content_parts.append(f"[{path}]\n{file_content}\n[/{path}]")
+
+    return "\n".join(merged_content_parts)
+
+def _overlay_config(base_config: str, update_config: str) -> str:
+    base_lines = base_config.splitlines()
+    update_sections = _config_sections(update_config)
+
+    for header, children in update_sections:
+        if not header or header.lower().startswith("hostname "):
+            continue
+
+        block_start, block_end = _find_block(base_lines, header)
+        if children and block_start is not None:
+            existing = {line.strip().lower() for line in base_lines[block_start + 1:block_end]}
+            missing_children = [
+                child for child in children
+                if child.strip().lower() not in existing
+            ]
+            if missing_children:
+                base_lines[block_end:block_end] = missing_children
+        elif _line_missing(base_lines, header):
+            block = [header] + children
+            _append_block(base_lines, block)
+
+    return "\n".join(base_lines).strip()
+
+def _config_sections(config_text: str) -> list[tuple[str, list[str]]]:
+    sections = []
+    current_header = None
+    current_children = []
+
+    for raw_line in config_text.splitlines():
+        line = raw_line.rstrip()
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped == "!" or stripped.lower() == "end":
+            continue
+        if stripped.startswith("!RANCID-CONTENT-TYPE"):
+            continue
+
+        if line[:1].isspace():
+            if current_header is not None:
+                current_children.append(line)
+            continue
+
+        if current_header is not None:
+            sections.append((current_header, current_children))
+        current_header = stripped
+        current_children = []
+
+    if current_header is not None:
+        sections.append((current_header, current_children))
+
+    return sections
+
+def _find_block(lines: list[str], header: str):
+    header_key = header.strip().lower()
+    for index, line in enumerate(lines):
+        if line.strip().lower() != header_key:
+            continue
+
+        end = index + 1
+        while end < len(lines):
+            candidate = lines[end]
+            stripped = candidate.strip()
+            if stripped and not candidate[:1].isspace() and stripped != "!":
+                break
+            end += 1
+        return index, end
+
+    return None, None
+
+def _line_missing(lines: list[str], line: str) -> bool:
+    line_key = line.strip().lower()
+    return all(existing.strip().lower() != line_key for existing in lines)
+
+def _append_block(lines: list[str], block: list[str]) -> None:
+    while lines and lines[-1].strip().lower() == "end":
+        lines.pop()
+
+    if lines and lines[-1].strip():
+        lines.append("")
+    lines.extend(block)
+
 def create_snapshot_from_dict(files_dict: dict[str, str], base_dir: str = 'snapshot'):
     files_created = 0
 

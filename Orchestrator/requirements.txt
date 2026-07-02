@@ -2,4 +2,5 @@
 requests
 # Web framework to expose the orchestrator as an API
 fastapi
-uvicorn[standard]
+uvicorn[standard] 
+rich

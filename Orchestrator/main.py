@@ -46,7 +46,7 @@ class ConsoleResultLogger:
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(context.to_dict(), f, indent=2, ensure_ascii=False)
 
-        console.print(f"[green]> Result saved to:[/] {filename}")
+        console.print(f"[green]Result saved to:[/] {filename}")
 
 
 def load_filter_catalog(options_path: Path) -> dict:
@@ -105,7 +105,7 @@ def choose_from_list(
         console.print("[yellow]That number is outside the available options.[/]")
 
 
-def collect_device_filter(filter_catalog: dict) -> dict:
+def collect_device_filters(filter_catalog: dict) -> list[dict]:
     device_types = visible_filter_options(filter_catalog.keys())
     device_type = choose_from_list(
         1,
@@ -134,25 +134,43 @@ def collect_device_filter(filter_catalog: dict) -> dict:
     )
 
     versions = visible_filter_options(filter_catalog[device_type][product][operating_system])
-    version = choose_from_list(
-        4,
-        4,
-        "Version",
-        "Choose the software version for the selected operating system.",
-        versions,
-    )
+    selected_filters = []
 
-    return {
-        "device_type": device_type,
-        "product": product,
-        "operating_system": operating_system,
-        "version": version,
-    }
+    while True:
+        version = choose_from_list(
+            4,
+            4,
+            "Version",
+            "Choose the software version for the selected operating system.",
+            versions,
+        )
+        selected_filters.append({
+            "device_type": device_type,
+            "product": product,
+            "operating_system": operating_system,
+            "version": version,
+        })
+
+        while True:
+            version_action = console.input(
+                "[bold cyan]>[/] Add another version for this same device? (y/n): "
+            ).strip().lower()
+
+            if version_action in ["exit", "quit"]:
+                raise KeyboardInterrupt
+
+            if version_action in ["y", "yes"]:
+                break
+
+            if version_action in ["n", "no"]:
+                return selected_filters
+
+            console.print("[yellow]Please enter y or n.[/]")
 
 
 def print_selected_filters(selected_filters: list[dict]) -> None:
     if not selected_filters:
-        console.print("[yellow]> No RAG filters selected yet.[/]")
+        console.print("[yellow]No RAG filters selected yet.[/]")
         return
 
     table = Table(
@@ -183,10 +201,10 @@ def configure_rag_filters(filter_catalog: dict) -> list[dict]:
     selected_filters = []
 
     render_section("RAG Filter Configuration", "magenta")
-    console.print("> Select the device metadata used to scope the RAG retrieval for this session.")
+    console.print("Select the device metadata used to scope the RAG retrieval for this session.")
 
     while True:
-        selected_filters.append(collect_device_filter(filter_catalog))
+        selected_filters.extend(collect_device_filters(filter_catalog))
 
         render_section("Filter Summary", "green")
         print_selected_filters(selected_filters)
@@ -241,7 +259,7 @@ def main():
     filter_catalog_path = Path(__file__).parent / "options" / "lista_filtro.json"
 
     render_section("Startup", "cyan")
-    console.print("> Preparing NetGen components and MCP server sessions.")
+    console.print("Preparing NetGen components and MCP server sessions.")
 
     requirement_loader = RequirementLoader()
     prompt_manager = PromptManager(templates_path=str(templates_path))
@@ -303,7 +321,7 @@ def main():
     session_rag_filters = configure_rag_filters(filter_catalog)
 
     render_section("Chatbot", "cyan")
-    console.print("> Enter your network requirement. Type 'exit' or 'quit' to leave.")
+    console.print("Enter your network requirement. Type 'exit' or 'quit' to leave.")
 
     # --- Conversational Loop ---
     try:
@@ -319,18 +337,19 @@ def main():
 
             requirement = requirement_loader.load(user_input)
             requirement["rag_filters"] = session_rag_filters
-            console.print(f"[cyan]> Requirement loaded[/] ID: {requirement['request_id']}")
+            console.print(f"[cyan]Requirement loaded[/] ID: {requirement['request_id']}")
 
-            console.print("[cyan]Running orchestration pipeline...[/]")
+            console.print("[cyan]Processing request: normalizing, retrieving, generating, and verifying...[/]")
             final_context = controller.run(requirement)
             model_response = getattr(final_context, "generated_config", "") or final_context.final_result
 
             if model_response:
-                console.print("[bold cyan]> Model response[/]")
+                console.print("[bold cyan]Model response[/]")
                 console.print(str(model_response))
 
             if final_context.is_success():
                 console.print("[green]Requirement processed successfully![/]")
+                console.print("[cyan]You can enter another requirement in the next prompt, or type 'exit' to leave.[/]")
             else:
                 console.print(f"[red]Execution failed.[/] State: {final_context.state.value}")
                 if final_context.error_message:

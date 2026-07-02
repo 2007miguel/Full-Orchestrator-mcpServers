@@ -1,8 +1,9 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
-import os
 import json
+import os
 from typing import Any
+from urllib.parse import urljoin
 
 import requests
 from mcp.server.fastmcp import FastMCP
@@ -10,15 +11,30 @@ from mcp.types import CallToolResult, TextContent
 
 mcp = FastMCP("llm_prompt_mcp")
 
+FLM_BASE_URL_ENV = "FLM_BASE_URL"
 FLM_ENDPOINT_ENV = "FLM_ENDPOINT_URL"
-DEFAULT_FLM_ENDPOINT = "http://localhost:8185/generate"
+DEFAULT_FLM_BASE_URL = "https://accustom-smooth-trilogy.ngrok-free.dev"
 
 
-def _get_flm_endpoint() -> str:
-    endpoint = os.environ.get(FLM_ENDPOINT_ENV, DEFAULT_FLM_ENDPOINT)
-    if not isinstance(endpoint, str) or not endpoint:
-        raise RuntimeError("El endpoint del FLM no está configurado correctamente")
+def _get_flm_base_url() -> str:
+    endpoint = os.environ.get(FLM_BASE_URL_ENV) or os.environ.get(FLM_ENDPOINT_ENV)
+    endpoint = endpoint or DEFAULT_FLM_BASE_URL
+
+    if not isinstance(endpoint, str) or not endpoint.strip():
+        raise RuntimeError("El endpoint del FLM no esta configurado correctamente")
+
+    endpoint = endpoint.strip().rstrip("/")
+    for suffix in ["/generate", "/retrieve"]:
+        if endpoint.endswith(suffix):
+            endpoint = endpoint[: -len(suffix)]
+            breakc
+
     return endpoint
+
+
+def _get_flm_endpoint(route: str) -> str:
+    route = route.strip("/")
+    return urljoin(_get_flm_base_url() + "/", route)
 
 
 def _extract_simple_text(data: Any) -> str:
@@ -37,18 +53,18 @@ def _extract_simple_text(data: Any) -> str:
 def send_prompt(prompt: str) -> CallToolResult:
     if not prompt or not isinstance(prompt, str):
         return CallToolResult(
-            content=[TextContent(type="text", text="Prompt inválido")],
+            content=[TextContent(type="text", text="Prompt invalido")],
             isError=True,
         )
 
-    endpoint = _get_flm_endpoint()
+    endpoint = _get_flm_endpoint("generate")
 
     try:
         resp = requests.post(endpoint, json={"prompt": prompt}, timeout=60)
         resp.raise_for_status()
     except requests.RequestException as exc:
         return CallToolResult(
-            content=[TextContent(type="text", text=f"Error de comunicación: {exc}")],
+            content=[TextContent(type="text", text=f"Error de comunicacion: {exc}")],
             isError=True,
         )
 
@@ -64,32 +80,33 @@ def send_prompt(prompt: str) -> CallToolResult:
         isError=False,
     )
 
+
 @mcp.tool()
 def retrieve_chunks(
     semantic_query: str,
-    device_type: str = "unknown",
-    os: str = "IOS XE",
-    version: str = "17",
-    product: str = "unknown",
-    k: int = 5,
-    candidate_k: int = 12,
+    device_type: list[str],
+    os: list[str],
+    version: list[str],
+    product: list[str],
+    k: int = 4,
 ) -> CallToolResult:
     if not semantic_query or not isinstance(semantic_query, str):
         return CallToolResult(
-            content=[TextContent(type="text", text="semantic_query inválido")],
+            content=[TextContent(type="text", text="semantic_query invalido")],
             isError=True,
         )
 
-    endpoint = _get_flm_endpoint()
+    endpoint = _get_flm_endpoint("retrieve")
 
     payload = {
         "semantic_query": semantic_query,
-        "device_type": device_type,
-        "os": os,
-        "version": version,
-        "product": product,
+        "arch_base": {
+            "device_type": device_type,
+            "os": os,
+            "version": version,
+            "product": product,
+        },
         "k": k,
-        "candidate_k": candidate_k,
     }
 
     try:
@@ -97,7 +114,7 @@ def retrieve_chunks(
         resp.raise_for_status()
     except requests.RequestException as exc:
         return CallToolResult(
-            content=[TextContent(type="text", text=f"Error de comunicación: {exc}")],
+            content=[TextContent(type="text", text=f"Error de comunicacion: {exc}")],
             isError=True,
         )
 
@@ -106,27 +123,12 @@ def retrieve_chunks(
     except ValueError:
         return CallToolResult(
             content=[TextContent(type="text", text=resp.text)],
-            isError=False,
-        )
-
-    chunks = data.get("chunks", [])
-    if not chunks:
-        return CallToolResult(
-            content=[TextContent(type="text", text="Sin resultados para la query.")],
-            isError=False,
-        )
-
-    lines = [f"Chunks recuperados: {data.get('count', len(chunks))}\n"]
-    for i, c in enumerate(chunks, 1):
-        lines.append(
-            f"[{i}] score={c.get('score', 0):.4f} | "
-            f"{c.get('device_type', '')} | {c.get('product', '')} | "
-            f"{c.get('section', '')}\n"
-            f"    Commands: {str(c.get('commands', ''))[:120]}"
+            isError=True,
         )
 
     return CallToolResult(
-        content=[TextContent(type="text", text="\n".join(lines))],
+        content=[TextContent(type="text", text=json.dumps(data, ensure_ascii=False))],
+        structuredContent=data,
         isError=False,
     )
 
