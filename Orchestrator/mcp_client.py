@@ -11,7 +11,7 @@ PROTOCOL_VERSION = "2025-03-26"
 # =========================
 # Configuración de servidores
 # =========================
-BASE_PATH = Path("C:/Users/juan/Documents/Miguel/tesis/System/Orchestrator-mcpServers")
+BASE_PATH = Path(__file__).resolve().parent.parent
 
 # servers añadidos
 SERVERS: dict[str, list[str]] = {

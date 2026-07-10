@@ -503,7 +503,9 @@ class ExecutionController:
                 compact_errors.append({
                     "File": filename,
                     "Status": failed_files.get(filename, "UNKNOWN"),
+                    "Line": w.get("line", "Unknown"),
                     "Invalid line": w.get("text", "").strip() if w.get("text") else f"Line {w.get('line', 'Unknown')}",
+                    "Parser context": w.get("parser_context", ""),
                     "Reason": w.get("comment", "Syntax is unrecognized")
                 })
         else:
@@ -515,11 +517,13 @@ class ExecutionController:
                 for issue in issues_results:
                     source_lines = issue.get("source_lines", [])
                     filename = source_lines[0].split(":")[0] if source_lines else (list(failed_files.keys())[0] if failed_files else "Unknown")
-                    
+
                     compact_errors.append({
                         "File": filename,
                         "Status": failed_files.get(filename, "UNKNOWN"),
+                        "Line": source_lines[0] if source_lines else "Unknown",
                         "Invalid line": issue.get("line_text", "").strip(),
+                        "Parser context": issue.get("parser_context", ""),
                         "Reason": issue.get("details", "")
                     })
             else:
@@ -588,12 +592,27 @@ class ExecutionController:
         # Guardamos la configuración limpia para registrarla luego en el CSV
         context.generated_config = str(llm_config_output) if llm_config_output else ""
 
+        # Pre-check de placeholders ANTES de Batfish: el parser descartaría en
+        # silencio cualquier línea con <...>, produciendo un falso PASSED con la
+        # línea evaporada. La detectamos aquí y la reportamos como fallo explícito
+        # y accionable, sin llegar a parsear ni a Batfish.
+        placeholder_errors = self._detect_placeholders(llm_config_output)
+        if placeholder_errors:
+            feedback_data = {
+                "errors": placeholder_errors,
+                "instruction": "Replace each placeholder (text in angle brackets) with a concrete, valid value. Change only the flagged line(s).",
+            }
+            context.update("VERIFICATION_CALL", {"status": "failed", "data": feedback_data})
+            return False
+
         # Parsear los comandos CLI devueltos por el LLM a formato Batfish
         from utils.batfish_parser import BatfishPredictionParser
         parser = BatfishPredictionParser(none_value="")
         parsed_llm_config = parser.parse_prediction(llm_config_output)
         if not str(parsed_llm_config or "").strip():
-            feedback_data = {
+            # Feedback accionable: intenta diagnosticar POR QUE quedo UNPARSEABLE
+            # (causa dominante: comandos de sub-modo sin su linea 'interface'/'router').
+            feedback_data = self._diagnose_unparseable(llm_config_output) or {
                 "errors": [{
                     "File": "generated configuration",
                     "Status": "UNPARSEABLE",
@@ -660,32 +679,198 @@ class ExecutionController:
     def _refinement_loop(self, context: ExecutionContext):
         """
         Iteratively refines configuration if verification fails.
+
+        Surgical strategy: when Batfish flags concrete invalid lines, the model
+        is asked ONLY for the corrected replacement of those lines, and the code
+        rebuilds the config replacing just those lines (every other line stays
+        byte-for-byte identical). This guarantees the model can only change the
+        line(s) it was told to change. If the failure has no concrete line to
+        target (e.g. the whole output was UNPARSEABLE), it falls back to a full
+        regeneration.
         """
         flm_server = self.mcp_client.server("flm")
 
         for _ in range(self.max_refinement_iterations):
+            previous_config = context.final_result or getattr(context, "generated_config", "") or ""
+            feedback = self._extract_latest_verification_report(context)
+            invalid_items = self._resolve_invalid_lines(previous_config, feedback)
 
-            refinement_prompt = self.prompt_manager.build_refinement_prompt(context)
+            if invalid_items:
+                # --- Modo quirúrgico: corregir solo las líneas señaladas ---
+                fix_prompt = self.prompt_manager.build_line_fix_prompt(context, invalid_items)
+                fix_response = flm_server.call_tool("send_prompt", {"prompt": fix_prompt})
+                context.update(fix_prompt, fix_response)
 
-            refinement_response = flm_server.call_tool(
-                "send_prompt",
-                {"prompt": refinement_prompt}
-            )
+                if fix_response.get("isError", True):
+                    continue
 
-            # Record the refinement attempt.
-            context.update(refinement_prompt, refinement_response)
+                corrected_output = self._extract_response_text(fix_response)
+                patched_config = self._apply_line_fixes(previous_config, invalid_items, corrected_output)
 
-            # If the model failed to generate a corrected configuration, try again.
-            if refinement_response.get("isError", True):
-                continue
+                # La config verificada es la anterior con SOLO las líneas malas reemplazadas.
+                context.final_result = patched_config
+                context.generated_config = patched_config
 
-            # Re-verify the newly generated configuration.
+                # Guardar la config reconstruida en la iteración (para inspección/display):
+                # el modelo solo devuelve la línea, pero esto es lo que realmente se verifica.
+                if context.iterations:
+                    context.iterations[-1]["patched_config"] = patched_config
+            else:
+                # --- Fallback: regeneración completa (p.ej. salida UNPARSEABLE) ---
+                refinement_prompt = self.prompt_manager.build_refinement_prompt(context)
+                refinement_response = flm_server.call_tool("send_prompt", {"prompt": refinement_prompt})
+                context.update(refinement_prompt, refinement_response)
+
+                if refinement_response.get("isError", True):
+                    continue
+
             verification_success = self._verify_configuration(context)
-
-            # If verification passes, the job is done. Exit the loop.
             if verification_success:
                 return
 
         # If the loop finishes without a successful verification, update the state.
         if not context.is_success():
             context.state = ExecutionState.MAX_ITERATIONS_REACHED
+
+    def _detect_placeholders(self, config_text: str) -> list[dict]:
+        """
+        Scans the raw model output for placeholder tokens (text in angle
+        brackets, e.g. <password>). These would be silently dropped by the
+        parser, so we flag them BEFORE parsing/Batfish as an explicit, actionable
+        failure. Returns a list of error dicts in the same shape as the Batfish
+        feedback, so the surgical refinement loop can target them line by line.
+        """
+        import re
+
+        placeholder_re = re.compile(r"<[^>]+>")
+        errors = []
+        for raw_line in str(config_text or "").splitlines():
+            line = raw_line.strip()
+            if not line or not placeholder_re.search(line):
+                continue
+
+            command = line.split("#", 1)[1].strip() if "#" in line else line
+            errors.append({
+                "File": "generated configuration",
+                "Status": "PLACEHOLDER",
+                "Invalid line": command,
+                "Parser context": "",
+                "Reason": "Contains a placeholder in angle brackets (e.g. <password>). Use a concrete, valid value instead.",
+            })
+        return errors
+
+    def _diagnose_unparseable(self, config_text: str):
+        """
+        Diagnoses the most common UNPARSEABLE cause: sub-mode commands
+        (config-if, config-router, ...) emitted WITHOUT their mode-entering
+        (block-opener) command, so the parser cannot know their context (e.g.
+        which interface) and drops everything. Returns an actionable feedback
+        dict, or None if the cause can't be pinpointed (caller uses a generic msg).
+        """
+        from utils.batfish_parser import PROMPT_RE, BatfishPredictionParser
+
+        orphaned = []
+        has_opener = False
+        for raw_line in str(config_text or "").splitlines():
+            line = raw_line.strip()
+            if not line:
+                continue
+            match = PROMPT_RE.match(line)
+            if not match:
+                continue
+            mode = (match.group(2) or "").strip().lower()
+            command = match.group(3).strip()
+            if not command:
+                continue
+            if BatfishPredictionParser._is_block_opener(command):
+                has_opener = True
+            elif mode not in ("", "config"):
+                orphaned.append(command)
+
+        if orphaned and not has_opener:
+            return {
+                "errors": [{
+                    "File": "generated configuration",
+                    "Status": "UNPARSEABLE",
+                    "Invalid line": "N/A",
+                    "Missing": "mode-entering command (e.g. 'interface <name>' or 'router <proto> <id>')",
+                    "Orphaned sub-mode commands": orphaned[:6],
+                    "Reason": "Sub-mode commands were emitted without their parent mode-entering command, "
+                              "so the parser could not determine their context (e.g. which interface).",
+                }],
+                "instruction": "Regenerate the FULL configuration. Before each sub-mode command include its "
+                               "mode-entering command (e.g. put 'interface FastEthernet0/1' before its (config-if)# "
+                               "commands, or 'router ospf 1' before its (config-router)# commands). Keep every valid command.",
+            }
+        return None
+
+    def _extract_latest_verification_report(self, context: ExecutionContext) -> dict:
+        """Returns the feedback 'data' from the most recent verification call."""
+        for iteration in reversed(context.iterations):
+            if iteration.get("prompt") == "VERIFICATION_CALL":
+                return iteration.get("response", {}).get("data", {})
+        return {}
+
+    def _resolve_invalid_lines(self, previous_config: str, feedback) -> list[dict]:
+        """
+        Maps each Batfish error to its full CLI line (with prompt prefix) inside
+        the previous config transcript, so the model can be asked to fix exactly
+        that line. Errors without a concrete line (Invalid line == 'N/A') are
+        skipped and handled by the full-regeneration fallback.
+        """
+        errors = feedback.get("errors", []) if isinstance(feedback, dict) else []
+        prev_lines = str(previous_config or "").splitlines()
+
+        def norm(text: str) -> str:
+            return " ".join(str(text or "").split()).lower()
+
+        items = []
+        for error in errors:
+            invalid = str(error.get("Invalid line", "")).strip()
+            if not invalid or invalid.upper() == "N/A":
+                continue
+
+            target = norm(invalid)
+            full_line = None
+            for line in prev_lines:
+                command = line.split("#", 1)[1] if "#" in line else line
+                if norm(command) == target:
+                    full_line = line.strip()
+                    break
+
+            items.append({
+                "full_line": full_line if full_line is not None else invalid,
+                "parser_context": error.get("Parser context", ""),
+                "reason": error.get("Reason", ""),
+            })
+        return items
+
+    def _apply_line_fixes(self, previous_config: str, invalid_items: list[dict], corrected_output: str) -> str:
+        """
+        Rebuilds the config by replacing ONLY the flagged lines with the model's
+        corrected lines (positional, in order). Every other line is preserved
+        exactly. If a corrected line lacks a CLI prompt prefix, the original
+        line's prefix is reused.
+        """
+        prev_lines = str(previous_config or "").splitlines()
+        corrected = [ln.strip() for ln in str(corrected_output or "").splitlines() if ln.strip()]
+
+        def norm(text: str) -> str:
+            return " ".join(str(text or "").split()).lower()
+
+        pending = [norm(item["full_line"]) for item in invalid_items]
+
+        result = []
+        used = 0
+        for line in prev_lines:
+            if norm(line) in pending and used < len(corrected):
+                fix = corrected[used]
+                used += 1
+                pending.remove(norm(line))
+                if "#" not in fix and "#" in line:
+                    fix = line.split("#", 1)[0] + "#" + fix
+                result.append(fix)
+            else:
+                result.append(line)
+
+        return "\n".join(result)

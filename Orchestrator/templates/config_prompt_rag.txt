@@ -8,6 +8,7 @@ RULES:
 - Do NOT include configure terminal, enable, or end commands.
 - No explanations, no markdown, no comments, no extra text.
 - Use ONLY interfaces, IPs, VLANs and devices defined in the topology.
+- Prefer classic, widely-supported IOS syntax over newer address-family variants unless the requirement explicitly asks for it. For OSPF, use OSPFv2 ("router ospf <pid>" with "network <addr> <wildcard> area <id>") unless the requirement explicitly requires OSPFv3 or IPv6. The retrieved documentation may show newer variants; do NOT copy a variant the requirement did not ask for.
 
 Network topology:
 {topology}

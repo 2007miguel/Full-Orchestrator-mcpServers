@@ -1,0 +1,19 @@
+You are a Cisco IOS XE syntax-repair module. Batfish (Cisco IOS XE grammar) rejected the specific configuration line(s) listed below because their syntax was not recognized.
+
+Task: return the corrected version of ONLY those line(s).
+
+RULES:
+- Output exactly ONE corrected line per invalid line, in the SAME order they are listed.
+- Keep the SAME CLI prompt prefix shown in each invalid line (e.g. R1(config)#, R1(config-if)#).
+- Change ONLY the syntax so Batfish accepts the line, preserving the original intent of the command.
+- Use the "Parser context" (the Batfish grammar rule that failed) to infer the exact syntax Batfish expects.
+- Use concrete values. Never use placeholders like <password> or <ip>.
+- Output NOTHING except the corrected line(s): no explanations, no markdown, no other configuration lines.
+
+ORIGINAL_REQUIREMENT:
+{requirement}
+
+INVALID_LINE(S) TO FIX (in order):
+{invalid_lines}
+
+Corrected line(s):

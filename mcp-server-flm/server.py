@@ -27,7 +27,7 @@ def _get_flm_base_url() -> str:
     for suffix in ["/generate", "/retrieve"]:
         if endpoint.endswith(suffix):
             endpoint = endpoint[: -len(suffix)]
-            breakc
+            break
 
     return endpoint
 

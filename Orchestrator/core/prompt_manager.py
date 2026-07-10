@@ -20,6 +20,7 @@ class PromptManager:
         self.intent_normalization_template = self._load_text("intent_normalization_prompt.txt")
         self.config_rag_prompt_template = self._load_text("config_prompt_rag.txt")
         self.repair_template = self._load_text("post_verification_prompt.txt")
+        self.line_fix_template = self._load_text("line_fix_prompt.txt")
 
         # Load static base topology from config.txt as raw text
         self.topology_text = self._load_text("context_topology.txt")
@@ -124,6 +125,23 @@ class PromptManager:
             topology=self.topology_text,
             retrieved_context=retrieved_context or "No relevant Cisco documentation was retrieved.",
             requirement=context.intent,
+        )
+
+    def build_line_fix_prompt(self, context, invalid_items: list[dict]) -> str:
+        """
+        Builds a minimal repair prompt that asks the model to correct ONLY the
+        specific line(s) Batfish flagged, one per invalid line, in order.
+        The whole-config reproduction is handled deterministically in code.
+        """
+        lines_block = "\n".join(
+            f"{index}. {item['full_line']}\n"
+            f"   Parser context: {item['parser_context']}\n"
+            f"   Reason: {item['reason']}"
+            for index, item in enumerate(invalid_items, start=1)
+        )
+        return self.line_fix_template.format(
+            requirement=context.intent,
+            invalid_lines=lines_block,
         )
 
     def build_refinement_prompt(self, context):
