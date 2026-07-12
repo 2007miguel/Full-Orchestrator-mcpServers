@@ -23,19 +23,19 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean, median
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-DEFAULT_INPUT_DIR = SCRIPT_DIR / "few-shot"
-DEFAULT_OUTPUT_CSV = SCRIPT_DIR / "few-shot_summary.csv"
+DEFAULT_INPUT_DIR = SCRIPT_DIR / "Base_datasetmodificado"
+DEFAULT_OUTPUT_CSV = SCRIPT_DIR / "Base_datasetmodificado.csv"
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 # Single source of truth for the parser (shared with the orchestrator pipeline).
-from utils.batfish_parser import BatfishPredictionParser
+from utils.batfish_parser import BatfishPredictionParser, PROMPT_RE
 
 
 FULL_BLOCK_RE = re.compile(
@@ -72,6 +72,16 @@ def create_project_mcp_client() -> Any:
 
 def count_modified_files(text: str) -> int:
     return sum(1 for _ in FULL_BLOCK_RE.finditer(text))
+
+
+def count_expected_files(prediction: Any, parser: BatfishPredictionParser) -> int:
+    text = parser._normalize_text(prediction)
+    devices = {
+        match.group(1)
+        for line in text.split("\n")
+        if (match := PROMPT_RE.match(line))
+    }
+    return max(len(devices), 1)
 
 
 def normalize_status(status: Any) -> str:
@@ -200,12 +210,22 @@ def summarize_model(
         parsed_config = parser.parse_prediction(prediction)
         result = evaluator.verify_prediction(parsed_config)
 
-        pqs_values.append(result.pqs_modified)
-        total_modified_files += result.total_modified_files
+        expected_files = count_expected_files(prediction, parser)
+        parser_unknown_files = max(
+            expected_files - result.total_modified_files,
+            0,
+        )
+        accounted_files = result.total_modified_files + parser_unknown_files
+        score_sum = result.pqs_modified * result.total_modified_files
+
+        pqs_values.append(score_sum / accounted_files if accounted_files else 0.0)
+        total_modified_files += accounted_files
         total_passed += result.parse_status_counts.get("PASSED", 0)
         total_partially_parsed += result.parse_status_counts.get("PARTIALLY_PARSED", 0)
         total_failed += result.parse_status_counts.get("FAILED", 0)
-        total_unknown += result.parse_status_counts.get("UNKNOWN", 0)
+        total_unknown += (
+            result.parse_status_counts.get("UNKNOWN", 0) + parser_unknown_files
+        )
 
     print(f"[{model_name}] Done")
 
@@ -222,12 +242,36 @@ def summarize_model(
     }
 
 
-def load_predictions(json_path: Path) -> List[Any]:
+def load_model_predictions(json_path: Path) -> List[Tuple[str, List[Any]]]:
     data = json.loads(json_path.read_text(encoding="utf-8"))
     predictions = data.get("predictions")
-    if not isinstance(predictions, list):
-        raise ValueError(f"{json_path} does not contain a predictions list")
-    return predictions
+    if isinstance(predictions, list):
+        return [(json_path.stem, predictions)]
+
+    results = data.get("results")
+    if isinstance(results, list):
+        model_predictions: List[Tuple[str, List[Any]]] = []
+        for index, result in enumerate(results):
+            if not isinstance(result, dict):
+                raise ValueError(f"{json_path} results[{index}] is not an object")
+
+            model_name = result.get("model_name")
+            predictions = result.get("predictions")
+            if not isinstance(model_name, str) or not model_name.strip():
+                raise ValueError(
+                    f"{json_path} results[{index}] does not contain a model_name"
+                )
+            if not isinstance(predictions, list):
+                raise ValueError(
+                    f"{json_path} results[{index}] does not contain a predictions list"
+                )
+            model_predictions.append((model_name, predictions))
+
+        return model_predictions
+
+    raise ValueError(
+        f"{json_path} does not contain a predictions list or a results list"
+    )
 
 
 def parse_args() -> argparse.Namespace:
@@ -262,13 +306,9 @@ def main() -> None:
 
     try:
         rows = [
-            summarize_model(
-                json_path.stem,
-                load_predictions(json_path),
-                parser,
-                evaluator,
-            )
+            summarize_model(model_name, predictions, parser, evaluator)
             for json_path in json_files
+            for model_name, predictions in load_model_predictions(json_path)
         ]
     finally:
         print("Closing MCP connections...")
