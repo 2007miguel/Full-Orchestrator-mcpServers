@@ -1,11 +1,19 @@
 import argparse
 import csv
 import statistics
+import sys
 import time
 import uuid
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
+
+# This script lives in evaluacion_sistema/; the actual code lives under Orchestrator/.
+EVAL_DIR = Path(__file__).resolve().parent
+REPO_ROOT = EVAL_DIR.parent
+PROJECT_ROOT = REPO_ROOT / "Orchestrator"
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from core.execution_controller import ExecutionController
 from core.prompt_manager import PromptManager
@@ -14,7 +22,7 @@ from mcp_client import MCPClientManager, SERVERS
 from models.state import ExecutionState
 
 
-DEFAULT_DATASET = "network_requirements_configurations_200_rag_aligned_harder.csv"
+DEFAULT_DATASET = str(EVAL_DIR / "eval_dataset_150_cli_version17.csv")
 DEFAULT_RAG_FILTERS = [
     {
         "device_type": "router",
@@ -200,7 +208,7 @@ def run_evaluation(dataset_path, output_dir, limit=None):
     if limit:
         rows = rows[:limit]
 
-    templates_path = Path(__file__).parent / "templates"
+    templates_path = PROJECT_ROOT / "templates"
     prompt_manager = PromptManager(templates_path=str(templates_path))
     mcp_client_manager = MCPClientManager(SERVERS)
     result_logger = EvaluationResultLogger()
@@ -243,7 +251,8 @@ def run_evaluation(dataset_path, output_dir, limit=None):
             statuses = verification_statuses(context)
             first_pass_ok = bool(statuses and statuses[0] == "success")
             final_ok = context.state == ExecutionState.SUCCESS
-            refinement_attempts = max(0, len(extract_model_outputs(context)) - 2)
+            # Each repair attempt triggers exactly one extra verification call.
+            refinement_attempts = max(0, len(statuses) - 1)
             refined_to_success = final_ok and not first_pass_ok and refinement_attempts > 0
 
             predictions.append(final_prediction)

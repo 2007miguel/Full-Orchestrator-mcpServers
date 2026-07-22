@@ -4,6 +4,10 @@ import json
 from models.execution_context import ExecutionContext
 from models.state import ExecutionState
 
+# Token budget for intent normalization, matching v17 (MAX_NEW_TOKENS_INTENT).
+# The requirement -> retrieval-query rewrite is a short technical line.
+MAX_NEW_TOKENS_INTENT = 120
+
 
 class ExecutionController:
     """
@@ -64,46 +68,37 @@ class ExecutionController:
             flm_server = self.mcp_client.server("flm")
 
             # -----------------------------------
-            # 1. Intent Normalization
+            # 1. RAG Retrieval
             # -----------------------------------
             arch_base = self._build_arch_base(requirement.get("rag_filters", []))
             context.rag_arch_base = arch_base
 
-            normalization_prompt = self.prompt_manager.build_intent_normalization_prompt(
-                context,
-                arch_base
-            )
-            normalization_response = flm_server.call_tool(
-                "send_prompt",
-                {"prompt": normalization_prompt}
-            )
-
-            context.update(normalization_prompt, normalization_response)
-
-            if normalization_response.get("isError", True):
-                context.mark_failed("Intent normalization failed.")
-                return context
-
-            normalized_intent = self._clean_model_text(
-                self._extract_response_text(normalization_response) or context.intent
-            )
-            context.normalized_intent = normalized_intent
-
-            # -----------------------------------
-            # 2. RAG Retrieval
-            # -----------------------------------
-            semantic_query = normalized_intent
+            # Intent normalization (v17 behavior): enrich the requirement into a
+            # retrieval query, then prepend it to the RAW requirement. Keeping the
+            # original text preserves the device names (R1, SW1, ...) the Colab
+            # retriever keys on for router/switch scope inference.
+            normalized_intent = self._normalize_intent(context, flm_server)
+            if normalized_intent:
+                semantic_query = (normalized_intent + "\n" + context.intent).strip()
+            else:
+                semantic_query = context.intent
+            context.normalized_intent = normalized_intent or context.intent
             context.rag_query = semantic_query
 
             retrieval_response = flm_server.call_tool(
                 "retrieve_chunks",
                 {
                     "semantic_query": semantic_query,
+                    # Raw requirement so the retriever infers the router/switch
+                    # scope from it (v17), not from the enriched semantic_query.
+                    "requirement": context.intent,
                     "os": arch_base["os"],
                     "version": arch_base["version"],
                     "device_type": arch_base["device_type"],
                     "product": arch_base["product"],
-                    "k": 4
+                    # Quota per detected device type, not a global cap: a requirement
+                    # touching a router and a switch retrieves 3 chunks for each.
+                    "k": 3
                 }
             )
 
@@ -123,12 +118,20 @@ class ExecutionController:
             })
 
             # -----------------------------------
-            # 3. Configuration Generation
+            # 2. Configuration Generation
             # -----------------------------------
-            config_prompt = self.prompt_manager.build_config_prompt_rag(
-                context,
-                retrieved_context
-            )
+            # v17: use the RAG prompt only when chunks were retrieved; otherwise
+            # fall back to the no-RAG prompt instead of injecting a
+            # "No relevant documentation" block.
+            if context.retrieved_chunks:
+                config_prompt = self.prompt_manager.build_config_prompt_rag(
+                    context,
+                    retrieved_context
+                )
+            else:
+                config_prompt = self.prompt_manager.build_config_prompt_no_rag(
+                    context
+                )
 
             config_response = flm_server.call_tool(
                 "send_prompt",
@@ -142,12 +145,12 @@ class ExecutionController:
                 return context
 
             # -----------------------------------
-            # 4. Verification
+            # 3. Verification
             # -----------------------------------
             verification_success = self._verify_configuration(context)
 
             # -----------------------------------
-            # 5. Refinement Loop (if needed)
+            # 4. Refinement Loop (if needed)
             # -----------------------------------
             if not verification_success:
                 self._refinement_loop(context)
@@ -345,6 +348,46 @@ class ExecutionController:
 
         return ""
 
+    def _normalize_intent(self, context, flm_server) -> str:
+        """
+        Asks the FLM to enrich the requirement into a retrieval query
+        (v17 normalize_intent). Returns the cleaned text, or "" on any
+        failure so the caller falls back to the raw requirement.
+        """
+        try:
+            prompt = self.prompt_manager.build_intent_normalization_prompt(context)
+            response = flm_server.call_tool(
+                "send_prompt",
+                {"prompt": prompt, "max_new_tokens": MAX_NEW_TOKENS_INTENT},
+            )
+            if response.get("isError", True):
+                return ""
+            text = self._clean_normalized_intent(self._extract_response_text(response))
+            return text
+        except Exception as exc:
+            print(f"Warning: intent normalization failed: {exc}")
+            return ""
+
+    def _clean_normalized_intent(self, text: str) -> str:
+        """
+        Cleans the FLM's normalized-intent output, identical to the v17
+        clean_normalized_intent: strips code fences and any leading meta
+        prefix/phrase the model may prepend despite the prompt forbidding it.
+        """
+        text = str(text).strip()
+        text = text.replace("```json", "").replace("```", "").strip()
+        for prefix in [
+            "Normalized intent:", "Intent:", "Output:", "Result:",
+            "Query:", "Normalize:", "Find documentation:",
+        ]:
+            if text.lower().startswith(prefix.lower()):
+                text = text[len(prefix):].strip()
+        if text.lower().startswith("normalize "):
+            text = text[len("normalize "):].strip()
+        if text.lower().startswith("find documentation for "):
+            text = text[len("find documentation for "):].strip()
+        return text
+
     def _clean_model_text(self, text: str) -> str:
         text = str(text or "").strip()
         text = text.replace("```json", "").replace("```", "").strip()
@@ -352,14 +395,6 @@ class ExecutionController:
             if text.lower().startswith(prefix.lower()):
                 text = text[len(prefix):].strip()
         return text
-
-    def _build_rag_query(self, requirement: str, normalized_intent: str) -> str:
-        return (
-            "Normalized intent:\n"
-            f"{normalized_intent}\n\n"
-            "Original requirement:\n"
-            f"{requirement}"
-        ).strip()
 
     def _extract_retrieval_data(self, response: dict) -> dict:
         struct = response.get("structuredContent")

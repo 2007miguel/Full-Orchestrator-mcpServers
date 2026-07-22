@@ -1,0 +1,3 @@
+model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
+base,100,0.71,0.75,100,50,42,0,8
+rag,100,0.855,1.0,100,78,15,0,7

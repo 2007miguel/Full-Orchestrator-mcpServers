@@ -3,8 +3,11 @@
 Parse comparison JSON predictions, evaluate them with Batfish, and write one
 summary CSV.
 
-Input:  JSON files in sintaxys/comparacion enfoque/, each with a predictions list.
-Output: one summary CSV with one row per JSON/model.
+Input:  JSON files in an input dir, each with a predictions list or a results
+        list (several models per file).
+Output: one summary CSV with one row per JSON/model. Each row reports, at the
+        PER-QUESTION level (worst-status-wins verdict), how many predictions were
+        correct / partially_correct / error(=failed+unknown), as counts and %.
 
 NOTE: this harness used to embed its own copy of ``BatfishPredictionParser``.
 It now imports the single source of truth from ``utils/batfish_parser.py`` so
@@ -20,22 +23,21 @@ import re
 import shutil
 import sys
 import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from statistics import mean, median
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-DEFAULT_INPUT_DIR = SCRIPT_DIR / "few-shot"
-DEFAULT_OUTPUT_CSV = SCRIPT_DIR / "few-shot_summary.csv"
+DEFAULT_INPUT_DIR = SCRIPT_DIR / "v 16"
+DEFAULT_OUTPUT_CSV = SCRIPT_DIR / "base.json_summary.csv"
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 # Single source of truth for the parser (shared with the orchestrator pipeline).
-from utils.batfish_parser import BatfishPredictionParser
+from utils.batfish_parser import BatfishPredictionParser, PROMPT_RE
 
 
 FULL_BLOCK_RE = re.compile(
@@ -56,6 +58,8 @@ class VerificationResult:
     total_modified_files: int
     parsed_files: int
     parse_status_counts: Dict[str, int]
+    files: List[Dict[str, str]] = field(default_factory=list)
+    note: str = ""
 
 
 def create_project_mcp_client() -> Any:
@@ -72,6 +76,16 @@ def create_project_mcp_client() -> Any:
 
 def count_modified_files(text: str) -> int:
     return sum(1 for _ in FULL_BLOCK_RE.finditer(text))
+
+
+def count_expected_files(prediction: Any, parser: BatfishPredictionParser) -> int:
+    text = parser._normalize_text(prediction)
+    devices = {
+        match.group(1)
+        for line in text.split("\n")
+        if (match := PROMPT_RE.match(line))
+    }
+    return max(len(devices), 1)
 
 
 def normalize_status(status: Any) -> str:
@@ -141,17 +155,19 @@ class BatfishPQSEvaluator:
 
     def verify_prediction(self, prediction_text: str) -> VerificationResult:
         if not prediction_text or prediction_text == "None":
-            return VerificationResult(0.0, 0, 0, {})
+            return VerificationResult(0.0, 0, 0, {}, [], "parser_returned_none")
 
         total_modified_files = count_modified_files(prediction_text)
         if total_modified_files == 0:
-            return VerificationResult(0.0, 0, 0, {})
+            return VerificationResult(0.0, 0, 0, {}, [], "no_config_blocks")
 
         temp_root = tempfile.mkdtemp(prefix="snapshot_verify_")
         try:
             zip_path = self.create_snapshot_from_string(prediction_text, base_dir=temp_root)
             if not zip_path:
-                return VerificationResult(0.0, total_modified_files, 0, {})
+                return VerificationResult(
+                    0.0, total_modified_files, 0, {}, [], "snapshot_not_created"
+                )
 
             batfish_server = self.mcp_client.server("batfish")
             batfish_server.call_tool("load_snapshot", {"zip_path": zip_path})
@@ -160,10 +176,18 @@ class BatfishPQSEvaluator:
 
             scores: List[float] = []
             status_counts: Dict[str, int] = {}
+            files: List[Dict[str, str]] = []
             for item in results:
                 normalized = normalize_status(item.get("status"))
                 status_counts[normalized] = status_counts.get(normalized, 0) + 1
                 scores.append(status_to_score(normalized))
+                files.append(
+                    {
+                        "file_name": str(item.get("file_name") or ""),
+                        "status": normalized,
+                        "error": str(item.get("error") or ""),
+                    }
+                )
 
             pqs_modified = sum(scores) / total_modified_files if total_modified_files else 0.0
             return VerificationResult(
@@ -171,11 +195,33 @@ class BatfishPQSEvaluator:
                 total_modified_files,
                 len(results),
                 status_counts,
+                files,
+                "",
             )
-        except Exception:
-            return VerificationResult(0.0, total_modified_files, 0, {})
+        except Exception as exc:
+            return VerificationResult(
+                0.0,
+                total_modified_files,
+                0,
+                {},
+                [],
+                f"error:{type(exc).__name__}: {exc}"[:200],
+            )
         finally:
             shutil.rmtree(temp_root, ignore_errors=True)
+
+
+def verdict_for(counts: Dict[str, int], unknown_files: int) -> str:
+    """Worst status wins, so a prediction is only PASSED when every file parsed."""
+    if counts.get("FAILED", 0):
+        return "FAILED"
+    if counts.get("UNKNOWN", 0) or unknown_files:
+        return "UNKNOWN"
+    if counts.get("PARTIALLY_PARSED", 0):
+        return "PARTIALLY_PARSED"
+    if counts.get("PASSED", 0):
+        return "PASSED"
+    return "UNKNOWN"
 
 
 def summarize_model(
@@ -183,7 +229,7 @@ def summarize_model(
     predictions: List[Any],
     parser: BatfishPredictionParser,
     evaluator: BatfishPQSEvaluator,
-) -> Dict[str, Any]:
+) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
     print(f"[{model_name}] Evaluating {len(predictions)} predictions...")
 
     pqs_values: List[float] = []
@@ -192,6 +238,14 @@ def summarize_model(
     total_partially_parsed = 0
     total_failed = 0
     total_unknown = 0
+    # Per-prediction verdict tally (one verdict per question, worst-status-wins).
+    verdict_counts: Dict[str, int] = {
+        "PASSED": 0,
+        "PARTIALLY_PARSED": 0,
+        "FAILED": 0,
+        "UNKNOWN": 0,
+    }
+    details: List[Dict[str, Any]] = []
 
     for index, prediction in enumerate(predictions, start=1):
         if index == 1 or index == len(predictions) or index % 10 == 0:
@@ -200,34 +254,106 @@ def summarize_model(
         parsed_config = parser.parse_prediction(prediction)
         result = evaluator.verify_prediction(parsed_config)
 
-        pqs_values.append(result.pqs_modified)
-        total_modified_files += result.total_modified_files
+        expected_files = count_expected_files(prediction, parser)
+        parser_unknown_files = max(
+            expected_files - result.total_modified_files,
+            0,
+        )
+        accounted_files = result.total_modified_files + parser_unknown_files
+        score_sum = result.pqs_modified * result.total_modified_files
+
+        pqs = score_sum / accounted_files if accounted_files else 0.0
+        pqs_values.append(pqs)
+        total_modified_files += accounted_files
         total_passed += result.parse_status_counts.get("PASSED", 0)
         total_partially_parsed += result.parse_status_counts.get("PARTIALLY_PARSED", 0)
         total_failed += result.parse_status_counts.get("FAILED", 0)
-        total_unknown += result.parse_status_counts.get("UNKNOWN", 0)
+        total_unknown += (
+            result.parse_status_counts.get("UNKNOWN", 0) + parser_unknown_files
+        )
+
+        verdict = verdict_for(result.parse_status_counts, parser_unknown_files)
+        verdict_counts[verdict] = verdict_counts.get(verdict, 0) + 1
+        details.append(
+            {
+                "model_name": model_name,
+                "prediction": index,
+                "verdict": verdict,
+                "pqs": round(pqs, 4),
+                "files": accounted_files,
+                "passed": result.parse_status_counts.get("PASSED", 0),
+                "partially_parsed": result.parse_status_counts.get("PARTIALLY_PARSED", 0),
+                "failed": result.parse_status_counts.get("FAILED", 0),
+                "unknown": (
+                    result.parse_status_counts.get("UNKNOWN", 0) + parser_unknown_files
+                ),
+                "file_statuses": "; ".join(
+                    f"{item['file_name']}={item['status']}" for item in result.files
+                ),
+                "note": result.note,
+            }
+        )
+
+        if verdict != "PASSED":
+            suffix = f" ({result.note})" if result.note else ""
+            print(f"[{model_name}]   #{index}: {verdict}{suffix}")
 
     print(f"[{model_name}] Done")
 
-    return {
-        "model_name": model_name,
-        "rows": len(predictions),
-        "avg_pqs_modified": mean(pqs_values) if pqs_values else 0.0,
-        "median_pqs_modified": median(pqs_values) if pqs_values else 0.0,
-        "total_modified_files": total_modified_files,
-        "total_passed": total_passed,
-        "total_partially_parsed": total_partially_parsed,
-        "total_failed": total_failed,
-        "total_unknown": total_unknown,
-    }
+    total = len(predictions)
+    correct = verdict_counts["PASSED"]
+    partially_correct = verdict_counts["PARTIALLY_PARSED"]
+    # error/unknown/failed van juntos en un solo cubo, como pediste.
+    error = verdict_counts["FAILED"] + verdict_counts["UNKNOWN"]
+
+    def pct(n: int) -> float:
+        return round(100.0 * n / total, 1) if total else 0.0
+
+    return (
+        {
+            "model_name": model_name,
+            "total": total,
+            "correct": correct,
+            "partially_correct": partially_correct,
+            "error": error,
+            "pct_correct": pct(correct),
+            "pct_partially_correct": pct(partially_correct),
+            "pct_error": pct(error),
+        },
+        details,
+    )
 
 
-def load_predictions(json_path: Path) -> List[Any]:
+def load_model_predictions(json_path: Path) -> List[Tuple[str, List[Any]]]:
     data = json.loads(json_path.read_text(encoding="utf-8"))
     predictions = data.get("predictions")
-    if not isinstance(predictions, list):
-        raise ValueError(f"{json_path} does not contain a predictions list")
-    return predictions
+    if isinstance(predictions, list):
+        return [(json_path.stem, predictions)]
+
+    results = data.get("results")
+    if isinstance(results, list):
+        model_predictions: List[Tuple[str, List[Any]]] = []
+        for index, result in enumerate(results):
+            if not isinstance(result, dict):
+                raise ValueError(f"{json_path} results[{index}] is not an object")
+
+            model_name = result.get("model_name")
+            predictions = result.get("predictions")
+            if not isinstance(model_name, str) or not model_name.strip():
+                raise ValueError(
+                    f"{json_path} results[{index}] does not contain a model_name"
+                )
+            if not isinstance(predictions, list):
+                raise ValueError(
+                    f"{json_path} results[{index}] does not contain a predictions list"
+                )
+            model_predictions.append((model_name, predictions))
+
+        return model_predictions
+
+    raise ValueError(
+        f"{json_path} does not contain a predictions list or a results list"
+    )
 
 
 def parse_args() -> argparse.Namespace:
@@ -260,30 +386,36 @@ def main() -> None:
     parser = BatfishPredictionParser()
     evaluator = BatfishPQSEvaluator(mcp_client)
 
+    rows: List[Dict[str, Any]] = []
+    all_details: List[Dict[str, Any]] = []
     try:
-        rows = [
-            summarize_model(
-                json_path.stem,
-                load_predictions(json_path),
-                parser,
-                evaluator,
-            )
-            for json_path in json_files
-        ]
+        for json_path in json_files:
+            # Etiqueta del archivo (p.ej. int4/int8/normal): sin esto, los mismos
+            # model_name internos de cada JSON producirian filas indistinguibles.
+            source = json_path.stem
+            for model_name, predictions in load_model_predictions(json_path):
+                row, details = summarize_model(
+                    model_name, predictions, parser, evaluator
+                )
+                row = {"source": source, **row}
+                for d in details:
+                    d["source"] = source
+                rows.append(row)
+                all_details.extend(details)
     finally:
         print("Closing MCP connections...")
         mcp_client.close_all()
 
     fieldnames = [
+        "source",
         "model_name",
-        "rows",
-        "avg_pqs_modified",
-        "median_pqs_modified",
-        "total_modified_files",
-        "total_passed",
-        "total_partially_parsed",
-        "total_failed",
-        "total_unknown",
+        "total",
+        "correct",
+        "partially_correct",
+        "error",
+        "pct_correct",
+        "pct_partially_correct",
+        "pct_error",
     ]
 
     output_csv.parent.mkdir(parents=True, exist_ok=True)
@@ -293,6 +425,57 @@ def main() -> None:
         writer.writerows(rows)
 
     print(f"Summary written to: {output_csv}")
+
+    detail_csv = output_csv.with_name(f"{output_csv.stem}_detail.csv")
+    detail_fieldnames = [
+        "source",
+        "model_name",
+        "prediction",
+        "verdict",
+        "pqs",
+        "files",
+        "passed",
+        "partially_parsed",
+        "failed",
+        "unknown",
+        "file_statuses",
+        "note",
+    ]
+    with detail_csv.open("w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=detail_fieldnames)
+        writer.writeheader()
+        writer.writerows(all_details)
+
+    print(f"Per-prediction detail written to: {detail_csv}")
+
+    for row in rows:
+        source = row["source"]
+        model_name = row["model_name"]
+        model_details = [
+            d for d in all_details
+            if d["source"] == source and d["model_name"] == model_name
+        ]
+        total = row["total"]
+        print(f"\n=== {source} / {model_name}  (n={total}) ===")
+        print(
+            f"  correct            {row['correct']:>3}  ({row['pct_correct']:>5}%)"
+        )
+        print(
+            f"  partially_correct  {row['partially_correct']:>3}  "
+            f"({row['pct_partially_correct']:>5}%)"
+        )
+        print(
+            f"  error/unknown/fail {row['error']:>3}  ({row['pct_error']:>5}%)"
+        )
+        # Que preguntas cayeron en cada cubo no-correcto (numero de fila 1..n).
+        for verdict, label in (
+            ("PARTIALLY_PARSED", "partial"),
+            ("FAILED", "failed"),
+            ("UNKNOWN", "unknown"),
+        ):
+            hits = [d["prediction"] for d in model_details if d["verdict"] == verdict]
+            if hits:
+                print(f"    {label:<8}: {hits}")
 
 
 if __name__ == "__main__":

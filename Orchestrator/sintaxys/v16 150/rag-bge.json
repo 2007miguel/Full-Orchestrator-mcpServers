@@ -1,0 +1,4550 @@
+{
+  "notebook": "Copia%20de%20evaluador%20v%2016.12%20L4-150.ipynb",
+  "dataset": "evaluacion_rag_batfish_150_topologia_v3.csv",
+  "dataset_path": "/content/drive/MyDrive/base + rag v 16/evaluacion_rag_batfish_150_topologia_v3.csv",
+  "model_name": "Qwen2.5-7B-Base+RAG_arch_v4",
+  "timestamp": "20260717_015806",
+  "rouge1": 0.8784,
+  "rouge1_std": 0.1512,
+  "rouge2": 0.8272,
+  "rouge2_std": 0.1961,
+  "rougeL": 0.8521,
+  "rougeL_std": 0.1772,
+  "bertscore_p": 0.9729,
+  "bertscore_r": 0.9676,
+  "bertscore_f1": 0.9702,
+  "bertscore_f1_std": 0.0124,
+  "by_complexity": {
+    "corta  (<=3)": {
+      "rouge1": 0.896,
+      "rouge1_std": 0.1587,
+      "rouge2": 0.8564,
+      "rouge2_std": 0.207,
+      "rougeL": 0.8836,
+      "rougeL_std": 0.1763,
+      "n": 71
+    },
+    "media  (4-7)": {
+      "rouge1": 0.8556,
+      "rouge1_std": 0.1439,
+      "rouge2": 0.7898,
+      "rouge2_std": 0.1837,
+      "rougeL": 0.8116,
+      "rougeL_std": 0.1756,
+      "n": 67
+    },
+    "larga  (>7) ": {
+      "rouge1": 0.9022,
+      "rouge1_std": 0.1259,
+      "rouge2": 0.8632,
+      "rouge2_std": 0.157,
+      "rougeL": 0.8922,
+      "rougeL_std": 0.1405,
+      "n": 12
+    }
+  },
+  "predictions": [
+    "R2(config)# router bgp 65000\nR2(config-router)# address-family ipv6 unicast\nR2(config-router-af)# maximum-paths ibgp 3",
+    "R1(config)#ip vrf vpn1  \nR1(config-vrf)#rd 45000:5  \nR1(config-vrf)#route-target both 45000:100  \nR1(config-vrf)#exit  \nR1(config)#interface Ethernet0/0  \nR1(config-if)#vrf forwarding vpn1  \nR1(config-if)#ip address 10.0.1.1 255.255.255.0  \nR1(config-if)#exit  \nR1(config)#router bgp 45000  \nR1(config-router)#address-family ipv4 vrf vpn1  \nR1(config-router-af)#neighbor 10.0.1.2 remote-as 50000  \nR1(config-router-af)#neighbor 10.0.1.2 maximum-prefix 10000 warning-only  \nR1(config-router-af)#neighbor 10.0.1.2 activate  \nR1(config-router-af)#end",
+    "R3(config)#ip route 10.0.0.0 255.0.0.0 null0\nR3(config)#router bgp 45000\nR3(config-router)#redistribute static\nR3(config-router)#end",
+    "R4(config)#router bgp 45000\nR4(config-router)#aggregate-address 10.0.0.0 255.0.0.0 summary-only",
+    "R1(config)#router bgp 45000\nR1(config-router)#neighbor 10.0.12.2 remote-as 40000\nR1(config-router)#aggregate-address 10.0.0.0 255.0.0.0 summary-only\nR1(config-router)#neighbor 10.0.12.2 advertise-map map1 exist-map map1\nR1(config-router)#exit",
+    "R2(config)# router bgp 45000\nR2(config-router)# neighbor 10.0.12.1 remote-as 40000\nR2(config-router)# neighbor 10.0.12.1 advertise-map map1 exist-map map2\nR2(config-router)# exit\nR2(config)# route-map map1 permit 10\nR2(config-route-map)# match ip address 1\nR2(config-route-map)# exit\nR2(config)# route-map map2 permit 10\nR2(config-route-map)# match ip address 2\nR2(config-route-map)# exit\nR2(config)# access-list 1 permit 10.0.1.0 0.0.0.255\nR2(config)# access-list 2 permit 10.0.2.0 0.0.0.255\nR2(config)# exit",
+    "R3(config)# ip prefix-list DEFAULT permit 0.0.0.0/0\nR3(config)# route-map ROUTE permit 10\nR3(config-route-map)# match ip address prefix-list DEFAULT\nR3(config-route-map)# exit\nR3(config)# router bgp 40000\nR3(config-router)# neighbor 10.0.23.1 remote-as 45000\nR3(config-router)# neighbor 10.0.23.1 default-originate route-map ROUTE\nR3(config-router)# end",
+    "R4(config)#router bgp 45000\nR4(config-router)#address-family ipv4 unicast\nR4(config-router-af)#neighbor 10.0.24.1 remote-as 45000\nR4(config-router-af)#neighbor 10.0.24.1 next-hop-self\nR4(config-router-af)#neighbor 10.0.24.1 activate\nR4(config-router-af)#bgp additional-paths send receive\nR4(config-router-af)#bgp additional-paths select best 2\nR4(config-router-af)#end",
+    "R1(config)#router bgp 40000\nR1(config-router)#neighbor fingroup peer-group\nR1(config-router)#neighbor 10.0.14.2 remote-as 45000\nR1(config-router)#neighbor 10.0.14.2 peer-group fingroup\nR1(config-router)#address-family ipv4 multicast\nR1(config-router-af)#neighbor fingroup activate\nR1(config-router-af)#end",
+    "R2(config)#router bgp 45000\nR2(config-router)#no bgp default route-target filter\nR2(config-router)#neighbor INTERNAL remote-as 45000\nR2(config-router)#neighbor INTERNAL disable-connected-check\nR2(config-router)#neighbor INTERNAL update-source Loopback 0\nR2(config-router)#address-family ipv4 unicast\nR2(config-router-af)#neighbor 10.0.23.2 activate\nR2(config-router-af)#neighbor 10.0.24.2 activate\nR2(config-router-af)#exit\nR2(config-router)#exit",
+    "R1(config)#router ospf 109\nR1(config-router)#network 10.0.12.0 0.0.0.255 area 20",
+    "R2(config)# router ospf 10\nR2(config-router)# area 10.0.0.0 authentication\nR2(config-router)# area 10.0.0.0 stub no-summary\nR2(config-router)# area 10.0.0.0 default-cost 1\nR2(config-router)# end",
+    "R3(config)# router ospf 10\nR3(config-router)# redistribute rip subnets\nR3(config-router)# network 10.0.2.1 0.0.0.255 area 1\nR3(config-router)# area 1 nssa\nR3(config-router)# summary-address 10.0.40.0 255.255.255.0 not-advertise\nR3(config-router)# end",
+    "R4(config)#router ospf 1\nR4(config-router)#area 10 nssa",
+    "R1(config)#router ospf 1\nR1(config-router)#default-information originate always\nR1(config-router)#network 10.0.12.0 0.0.0.255 area 0",
+    "R2(config)# router ospf 109\nR2(config-router)# default-information originate always\nR2(config-router)# end",
+    "R3(config)#router ospf 109\nR3(config-router)#distance ospf external 200\nR3(config-router)#end",
+    "R4(config)# router ospf 109\nR4(config-router)# timers throttle spf 5 1000 9000\nR4(config-router)# end",
+    "R1(config)#router ospf 109\nR1(config-router)#log-adjacency-changes detail\nR1(config-router)#end",
+    "R2(config)# router ospf 109\nR2(config-router)# timers pacing lsa-group 60\nR2(config-router)# end",
+    "R3(config)#interface Ethernet0/0\nR3(config-if)#ospfv3 authentication md5 0 500 1234567890abcdef1234567890abcdef",
+    "R1(config)# router eigrp 109\nR1(config-router)# network 10.0.1.0\nR1(config-router)# network 10.0.12.0\nR1(config-router)# end",
+    "R2(config)# ipv6 router eigrp 100\nR2(config-router)# redistribute static metric 10000 100 255 1 1500",
+    "R3(config)# router eigrp 1\nR3(config-router)# network 10.0.0.0",
+    "R4(config)# router eigrp 101\nR4(config-router)# variance 2\nR4(config-router)# maximum-paths 4",
+    "R1(config)#router eigrp 101\nR1(config-router)#eigrp event-log-size 5000010\nR1(config-router)#eigrp log-neighbor-changes\nR1(config-router)#eigrp log-neighbor-warnings 300\nR1(config-router)#end",
+    "R2(config)# router eigrp 101\nR2(config-router)# traffic-share balanced\nR2(config-router)# maximum-paths 5\nR2(config-router)# variance 1\nR2(config-router)# end",
+    "R3(config)#interface Ethernet0/2\nR3(config-if)#ip hello-interval eigrp 109 10\nR3(config-if)#ip hold-time eigrp 109 40",
+    "R4(config)#router eigrp 101\nR4(config-router)#passive-interface Ethernet0/3\nR4(config-router)#end",
+    "R1(config)# interface Ethernet0/0\nR1(config-if)# ipv6 summary-address eigrp 1 2001:DB8:0:1::/64",
+    "R2(config)# router rip v2\nR2(config-router)# no auto-summary\nR2(config-router)# network 10.0.12.0\nR2(config-router)# network 10.0.20.0\nR2(config-router)# end",
+    "R3(config)# router isis osi-as-101\nR3(config-router)# net 49.0101.1111.1111.1111.1111.00\nR3(config-router)# is-type level-1\nR3(config-router)# end",
+    "R4(config-if)# interface Ethernet0/0\nR4(config-if)# ip address 10.0.14.2 255.255.255.0\nR4(config-if)# ip router isis osi-as-202\nR4(config-if)# end",
+    "R1(config)# interface loopback 0\nR1(config-if)# ip address 1.1.1.1 255.255.255.255\nR1(config-if)# exit\nR1(config)# router ospf 1\nR1(config-router)# area 0\nR1(config-router)# network 1.1.1.1 0.0.0.0 wildcard-mask point-to-point",
+    "R2(config)# router isis\nR2(config-router)# bfd check-control-plane-failure\nR2(config-router)# end",
+    "R1(config)# ip nat inside source static 10.0.1.10 203.0.113.1\nR1(config)# interface Ethernet0/0\nR1(config-if)# ip address 10.0.1.1 255.255.255.0\nR1(config-if)# ip nat inside\nR1(config-if)# exit\nR1(config)# interface Ethernet0/1\nR1(config-if)# ip address 10.0.12.1 255.255.255.0\nR1(config-if)# ip nat outside\nR1(config-if)# end",
+    "R2(config)# ip nat settings pap\nR2(config)# ip nat pool net-208 203.0.113.129 203.0.113.158 netmask 255.255.255.224\nR2(config)# access-list 1 permit 10.0.12.0 0.0.0.255\nR2(config)# ip nat inside source list 1 pool net-208 overload\nR2(config)# interface Ethernet0/0\nR2(config-if)# ip address 10.0.12.2 255.255.255.0\nR2(config-if)# ip nat inside\nR2(config-if)# exit\nR2(config)# interface Ethernet0/1\nR2(config-if)# ip address 10.0.23.1 255.255.255.0\nR2(config-if)# ip nat outside\nR2(config-if)# end",
+    "R3(config)#ip nat translation 300\nR3(config)#ip nat translation udp-timeout 300\nR3(config)#ip nat translation dns-timeout 45\nR3(config)#ip nat translation tcp-timeout 2500\nR3(config)#ip nat translation finrst-timeout 45\nR3(config)#ip nat translation icmp-timeout 45\nR3(config)#ip nat translation syn-timeout 45\nR3(config)#end",
+    "R4(config)#ip nat inside source static 10.0.40.10 203.0.113.33\nR4(config)#interface Ethernet0/0\nR4(config-if)#ip address 10.0.14.2 255.255.255.0\nR4(config-if)#ip nat inside\nR4(config-if)#exit\nR4(config)#interface Ethernet0/1\nR4(config-if)#ip address 10.0.24.2 255.255.255.0\nR4(config-if)#ip nat outside\nR4(config-if)#end",
+    "R1(config)# ip nat pool POOL-A 203.0.113.4 203.0.113.6 netmask 255.255.255.128\nR1(config)# access-list 1 permit 10.0.1.0 0.0.0.255\nR1(config)# ip nat inside source list 1 pool POOL-A\nR1(config)# interface Ethernet0/0\nR1(config-if)# ip address 10.0.1.1 255.255.255.0\nR1(config-if)# ip nat inside\nR1(config-if)# exit\nR1(config)# interface Ethernet0/1\nR1(config-if)# ip address 10.0.12.1 255.255.255.0\nR1(config-if)# ip nat outside\nR1(config-if)# end",
+    "R2(config)# ip nat inside source static 10.0.20.10 203.0.113.20\nR2(config)# interface Ethernet0/3\nR2(config-if)# ip address unconfigured\nR2(config-if)# ip nat inside\nR2(config-if)# exit\nR2(config)# interface Ethernet0/0\nR2(config-if)# ip address unconfigured\nR2(config-if)# ip nat outside\nR2(config-if)# end",
+    "R3(config)# ip nat settings pap\nR3(config)# ip nat pool net-208 203.0.113.129 203.0.113.158 netmask 255.255.255.224\nR3(config)# access-list 1 permit 10.0.2.0 0.0.0.255\nR3(config)# ip nat inside source list 1 pool net-208 overload\nR3(config)# interface Ethernet0/2\nR3(config-if)# ip address 10.0.2.1 255.255.255.0\nR3(config-if)# ip nat inside\nR3(config-if)# exit\nR3(config)# interface Ethernet0/0\nR3(config-if)# ip address 203.0.113.1 255.255.255.224\nR3(config-if)# ip nat outside\nR3(config-if)# end",
+    "R4(config)# vrf definition vrf1  \nR4(config-vrf)# rd 100:1  \nR4(config-vrf)# address-family ipv4  \nR4(config-vrf-af)# route-target both 100:1  \nR4(config-vrf-af)# exit-address-family  \nR4(config-vrf)# interface Ethernet0/3  \nR4(config-if)# vrf forwarding vrf1  \nR4(config-if)# exit",
+    "R1(config)# nat64 logging translations flow-export v9 udp destination 203.0.113.10 1020 source Ethernet0/0",
+    "R1(config)# vrf definition VRF1\nR1(config-vrf)# address-family ipv6\nR1(config-vrf-af)# exit-address-family\nR1(config-vrf)# end",
+    "R2(config)# vrf definition vrf1\nR2(config-vrf)# rd 10:1\nR2(config-vrf)# address-family ipv4\nR2(config-vrf-af)# route-target both 10:1\nR2(config-vrf-af)# exit-address-family\nR2(config-vrf)# exit",
+    "R3(config)# interface vasileft 100\nR3(config-if)# vrf forwarding VRFLEFT\nR3(config-if)# ip address 10.255.1.1 255.255.255.0\nR3(config-if)# exit\nR3(config)# interface vasiright 100\nR3(config-if)# vrf forwarding VRFRIGHT\nR3(config-if)# ip address 10.255.2.1 255.255.255.0\nR3(config-if)# exit",
+    "R1(config)#router ospf 1\nR1(config-router)#distance ospf external 90\nR1(config-router)#network 10.0.14.0 0.0.0.255 area 0",
+    "R2(config)# ipv6 router ospf 1\nR2(config-ospf)# area 0 authentication ipsec spi 678 message-digest key 1 cisco123\nR2(config-ospf)# interface Ethernet0/1\nR2(config-if)# ip ospf message-digest-key 1 md5 cisco123",
+    "R3(config-if)# interface Ethernet0/1  \nR3(config-if)# ip ospf cost 50  \nR3(config-if)# ip ospf priority 200  \nR3(config-if)# exit",
+    "R4(config)#router ospf 1  \nR4(config-router)#network 10.0.40.0 0.0.0.255 area 0  \nR4(config-router)#interface Ethernet0/3  \nR4(config-if)#shutdown",
+    "R1(config)# interface Ethernet0/0\nR1(config-if)# mpls ip\nR1(config-if)# end",
+    "R1(config)# ip nat settings mode cgn  \nR1(config)# access-list 1 permit 10.0.1.0 0.0.0.255  \nR1(config)# route-map MAP-A  \nR1(config-route-map)# match ip address 1  \nR1(config-route-map)# exit  \nR1(config)# ip nat pool POOL-A 203.0.113.4 203.0.113.6 prefix-length 24  \nR1(config)# ip nat inside source route-map MAP-A pool POOL-A  \nR1(config)# interface Ethernet0/0  \nR1(config-if)# ip nat inside  \nR1(config-if)# exit  \nR1(config)# interface Ethernet0/1  \nR1(config-if)# ip nat outside  \nR1(config-if)# exit  \nR1(config)# end",
+    "R3(config)# router eigrp 100\nR3(config-router)# no auto-summary\nR3(config-router)# exit",
+    "R2(config)# ip access-list extended BLOCK-TELNET  \nR2(config-ext-nacl)# deny tcp 10.0.20.0 0.0.0.255 any eq 23  \nR2(config-ext-nacl)# permit ip any any  \nR2(config-ext-nacl)# exit",
+    "R2(config)# router bgp 45000\nR2(config-router)# aggregate-address 10.0.0.0 255.0.0.0 summary-only",
+    "R2(config)# ip bgp 45000\nR2(config-router)# bgp router-id 2.2.2.2\nR2(config-router)# network 10.0.20.0/24 route-map advertise-bgp\nR2(config-router)# exit",
+    "R1(config)# ip multicast-routing distributed  \nR1(config)# ip pim ssm range mygroup  \nR1(config)# ip access-list extended mygroup  \nR1(config-ext-nacl)# deny igmp host 10.0.1.10 any  \nR1(config-ext-nacl)# permit igmp any any  \nR1(config-ext-nacl)# exit  \nR1(config)# interface Ethernet0/0  \nR1(config-if)# ip igmp access-group mygroup  \nR1(config-if)# ip pim sparse-mode  \nR1(config-if)# ip igmp version 3  \nR1(config-if)# end",
+    "R2(config)# ip multicast-routing distributed\nR2(config)# interface Ethernet0/1\nR2(config-if)# ip pim rp-address 10.0.23.2\nR2(config-if)# ip pim sparse-mode\nR2(config-if)# exit",
+    "R3(config)# ip igmp ssm-map enable\nR3(config)# no ip igmp ssm-map query dns\nR3(config)# ip igmp ssm-map static acl 11 10.0.2.10",
+    "R4(config)# ipv6 multicast-routing\nR4(config-if)# ip pim sparse-mode\nR4(config-if)# ip igmp version 3",
+    "R1(config)# interface Ethernet0/0\nR1(config-if)# ip igmp static-group 232.1.2.1 source ssm-map\nR1(config-if)# end",
+    "R2(config)# interface Tunnel100\nR2(config-if)# ip nhrp map 10.255.10.2 10.0.12.1\nR2(config-if)# ip nhrp map multicast 10.0.24.2",
+    "R3(config)# ip igmp snooping\nR3(config)# bridge-domain 100\nR3(config-bd)# ip igmp snooping",
+    "R4(config)# interface Ethernet0/0\nR4(config-if)# ip igmp unidirectional-link\nR4(config-if)# end",
+    "R1(config)# interface Ethernet0/0\nR1(config-if)# ipv6 traffic-filter inbound in",
+    "R2(config)# ip access-list standard LAN-ONLY  \nR2(config-std-nacl)# permit 10.0.20.0 0.0.0.255  \nR2(config-std-nacl)# deny any  \nR2(config-std-nacl)# exit  \nR2(config-if)# ip access-group LAN-ONLY out  \nR2(config-if)# exit",
+    "R3(config)# ip access-list extended DENY-H1  \nR3(config-ext-nacl)# deny ip 10.0.1.10 0.0.0.0 10.0.2.0 0.0.0.255  \nR3(config-ext-nacl)# permit ip any any  \nR3(config-ext-nacl)# end",
+    "R4(config)# access-list 20 permit 10.0.40.0 0.0.0.255\nR4(config)# interface Ethernet0/3\nR4(config-if)# ip access-group 20 in\nR4(config-if)# end",
+    "R1(config)#ipv6 unicast-routing\nR1(config)#ipv6 cef\nR1(config-if)#ipv6 address 2001:db8:ffff::2/64",
+    "R2(config)# ipv6 route static bfd ethernet 0/0 2001::1\nR2(config)# ipv6 route 2001:db8::/64 ethernet 0/0 2001::1",
+    "R3(config)# interface Ethernet0/0\nR3(config-if)# ip address 10.0.23.2 255.255.255.0\nR3(config-if)# ipv6 address 2001:db8::ffff:1/128\nR3(config-if)# no shutdown",
+    "R4(config)# interface Loopback 0\nR4(config-if)# ip address 10.255.0.4 255.255.255.0\nR4(config-if)# ipv6 address 2001:db8::ffff:1/128\nR4(config-if)# exit",
+    "R1(config)# interface tunnel 100\nR1(config-if)# tunnel mode gre multipoint\nR1(config-if)# tunnel key 3\nR1(config-if)# ip nhrp network-id 1",
+    "R2(config)# ip prefix-list P1 permit 10.0.40.0/24\nR2(config)# route-map SET-LP permit 10\nR2(config-route-map)# match ip address P1\nR2(config-route-map)# set local-preference 200\nR2(config-route-map)# exit\nR2(config)# router bgp 45000\nR2(config-router)# neighbor 10.0.24.2 route-map SET-LP in\nR2(config-router)# end",
+    "R3(config)# ip prefix-list BLOCK seq 1 deny 10.0.1.0/24\nR3(config)# ip prefix-list BLOCK seq 2 permit any\nR3(config)# router bgp 40000\nR3(config-router)# neighbor 10.0.23.1 prefix-list BLOCK in",
+    "R4(config)#interface Ethernet0/0\nR4(config-if)#arp timeout 30\nR4(config-if)#end",
+    "R1(config)# interface port-channel 1\nR1(config-if)# lacp min-bundle 1\nR1(config-if)# end",
+    "R1(config)# interface Ethernet0/0\nR1(config-if)# ip policy route-map equal-access\nR1(config-if)# exit\nR1(config)# route-map alpha permit 10\nR1(config-route-map)# match ip address 1\nR1(config-route-map)# exit",
+    "R2(config)# router ospf 1\nR2(config-router)# default-metric 20\nR2(config-router)# redistribute connected subnets",
+    "R3(config)# route-map SET-COMM permit 10\nR3(config-route-map)# match community none\nR3(config-route-map)# set community 100:200\nR3(config-route-map)# exit\nR3(config)# router bgp 40000\nR3(config-router)# neighbor 10.0.34.2 activate\nR3(config-router)# neighbor 10.0.34.2 route-map SET-COMM out\nR3(config-router)# ip bgp-community new-format\nR3(config-router)# end",
+    "R4(config)# ip prefix-list SUMMARY sequence 5 permit 10.10.10.0/24\nR4(config)# route-map to-ospf permit 10 match ip address SUMMARY\nR4(config-router)# redistribute bgp 45000 into ospf 1 route-map to-ospf subnets",
+    "R1(config)# ip community-list 30 permit 100:190\nR1(config)# route-map SET-LP permit 10\nR1(config-route-map)# match community-list 30\nR1(config-route-map)# set local-preference 300\nR1(config-route-map)# exit",
+    "R2(config)#access-list 50 permit 10.0.1.0 0.0.0.255\nR2(config)#ip prefix-list COLORADO permit 10.0.40.0/24",
+    "R3(config)# access-list 101 permit ip host 10.0.2.10 any\nR3(config)# access-list 101 deny ip 10.0.2.0 0.0.0.255 any\nR3(config)# interface Ethernet0/2\nR3(config-if)# ip access-group 101 in",
+    "R4(config)# route-map SET-MED permit 10\nR4(config-route-map)# set metric 500\nR4(config-route-map)# end\nR4(config)# router bgp 45000\nR4(config-router)# neighbor 10.0.34.1 route-map SET-MED out",
+    "R1(config)# interface Ethernet0/1\nR1(config-if)# ip ospf hello-interval 5\nR1(config-if)# ip ospf dead-interval 20\nR1(config-if)# end",
+    "R2(config-if)# interface Ethernet0/0\nR2(config-if)# description LINK-TO-R1\nR2(config-if)# ip address 10.0.12.2 255.255.255.0\nR2(config-if)# ip mtu 1400",
+    "R3(config)#router bgp 40000\nR3(config-router)#neighbor 10.0.23.1 remote-as 45000\nR3(config-router)#neighbor 10.0.23.1 fall-over route-map CHECK-NBR\nR3(config-router)#exit",
+    "R1(config)# interface Ethernet0/0.10\nR1(config-subif)# encapsulation dot1q 10\nR1(config-subif)# ip address 10.0.1.1 255.255.255.0",
+    "R3(config)# interface gigabitethernet 0/0/2.30\nR3(config-subif)# encapsulation dot1q 30\nR3(config-subif)# ip address 10.0.2.1 255.255.255.0",
+    "R2(config)# interface port-channel 10\nR2(config-if)# lacp max-bundle 3\nR2(config-if)# ip address 10.255.20.2 255.255.255.0\nR2(config-if)# end",
+    "R3(config)# interface port-channel 1\nR3(config-if)# ip address 10.255.20.3 255.255.255.0\nR3(config-if)# interface ethernet0/1\nR3(config-if)# no ip address\nR3(config-if)# channel-group 1 mode active\nR3(config-if)# exit\nR3(config)# interface ethernet0/2\nR3(config-if)# no ip address\nR3(config-if)# channel-group 1 mode active\nR3(config-if)# exit\nR3(config)# end",
+    "R4(config)#router bgp 45000\nR4(config-router)#neighbor 10.0.34.1 soft-reconfiguration inbound",
+    "R1(config)#router bgp 65001\nR1(config-router)#bgp log-neighbor-changes\nR1(config-router)#neighbor 10.0.12.2 remote-as 45000\nR1(config-router)#neighbor 10.0.12.2 disable-connected-check\nR1(config-router)#neighbor 10.0.12.2 ebgp-multihop 2\nR1(config-router)#neighbor 10.0.12.2 update-source Loopback 0\nR1(config-router)#address-family ipv4 unicast\nR1(config-router-af)#neighbor 10.0.12.2 activate\nR1(config-router-af)#end",
+    "R2(config)# interface Ethernet0/1\nR2(config-if)# ip address 10.0.23.1 255.255.255.0\nR2(config-if)# ip nat outside\nR2(config-if)# ip virtual-reassembly\nR2(config-if)# negotiation auto\nR2(config-if)# redundancy rii 200\nR2(config-if)# redundancy group 1 ip 10.0.23.200 exclusive decrement 10\nR2(config-if)# end",
+    "R2(config)#router bgp 45000\nR2(config-router)#neighbor 10.0.23.2 route-reflector-client\nR2(config-router)#neighbor 10.0.24.2 route-reflector-client",
+    "R4(config)#interface Ethernet0/2\nR4(config-if)#description wan interface\nR4(config-if)#ipv6 address 2001:DB8:2222::1/48\nR4(config-if)#zone-member security z2\nR4(config-if)#ip tcp adjust-mss 1360\nR4(config-if)#redundancy rii 360\nR4(config-if)#redundancy asymmetric-routing enable\nR4(config-if)#end",
+    "R1(config)# cts sxp enable\nR1(config)# cts sxp default password 6 Cisco123\nR1(config)# cts sxp default source-ip 10.255.0.1\nR1(config)# cts sxp connection peer 10.0.12.2 password default mode local both\nR1(config)# cts sxp speaker hold-time minimum-period 950\nR1(config)# cts sxp listener hold-time 750 1500",
+    "R2(config)# interface Ethernet0/0\nR2(config-if)# cts role-based sgt-cache ingress\nR2(config-if)# end",
+    "R1(config)# ip cef distributed  \nR1(config)# interface Ethernet0/1  \nR1(config-if)# mpls ip  \nR1(config-if)# mpls label protocol ldp  \nR1(config-if)# exit  \nR1(config)# mpls ldp session protection",
+    "R2(config)# enable\nR2(config)# configure terminal\nR2(config)# mpls ip\nR2(config)# mpls label protocol ldp\nR2(config)# interface Ethernet0/1\nR2(config-if)# ip address 10.0.23.1 255.255.255.0\nR2(config-if)# mpls ip\nR2(config-if)# exit\nR2(config)# router ospf 1\nR2(config-router)# network 10.0.23.0 0.0.255.255 area 0\nR2(config-router)# mpls ldp sync\nR2(config-router)# end",
+    "R3(config)# mpls ip\nR3(config)# mpls label protocol ldp\nR3(config)# router ospf 1\nR3(config-router)# mpls ldp autoconfig area 1",
+    "R4(config)# ip cef\nR4(config)# interface Ethernet0/0\nR4(config-if)# mpls ip\nR4(config-if)# mpls label protocol ldp\nR4(config-if)# exit\nR4(config)# mpls ldp session protection\nR4(config)# exit",
+    "R1(config)#router bgp 45000\nR1(config-router)#no bgp default ipv4-unicast\nR1(config-router)#neighbor 10.0.12.2 remote-as 45000\nR1(config-router)#address-family vpnv4\nR1(config-router-af)#neighbor 10.0.12.2 send-community extended\nR1(config-router-af)#neighbor 10.0.12.2 activate\nR1(config-router-af)#end",
+    "R2(config)# router bgp 45000\nR2(config-router)# address-family ipv4 vrf CLIENTE\nR2(config-router-af)# neighbor 10.0.20.10 remote-as 45000\nR2(config-router-af)# neighbor 10.0.20.10 activate\nR2(config-router-af)# exit",
+    "R3(config)# vrf definition DUAL  \nR3(config-vrf)# rd 100:3  \nR3(config-vrf)# address-family ipv4  \nR3(config-vrf-af)# route-target both 100:3  \nR3(config-vrf-af)# exit-address-family  \nR3(config-vrf)# address-family ipv6  \nR3(config-vrf-af)# route-target both 100:3  \nR3(config-vrf-af)# exit-address-family  \nR3(config-vrf)# exit",
+    "R1(config)# interface tunnel 0\nR1(config-if)# bandwidth 1000\nR1(config-if)# keepalive 10 3\nR1(config-if)# tunnel source 10.0.12.1\nR1(config-if)# tunnel destination 10.0.12.2\nR1(config-if)# tunnel key 1000\nR1(config-if)# tunnel mode gre ip\nR1(config-if)# ip mtu 1400\nR1(config-if)# ip tcp mss 250\nR1(config-if)# tunnel path-mtu-discovery\nR1(config-if)# end",
+    "R2(config)# interface tunnel 1\nR2(config-if)# ip address 172.16.2.1 255.255.255.252\nR2(config-if)# tunnel source Ethernet0/2\nR2(config-if)# tunnel destination 10.0.24.2\nR2(config-if)# tunnel path-mtu-discovery",
+    "R3(config)# ip vrf TUNEL\nR3(config-vrf)# rd 100:9\nR3(config-vrf)# interface Tunnel2\nR3(config-if)# vrf forwarding TUNEL\nR3(config-if)# ip address 172.16.3.1 255.255.255.252\nR3(config-if)# tunnel source Ethernet0/1\nR3(config-if)# tunnel destination 10.0.34.2\nR3(config-if)# exit",
+    "R4(config)# interface tunnel 3  \nR4(config-if)# ipv6 address 2001:db8:34::1/64  \nR4(config-if)# tunnel source Ethernet0/2  \nR4(config-if)# tunnel destination 10.0.34.1  \nR4(config-if)# tunnel mode ipv6ip  \nR4(config-if)# end",
+    "R2(config)# router bgp 45000\nR2(config-router)# address-family ipv6 unicast\nR2(config-router-af)# neighbor 2001:db8:23::2 activate\nR2(config-router-af)# end",
+    "R3(config)#router bgp 45000\nR3(config-router)#neighbor V6-PEERS peer-group\nR3(config-router)#neighbor 2001:db8:23::1 remote-as 45000\nR3(config-router)#address-family ipv6\nR3(config-router-af)#neighbor V6-PEERS activate",
+    "R4(config)# router bgp 45000\nR4(config-router)# address-family ipv6\nR4(config-router-af)# network 2001:db8:40::/64\nR4(config-router-af)# neighbor 2001:db8:24::1 activate\nR4(config-router-af)# exit",
+    "R1(config)#ipv6 unicast-routing\nR1(config)#ipv6 route 2001:db8:20::/64 2001:db8:12::2",
+    "R2(config)#ipv6 unicast-routing\nR2(config)#ipv6 route 2001:db8:40::/64 2001:db8:24::2 200",
+    "R4(config)# interface Ethernet0/3\nR4(config-if)# ipv6 address 2001:db8:40::1/64\nR4(config-if)# ipv6 nd cache expire 300",
+    "R1(config)#ipv6 unicast-routing  \nR1(config)#ipv6 multicast-routing",
+    "R2(config)# ipv6 unicast-routing\nR2(config)# ipv6 multicast-routing\nR2(config)# interface Ethernet0/3\nR2(config-if)# ipv6 pim passive",
+    "R1(config)#ip vrf CLIENTE-A  \nR1(config-vrf)#rd 100:1  \nR1(config-vrf)#interface Ethernet0/0  \nR1(config-if)#vrf forwarding CLIENTE-A  \nR1(config-if)#ip address 10.0.1.1 255.255.255.0  \nR1(config-if)#exit",
+    "R2(config)# vrf definition MP-VRF  \nR2(config-vrf)# description VRF multiprotocolo  \nR2(config-vrf)# rd 100:2  \nR2(config-vrf)# address-family ipv4  \nR2(config-vrf-af)# route-target both 100:2  \nR2(config-vrf-af)# exit-address-family",
+    "R3(config)# ip vrf CLIENTE-C\nR3(config-vrf)# rd 100:3\nR3(config-vrf)# route-target import 100:3\nR3(config-vrf)# route-target export 100:3\nR3(config-vrf)# exit\nR3(config)# ip route vrf CLIENTE-C 10.0.2.0 255.255.255.0 10.0.23.1",
+    "R4(config)# ip vrf CLIENTE-D  \nR4(config-vrf)# rd 100:4  \nR4(config-vrf)# route-target both 100:4  \nR4(config-vrf)# exit  \nR4(config)# router bgp 45000  \nR4(config-router)# address-family ipv4 vrf CLIENTE-D  \nR4(config-router-af)# neighbor 10.0.40.10 remote-as 65100  \nR4(config-router-af)# neighbor 10.0.40.10 activate  \nR4(config-router-af)# exit  \nR4(config-router)# end",
+    "R1(config)# vrf definition V6-VRF  \nR1(config-vrf)# rd 100:6  \nR1(config-vrf)# address-family ipv6  \nR1(config-vrf-af)# route-target import 100:6  \nR1(config-vrf-af)# route-target export 100:6  \nR1(config-vrf-af)# exit-address-family  \nR1(config-vrf)# exit",
+    "R1(config)#router bgp 45000\nR1(config-router)#peer-group IBGP-CORE\nR1(config-router)#neighbor 10.0.12.2 peer-group IBGP-CORE\nR1(config-router)#neighbor 10.0.14.2 peer-group IBGP-CORE\nR1(config-router)#neighbor IBGP-CORE remote-as 45000\nR1(config-router)#neighbor IBGP-CORE update-source Loopback 0\nR1(config-router)#end",
+    "R2(config)# router bgp 45000\nR2(config-router)# distance bgp 20 20 200",
+    "R3(config)#router bgp 45000\nR3(config-router)#aggregate-address 10.0.0.0 255.0.0.0 summary-only\nR3(config-router)#neighbor 10.0.23.1 unsuppress-map SUP-MAP",
+    "R4(config)# router bgp 45000\nR4(config-router)# neighbor 10.0.40.10 maximum-prefix 1000 80 warning-only",
+    "R1(config)#router bgp 45000\nR1(config-router)#redistribute connected route-map SOLO-LAN\nR1(config-router)#ip prefix-list LAN-PFX permit 10.0.0.0/8 le 24\nR1(config-router)#route-map SOLO-LAN permit 10\nR1(config-router-route-map)#match ip address LAN-PFX\nR1(config-router-route-map)#end",
+    "R2(config)# router bgp 45000\nR2(config-router)# address-family ipv4 unicast\nR2(config-router-af)# bgp dampening 15 750 2000 60\nR2(config-router-af)# end",
+    "R3(config)#router bgp 45000\nR3(config-router)#address-family ipv4 unicast\nR3(config-router-af)#neighbor 10.0.23.1 remote-as 45000\nR3(config-router-af)#neighbor 10.0.23.1 fall-over\nR3(config-router-af)#network 10.0.2.0 mask 255.255.255.0\nR3(config-router-af)#end",
+    "R4(config)# router bgp 45000\nR4(config-router)# neighbor 10.0.24.1 remote-as 45000\nR4(config-router)# neighbor 10.0.24.1 activate\nR4(config-router)# neighbor 10.0.24.1 timers keepalive 10 hold 30\nR4(config-router)# bgp log-neighbor-changes",
+    "R1(config)#router ospf 1\nR1(config-router)#area 5 stub no-summary\nR1(config-router)#area 5 default-cost 10",
+    "R2(config)# router ospf 1\nR2(config-router)# distance ospf intra-area 110\nR2(config-router)# distance ospf inter-area 110\nR2(config-router)# distance ospf external 200\nR2(config-router)# end",
+    "R3(config)#router ospf 1\nR3(config-router)#address-family ipv4 unicast\nR3(config-router-af)#distribute-list prefix PERMITIDAS in\nR3(config-router-af)#exit",
+    "R4(config)# ipv6 unicast-routing  \nR4(config)# interface Ethernet0/2  \nR4(config-if)# ipv6 address 2001:db8:34::2/64  \nR4(config-if)# ipv6 ospf 1 area 0  \nR4(config-if)# ipv6 bfd",
+    "R1(config)#router ospf 1\nR1(config-router)#area 1 summary\nR1(config-router)#auto-cost reference-bandwidth 10000",
+    "R2(config)# interface Ethernet0/1\nR2(config-if)# no switchport\nR2(config-if)# ip authentication mode eigrp 100 md5\nR2(config-if)# ip authentication key-chain eigrp 100 EIGRP-KEY\nR2(config-if)# exit\nR2(config)# key chain EIGRP-KEY\nR2(config-keychain)# key 1\nR2(config-keychain-key)# key-string SECRETO\nR2(config-keychain-key)# accept-lifetime infinite\nR2(config-keychain-key)# send-lifetime infinite\nR2(config-keychain-key)# end",
+    "R3(config)# ipv6 router eigrp 100\nR3(config-router)# eigrp stub",
+    "R4(config)#router eigrp 100\nR4(config-router)#no auto-summary\nR4(config-router)#interface Ethernet0/1\nR4(config-if)#ip summary-address eigrp 100 10.0.0.0 0.0.0.0\nR4(config-if)#exit",
+    "R1(config)# router eigrp CORP\nR1(config-router)# address-family ipv4 unicast\nR1(config-router-af)# autonomous-system 100\nR1(config-router-af)# router-id 1.1.1.1\nR1(config-router-af)# network 10.0.12.0 0.0.0.255\nR1(config-router-af)# exit",
+    "R1(config)# interface Ethernet0/1\nR1(config-if)# bfd interval 50 min_rx 50 multiplier 3\nR1(config-if)# end",
+    "R2(config)# ipv6 unicast-routing\nR2(config)# ipv6 cef\nR2(config)# interface Ethernet0/1\nR2(config-if)# ipv6 address 2001:db8:23::2/120\nR2(config-if)# bfd interval 500 min_rx 500 multiplier 3\nR2(config-if)# no shutdown\nR2(config-if)# exit\nR2(config)# router bgp 45000\nR2(config-router)# no bgp default ipv4-unicast\nR2(config-router)# address-family ipv6\nR2(config-router-af)# neighbor 2001:db8:23::1 remote-as 45000\nR2(config-router-af)# neighbor 2001:db8:23::1 fall-over bfd\nR2(config-router-af)# exit\nR2(config-router)# exit\nR2(config)# exit",
+    "R3(config)# interface Ethernet0/1\nR3(config-if)# bfd interval 100 min_rx 100 multiplier 3\nR3(config-if)# no bfd echo\nR3(config-if)# end",
+    "R1(config)# ip access-list extended WEB-ONLY  \nR1(config-ext-nacl)# permit tcp 10.0.1.0 0.0.0.255 any eq 443  \nR1(config-ext-nacl)# deny ip any any log",
+    "R2(config)# ip access-list standard SOLO-H3  \nR2(config-std-nacl)# permit host 10.0.20.10 log  \nR2(config-std-nacl)# deny any log  \nR2(config-std-nacl)# exit  \nR2(config)# interface Ethernet0/3  \nR2(config-if)# ip access-group SOLO-H3 in  \nR2(config-if)# end",
+    "R3(config)# ipv6 route 10::1/24 10.0.23.1 HACIA-R1 \nR3(config)# ipv6 route ::/0 10.0.34.2 administrative-distance 200",
+    "R4(config)# ip multicast-routing  \nR4(config)# ip access-list extended BOUNDARY  \nR4(config-ext-nacl)# deny udp host 239.0.0.0 any  \nR4(config-ext-nacl)# permit ip any any  \nR4(config)# interface Ethernet0/3  \nR4(config-if)# ip multicast boundary BOUNDARY",
+    "R1(config)#ipv6 unicast-routing\nR1(config)#ipv6 route 2001:db8:2::/64 2001:db8:12::2 Ethernet0/1",
+    "R4(config)# interface Loopback0\nR4(config-if)# ip address 4.4.4.4 255.255.255.255\nR4(config-if)# exit\nR4(config)# mpls ip\nR4(config)# mpls label protocol ldp\nR4(config)# router ospf 1\nR4(config-router)# network 10.0.0.0 0.255.255.255 area 0\nR4(config-router)# mpls ldp autoconfig area 0\nR4(config-router)# exit\nR4(config)# end"
+  ],
+  "retrieved_logs": [
+    {
+      "id": 0,
+      "requirement": "On R2, which runs BGP in autonomous system 65000, allow internal BGP to install up to 3 equal-cost paths for IPv6 prefixes so traffic is load-shared across them.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_ibgp_multipath_load_sharing_64675c86",
+        "SECTION_configuring_multiple_sourced_paths_1900812b",
+        "SECTION_configuring_equal_and_unequal_cost_load_balan_f0e67324"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7447,
+      "raw_top_score": 0.7447,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 1,
+      "requirement": "On R1, create VRF \"vpn1\" with vrf definition (route distinguisher 45000:5 and route-target both 45000:100 under the IPv4 address family), place Ethernet0/0 (10.0.1.1/24) into that VRF, and under BGP AS 45000 IPv4 VRF address family peer with the CE 10.0.1.2 in remote AS 50000 and activate the neighbor.",
+      "n_lines": 12,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_bgp_peer_for_the_ipv4_vrf_addre_887c55ac",
+        "SECTION_configuring_a_bgp_peer_for_the_ipv4_vrf_addre_891e7855",
+        "SECTION_configuring_a_vrf_for_ipv4_and_ipv6_mpls_vpns_c7f6600e"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8136,
+      "raw_top_score": 0.8136,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 2,
+      "requirement": "On R3 (BGP AS 45000), generate an aggregate for 10.0.0.0/8 by creating a static route for that block to null0 and redistributing static routes into BGP.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_redistri_e3b0d904",
+        "SECTION_aggregating_route_prefixes_using_bgp_redistri_488fff8d",
+        "SECTION_aggregating_route_prefixes_using_bgp_configur_8da720c2"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.77,
+      "raw_top_score": 0.77,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 3,
+      "requirement": "On R4 (BGP AS 45000), advertise an aggregate route for 10.0.0.0/8 and have it carry the combined AS_PATH information of the more-specific routes it summarizes.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_32e641e3",
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_34b33a4d",
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7365,
+      "raw_top_score": 0.7365,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 4,
+      "requirement": "On R1 (BGP AS 45000) peering with 10.0.12.2 in AS 40000, advertise only the aggregate 10.0.0.0/8 (hide the more-specifics), but selectively let the routes chosen by route-map map1 still be advertised to that neighbor.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_32e641e3",
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_34b33a4d",
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7555,
+      "raw_top_score": 0.7555,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 5,
+      "requirement": "On R2 (BGP AS 45000) peering with 10.0.12.1 in AS 40000, advertise the routes permitted by ACL 1 (10.0.1.0) to that neighbor only while the routes permitted by ACL 2 (10.0.2.0) are present in the BGP table.",
+      "n_lines": 12,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5",
+        "SECTION_troubleshooting_your_route_target_replacement_2b98b801_proc_324a60",
+        "SECTION_advertising_networking_prefixes_10d02fac"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7068,
+      "raw_top_score": 0.7068,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 6,
+      "requirement": "On R3 (BGP AS 40000) peering with 10.0.23.1 in AS 45000, advertise a default route to that neighbor only when it matches prefix-list \"DEFAULT\" (0.0.0.0/0), using route-map \"ROUTE\" (permit 10).",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_originating_bgp_routes_advertising_a_default__8d435770",
+        "SECTION_originating_bgp_routes_advertising_a_default__5387c814",
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7711,
+      "raw_top_score": 0.7711,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 7,
+      "requirement": "On R4 (BGP AS 45000), peer with the iBGP neighbor 10.0.24.1 in the same AS, advertise R4 itself as the next hop to that neighbor, and allow iBGP to install up to 2 equal-cost paths.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_making_an_ibgp_peer_nsr_capable_for_the_vpnv4_424bd5de",
+        "SECTION_configuring_additional_paths_per_neighbor_c453ade2",
+        "SECTION_making_an_ibgp_peer_nsr_capable_for_the_ipv4__ab289992"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7414,
+      "raw_top_score": 0.7414,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 8,
+      "requirement": "On R1 (BGP AS 40000), create a peer group named \"fingroup\", make 10.0.14.2 (remote AS 45000) a member of it, and activate the peer group under the IPv4 multicast address family.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_bgp_peer_group_abc2c5a3",
+        "SECTION_configuring_a_bgp_peer_group_89ae47c4",
+        "SECTION_making_an_ibgp_peer_nsr_capable_for_the_ipv4__ab289992"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7788,
+      "raw_top_score": 0.7788,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 9,
+      "requirement": "On R2 (BGP AS 45000), create the peer group \"INTERNAL\" for iBGP (remote AS 45000) that uses Loopback0 as update source and advertises itself as next hop, then add neighbors 10.0.23.2 and 10.0.24.2 to that peer group. Loopback0 is 2.2.2.2/32.",
+      "n_lines": 9,
+      "chunks_retrieved": [
+        "SECTION_configuring_directly_connected_loopback_peeri_04ffd0af",
+        "SECTION_configuring_directly_connected_loopback_peeri_2f6f4db5",
+        "SECTION_configuring_directly_connected_loopback_peeri_c2e9c9e8"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7491,
+      "raw_top_score": 0.7491,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 10,
+      "requirement": "On R1, bring up OSPF with process id 109 and advertise the 10.0.12.0/24 link into area 20.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_enabling_ospf_7bfe0ed9",
+        "SECTION_defining_an_ospfv3_area_range_for_the_ipv6_or_e4148d69",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.6763,
+      "raw_top_score": 0.6763,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 11,
+      "requirement": "On R2, under OSPF process 10 make area 10.0.0.0 a totally stubby area that uses authentication and advertises a default summary cost of 1.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospf_area_parameters_68a0e9f1",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7",
+        "SECTION_configuring_advertisement_on_startup_65ca00d7"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7292,
+      "raw_top_score": 0.7292,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 12,
+      "requirement": "On R3, under OSPF process 10 redistribute RIP (with subnets), advertise 10.0.2.0 into area 1, turn area 1 into an NSSA, and summarize 10.0.40.0/24 so it is not advertised.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7",
+        "SECTION_requesting_a_warning_about_the_number_of_rout_e167ca97",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_nssa_a_08bc55b5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.754,
+      "raw_top_score": 0.754,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 13,
+      "requirement": "On R4 (OSPF process 1), configure area 10 as an NSSA area and advertise the 10.0.24.0/24 network into it.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_nssa_a_08bc55b5",
+        "SECTION_configuring_ospfv2_nssa_disabling_rfc_3101_co_f4c4bdd0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7375,
+      "raw_top_score": 0.7375,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 14,
+      "requirement": "On R1 (OSPF process 1), always advertise a default route into OSPF even if R1 does not have one, and advertise the 10.0.12.0/24 network in area 0.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_generating_a_default_route_e389d9ca",
+        "SECTION_configuring_advertisement_on_startup_65ca00d7",
+        "SECTION_configuring_advertisement_until_routing_table_afa17576"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7087,
+      "raw_top_score": 0.7087,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 15,
+      "requirement": "On R2 (OSPF process 109), originate a default route into OSPF unconditionally, even when R2 itself has no default route.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_generating_a_default_route_e389d9ca",
+        "SECTION_specifying_prefixes_to_be_protected_by_lfa_fr_87b090c2",
+        "SECTION_customizing_ipv6_rip_decac1f9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: RIP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7494,
+      "raw_top_score": 0.7494,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 16,
+      "requirement": "On R3 (OSPF process 109), change the administrative distance used for OSPF external routes to 200.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_changing_the_ospf_administrative_distances_8122db3b",
+        "SECTION_calculating_ospfv3_external_path_preferences__2a3d728c",
+        "SECTION_configuring_ospf_as_the_routing_protocol_betw_166bd9f0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.766,
+      "raw_top_score": 0.766,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 17,
+      "requirement": "On R4 (OSPF process 109), tune the SPF throttle timers to 5 ms initial delay, 1000 ms minimum hold, and 9000 ms maximum hold.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_route_calculation_timers_69967890",
+        "SECTION_configuring_lsa_and_spf_throttling_for_ospfv3_8cf91c44",
+        "SECTION_tuning_spf_prc_and_lsp_generation_exponential_8aa98d67"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: ISIS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7812,
+      "raw_top_score": 0.7812,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 18,
+      "requirement": "On R1 (OSPF process 109), log a detailed message every time a neighbor adjacency goes up or down.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_logging_neighbors_going_up_or_down_ee7b5ff8",
+        "SECTION_customizing_an_eigrp_for_ipv6_routing_process_fbac2217",
+        "SECTION_configuring_adjacency_limit_in_the_address_fa_bd2c9697"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7672,
+      "raw_top_score": 0.7672,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 19,
+      "requirement": "On R2 (OSPF process 109), set the LSA group pacing interval to 60 seconds.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_logging_neighbors_going_up_or_down_changing_t_6e1fc3dd",
+        "SECTION_tuning_lsa_and_spf_timers_for_ospfv3_fast_con_c2e188df",
+        "SECTION_configuring_lsa_and_spf_throttling_for_ospfv3_8cf91c44"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7669,
+      "raw_top_score": 0.7669,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 20,
+      "requirement": "On R3 interface Ethernet0/0, secure OSPFv3 for IPv6 with IPsec authentication using SPI 500 and MD5 key 1234567890abcdef1234567890abcdef.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_ipsec_on_ospfv3_defining_authenti_67a41b46",
+        "SECTION_configuring_ipsec_on_ospfv3_defining_authenti_e215c9fb",
+        "SECTION_configuring_multi_sa_support_for_dynamic_virt_7c075457"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Security for VPNs with IPsec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7975,
+      "raw_top_score": 0.7975,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 21,
+      "requirement": "On R1, enable EIGRP in autonomous system 109 and advertise the networks 10.0.1.0 and 10.0.12.0.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_enabling_eigrp_autonomous_system_configuratio_07bdc105",
+        "SECTION_enabling_the_eigrp_named_configuration_777b7ade",
+        "SECTION_enabling_eigrp_nonstop_forwarding_awareness_0311ffbc"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7284,
+      "raw_top_score": 0.7284,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 22,
+      "requirement": "On R2, enable EIGRP AS 100 for the network 10.0.12.0/24 and redistribute static routes with metric 10000 100 255 1 1500.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_adjusting_eigrp_for_ipv6_metric_weights_3cfa35f1",
+        "SECTION_configuring_the_percentage_of_link_bandwidth__5808019e",
+        "SECTION_configuring_the_maximum_number_of_prefixes_le_82358527"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7259,
+      "raw_top_score": 0.7259,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 23,
+      "requirement": "On R3, enable EIGRP in autonomous system 1 and advertise the 10.0.0.0 network.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_enabling_eigrp_autonomous_system_configuratio_07bdc105",
+        "SECTION_defining_an_autonomous_system_for_eigrp_route_5fdeb62e",
+        "SECTION_enabling_eigrp_nonstop_forwarding_awareness_0311ffbc"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.731,
+      "raw_top_score": 0.731,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 24,
+      "requirement": "On R4, in EIGRP AS 101 allow unequal-cost load balancing with a variance of 2 and up to 4 parallel paths.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_equal_and_unequal_cost_load_balan_f0e67324",
+        "SECTION_configuring_equal_and_unequal_cost_load_balan_9f8e0bb9",
+        "SECTION_configure_a_multihomed_lisp_site_with_two_xtr_2006c9f6"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: LISP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7659,
+      "raw_top_score": 0.7659,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 25,
+      "requirement": "On R1, for EIGRP AS 101 set the event log buffer size to 5000010, log neighbor changes, and log neighbor warnings every 300 seconds.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_the_eigrp_event_logging_autonomou_9fad3e33",
+        "SECTION_configuring_the_eigrp_event_logging_named_con_5ff7942c",
+        "SECTION_customizing_an_eigrp_for_ipv6_routing_process_14ce23b1"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7704,
+      "raw_top_score": 0.7704,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 26,
+      "requirement": "On R2, for EIGRP AS 101 enable balanced unequal-cost load sharing across up to 5 paths with a variance of 1.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_equal_and_unequal_cost_load_balan_f0e67324",
+        "SECTION_configuring_equal_and_unequal_cost_load_balan_9f8e0bb9",
+        "SECTION_configuring_the_maximum_number_of_prefixes_le_82358527"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7939,
+      "raw_top_score": 0.7939,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 27,
+      "requirement": "On R3 interface Ethernet0/2, set the EIGRP AS 109 hello interval to 10 seconds and the hold time to 40 seconds.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_adjusting_the_interval_between_hello_packets__7c2b8cad",
+        "SECTION_adjusting_the_interval_between_hello_packets__136cf688",
+        "SECTION_adjusting_the_interval_between_hello_packets__ff716013"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7908,
+      "raw_top_score": 0.7908,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 28,
+      "requirement": "On R4, enable EIGRP AS 101 for the LAN 10.0.40.0/24 and make Ethernet0/3 passive so no neighbors are formed toward the hosts.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_the_percentage_of_link_bandwidth__5808019e",
+        "SECTION_configuring_eigrp_over_the_top_on_a_ce_device_a6221520",
+        "SECTION_enabling_eigrp_autonomous_system_configuratio_07bdc105"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7265,
+      "raw_top_score": 0.7265,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 29,
+      "requirement": "On R1 interface Ethernet0/0, advertise an EIGRP for IPv6 summary address 2001:DB8:0:1::/64 for process 1.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_summary_addresses_c72f576c",
+        "SECTION_deploying_ipv6_on_the_provider_edge_devices_6_d01bf914",
+        "SECTION_configuring_the_eigrp_route_summarization_aut_1801b29f"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7754,
+      "raw_top_score": 0.7754,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 30,
+      "requirement": "On R2, enable RIP version 2 with automatic summarization turned off, advertising networks 10.0.12.0 and 10.0.20.0.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_summarizing_rip_routes_dad70d1b",
+        "SECTION_enabling_rip_and_configuring_rip_parameters_2bb01c88",
+        "SECTION_disabling_and_reenabling_cisco_discovery_prot_d227b5e8"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: RIP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: RIP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco Discovery Protocol Configuration Guide, Cisco IOS XE Everest 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.6857,
+      "raw_top_score": 0.6857,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 31,
+      "requirement": "On R3, start an IS-IS routing process with area tag \"osi-as-101\", assign the NET 49.0101.1111.1111.1111.1111.00, and make it a Level-1-only router.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_enabling_is_is_as_an_ip_routing_protocol_on_t_851c93cf",
+        "SECTION_configuring_an_is_is_routing_process_3fbdfb97",
+        "SECTION_enhancing_your_is_is_network_design_at_the_ro_6ad6d63f"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: ISIS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: ISIS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7362,
+      "raw_top_score": 0.7362,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 32,
+      "requirement": "On R4 interface Ethernet0/0 (10.0.14.2/24), enable IS-IS IP routing and CLNS routing for the \"osi-as-202\" process and bring the interface up.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_enabling_is_is_as_an_ip_routing_protocol_on_t_ba730b6c",
+        "SECTION_configuring_an_is_is_routing_process_3fbdfb97",
+        "SECTION_enabling_is_is_as_an_ip_routing_protocol_on_t_2eb877a0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: ISIS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: ISIS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7286,
+      "raw_top_score": 0.7286,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 33,
+      "requirement": "On R1, create Loopback0 with 1.1.1.1/32 and enable OSPF process 1 on it in area 0 so the router ID is taken from the loopback.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_forcing_the_router_id_choice_with_a_loopback__02a2c81b",
+        "SECTION_configuring_a_loopback_interface_6870411b",
+        "SECTION_creating_a_backup_tunnel_to_the_next_hop_or_t_bc23867a"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco 4000 Series ISRs Software Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Traffic Engineering Path Link and Node Protection Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7859,
+      "raw_top_score": 0.7859,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 34,
+      "requirement": "On R2, enable BFD control-plane-independent failure detection for the IS-IS process (BFD C-bit support).",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_is_is_client_for_bfd_c_bit_suppor_975f1a81",
+        "SECTION_configuring_is_is_ipv6_client_support_for_bfd_a4fd6578",
+        "SECTION_configuring_bfdbgp_multihop_client_support_cb_b4aad4e0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8112,
+      "raw_top_score": 0.8112,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 35,
+      "requirement": "On R1, statically translate inside host 10.0.1.10 to global 203.0.113.1; mark Ethernet0/0 (10.0.1.1/24) as NAT inside and Ethernet0/1 (10.0.12.1/24) as NAT outside.",
+      "n_lines": 8,
+      "chunks_retrieved": [
+        "SECTION_configuring_inside_source_addresses_configuri_c162daab",
+        "SECTION_configuring_inside_source_addresses_configuri_91236b8d",
+        "SECTION_allowing_overlapping_networks_to_communicate__1ee16df9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7552,
+      "raw_top_score": 0.7552,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 36,
+      "requirement": "On R2, let inside users reach the Internet by PAT: define pool net-208 (203.0.113.129-203.0.113.158, mask 255.255.255.224), match inside subnet with ACL 1, overload it, and set Ethernet0/0 (10.0.12.2/24) inside and Ethernet0/1 (10.0.23.1/24) outside.",
+      "n_lines": 10,
+      "chunks_retrieved": [
+        "SECTION_configuring_inside_source_addresses_configuri_91236b8d",
+        "SECTION_configuring_paired_address_pooling_support_fo_29bf8c60",
+        "SECTION_configuring_paired_address_pooling_support_in_269e10ff"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7319,
+      "raw_top_score": 0.7319,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 37,
+      "requirement": "On R3, adjust the NAT translation timeouts: generic 300 s, UDP 300 s, DNS 45 s, TCP 2500 s, FIN/RST 45 s, ICMP 45 s, and SYN 45 s.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_address_translation_timeouts_chan_9d866824",
+        "SECTION_clearing_nat_entries_before_the_timeout_ae3c5df8",
+        "SECTION_configuring_pptp_alg_for_port_address_transla_14d07a7b"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7777,
+      "raw_top_score": 0.7777,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 38,
+      "requirement": "On R4, resolve an overlapping-address conflict with static inside-source NAT translating 10.0.40.10 to 203.0.113.33; Ethernet0/0 (10.0.14.2/24) is inside and Ethernet0/1 (10.0.24.2/24) is outside.",
+      "n_lines": 8,
+      "chunks_retrieved": [
+        "SECTION_allowing_overlapping_networks_to_communicate__1ee16df9",
+        "SECTION_configuring_inside_source_addresses_configuri_c162daab",
+        "SECTION_configuring_inside_source_addresses_configuri_91236b8d"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7655,
+      "raw_top_score": 0.7655,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 39,
+      "requirement": "On R1, translate inside addresses dynamically: define pool \"POOL-A\" (203.0.113.4 to 203.0.113.6, mask 255.255.255.128), match the inside subnet with access-list 1 (10.0.1.0/24), bind them, and mark Ethernet0/0 as NAT inside and Ethernet0/1 as NAT outside.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_inside_source_addresses_configuri_91236b8d",
+        "SECTION_configuring_paired_address_pooling_support_fo_29bf8c60",
+        "SECTION_configuring_paired_address_pooling_support_in_269e10ff"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.788,
+      "raw_top_score": 0.788,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 40,
+      "requirement": "On R2, statically translate the inside host 10.0.20.10 to the global address 203.0.113.20, and mark Ethernet0/3 as NAT inside and Ethernet0/0 as NAT outside.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_inside_source_addresses_configuri_c162daab",
+        "SECTION_configuring_inside_source_addresses_configuri_91236b8d",
+        "SECTION_configuring_inside_source_addresses_configuri_99061225"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7821,
+      "raw_top_score": 0.7821,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 41,
+      "requirement": "On R3, let the inside users of 10.0.2.0/24 reach the Internet using PAT: define pool \"net-208\" (203.0.113.129 to 203.0.113.158, mask 255.255.255.224), match access-list 1, overload the pool, and set Ethernet0/2 as NAT inside and Ethernet0/0 as NAT outside.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_paired_address_pooling_support_in_269e10ff",
+        "SECTION_using_nat_to_allow_internal_users_access_to_t_4b27859f",
+        "SECTION_configuring_paired_address_pooling_support_fo_29bf8c60"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7853,
+      "raw_top_score": 0.7853,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 42,
+      "requirement": "On R4, create VRF \"vrf1\" (route distinguisher 100:1, route-target both 100:1 in the IPv4 address family) and place Ethernet0/3 (10.0.40.1/24) into it.",
+      "n_lines": 8,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vrf_aware_tunnel_673259db",
+        "SECTION_configuring_a_vrf_aware_tunnel_defining_a_vrf_a3a192ef",
+        "SECTION_configuring_a_vrf_for_ipv4_and_ipv6_mpls_vpns_c7f6600e"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.773,
+      "raw_top_score": 0.773,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 43,
+      "requirement": "On R1, export NAT translation records via high-speed logging using NetFlow v9 over UDP to collector 203.0.113.10 port 1020, sourced from Ethernet0/0.",
+      "n_lines": 1,
+      "chunks_retrieved": [
+        "SECTION_high_speed_logging_for_nat64_enabling_high_sp_e94bb6b5",
+        "SECTION_enabling_high_speed_logging_of_nat_translatio_52cdf025",
+        "SECTION_displaying_the_current_status_of_a_flow_expor_7ed5127c_proc_a8c73a"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Media Monitoring Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7714,
+      "raw_top_score": 0.7714,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 44,
+      "requirement": "On R1, create a multi-protocol VRF named VRF1 and enable its IPv6 address family.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_vrf_on_a_routing_device_7b107acf",
+        "SECTION_associating_a_multiprotocol_vrf_with_an_inter_c2500398",
+        "SECTION_configuring_vrfs_and_address_family_sessions_c37d2fbf"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Zone-Based Policy Firewall, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7881,
+      "raw_top_score": 0.7881,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 45,
+      "requirement": "On R2, define VRF \"vrf1\" with vrf definition, route distinguisher 10:1 and route-target both 10:1 under the IPv4 address family.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vrf_aware_tunnel_defining_a_vrf_a3a192ef",
+        "SECTION_configuring_a_vrf_for_ipv4_and_ipv6_mpls_vpns_c7f6600e",
+        "SECTION_configuring_vrf_on_a_routing_device_7b107acf"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7757,
+      "raw_top_score": 0.7757,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 46,
+      "requirement": "On R3, build a VASI interface pair so two VRFs can exchange traffic: vasileft 100 in VRF VRFLEFT (10.255.1.1/24) and vasiright 100 in VRF VRFRIGHT (10.255.2.1/24).",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vasi_interface_pair_f18f20c9",
+        "SECTION_associating_a_multiprotocol_vrf_with_an_inter_c2500398",
+        "SECTION_associating_a_vrf_with_an_interface_53625bec"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Zone-Based Policy Firewall, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.824,
+      "raw_top_score": 0.824,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 47,
+      "requirement": "On R1 (OSPF process 1), set the administrative distance of OSPF routes to 90 and advertise the 10.0.14.0/24 network in area 0.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_changing_the_ospf_administrative_distances_8122db3b",
+        "SECTION_defining_an_ospfv3_area_range_for_the_ipv6_or_e4148d69",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7237,
+      "raw_top_score": 0.7237,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 48,
+      "requirement": "On R2 (OSPF process 1), enable MD5 authentication for area 0 and configure Ethernet0/1 with message-digest key 1 using the key \"cisco123\".",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_specifying_a_rip_version_and_enabling_authent_dddf1cf9",
+        "SECTION_configuring_ipsec_on_ospfv3_defining_authenti_67a41b46",
+        "SECTION_configuring_ipsec_on_ospfv3_defining_authenti_e215c9fb"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: RIP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7286,
+      "raw_top_score": 0.7286,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 49,
+      "requirement": "On R3 interface Ethernet0/1, set the OSPF cost to 50 and the OSPF priority to 200 so R3 is preferred as designated router on that segment.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospf_over_different_physical_netw_a7db5091",
+        "SECTION_configuring_ospf_over_different_physical_netw_5c268cac",
+        "SECTION_configuring_ospf_forwarding_adjacency_50b3bd3e"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7151,
+      "raw_top_score": 0.7151,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 50,
+      "requirement": "On R4 (OSPF process 1), advertise the LAN 10.0.40.0/24 in area 0 and make Ethernet0/3 passive so no adjacencies are formed toward the hosts.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospfv2_multiarea_adjacency_827803c6",
+        "SECTION_configuring_adjacency_limit_in_the_address_fa_bd2c9697",
+        "SECTION_enabling_ospf_7bfe0ed9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7114,
+      "raw_top_score": 0.7114,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 51,
+      "requirement": "On R1, enable MPLS forwarding (label switching) on interface Ethernet0/0.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_router_for_mpls_forwarding_256646a7",
+        "SECTION_enabling_ldp_on_an_interface_222fb086",
+        "SECTION_enabling_mpls_on_an_interface_6199a2b6"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Embedded Management and MIBs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Embedded Management and MIBs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7291,
+      "raw_top_score": 0.7291,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 52,
+      "requirement": "On R1, translate inside source addresses using route-map \"MAP-A\" bound to pool \"POOL-A\" (203.0.113.4 to 203.0.113.6, mask 255.255.255.128); the route-map (permit 10) matches access-list 1 (10.0.1.0/24).",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_inside_source_addresses_configuri_91236b8d",
+        "SECTION_configuring_dynamic_carrier_grade_nat_ada0efce",
+        "SECTION_configuring_dynamic_inside_source_translation_9d3a6d74"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7195,
+      "raw_top_score": 0.7195,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 53,
+      "requirement": "On R3, enable EIGRP AS 100 for networks 10.0.23.0/24 and 10.0.34.0/24, and disable automatic summarization.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_the_eigrp_route_summarization_aut_1801b29f",
+        "SECTION_configuring_summary_addresses_c72f576c",
+        "SECTION_configuring_the_percentage_of_link_bandwidth__5808019e"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7031,
+      "raw_top_score": 0.7031,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 54,
+      "requirement": "On R2, create the extended named access list \"BLOCK-TELNET\" that denies TCP from 10.0.20.0/24 to any host on port 23 and permits all other IP traffic, then apply it inbound on Ethernet0/3.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_filtering_packets_that_contain_tcp_flags_0d469614_proc_6e6e98",
+        "SECTION_filtering_packets_based_on_ttl_value_8500b646",
+        "SECTION_creating_a_standard_access_list_to_filter_on__039f9e1c_proc_dea4e0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7097,
+      "raw_top_score": 0.7097,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 55,
+      "requirement": "On R2 (BGP AS 45000), advertise the aggregate 10.0.0.0/8 with summary-only so the more specific routes are suppressed.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_32e641e3",
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_34b33a4d",
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7634,
+      "raw_top_score": 0.7634,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 56,
+      "requirement": "On R2, set the BGP AS 45000 router-id to 2.2.2.2 and advertise the network 10.0.20.0/24 into BGP.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_replacing_an_rt_with_a_range_of_rts_1894de21",
+        "SECTION_replacing_a_range_of_rts_with_an_rt_20cd2109",
+        "SECTION_originating_bgp_routes_advertising_a_default__8d435770"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7163,
+      "raw_top_score": 0.7163,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 57,
+      "requirement": "On R1, enable distributed IP multicast routing and PIM SSM with the default range; build extended ACL \"mygroup\" that denies IGMP from host 10.0.1.10 and permits all other IGMP; on Ethernet0/0 apply that ACL as the IGMP access-group, run PIM sparse mode, and force IGMP version 3.",
+      "n_lines": 10,
+      "chunks_retrieved": [
+        "SECTION_controlling_access_to_an_ssm_network_using_ig_6c282ccd",
+        "SECTION_configuring_ssm_84eeb35f",
+        "SECTION_using_pim_enabled_routers_to_test_ip_multicas_ca316f96"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8234,
+      "raw_top_score": 0.8234,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 58,
+      "requirement": "On R2, enable distributed IP multicast routing, set the PIM rendezvous point to 10.0.23.2, and enable PIM sparse mode on Ethernet0/1.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_enabling_ipv6_multicast_routing_3a251c1b",
+        "SECTION_configuring_lisp_multicast_c3aa388b",
+        "SECTION_configuring_sparse_mode_with_anycast_rp_dcb24f92"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: LISP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7858,
+      "raw_top_score": 0.7858,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 59,
+      "requirement": "On R3, enable IGMP SSM mapping without DNS lookups and add a static SSM map associating ACL 11 with source 10.0.2.10.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_static_ssm_mapping_980bdd6f",
+        "SECTION_configuring_dns_based_ssm_mapping_cli_6af4c19a",
+        "SECTION_configuring_static_traffic_forwarding_with_ss_82b713d5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7805,
+      "raw_top_score": 0.7805,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 60,
+      "requirement": "On R4, enable distributed IP multicast routing and, on Ethernet0/3, enable PIM sparse mode and force IGMP version 3.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_enabling_ipv6_multicast_routing_3a251c1b",
+        "SECTION_configuring_ssm_84eeb35f",
+        "SECTION_using_pim_enabled_routers_to_test_ip_multicas_ca316f96"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7584,
+      "raw_top_score": 0.7584,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 61,
+      "requirement": "On R1 interface Ethernet0/0, statically forward multicast group 232.1.2.1 using the SSM map to resolve its source (ip igmp static-group with source ssm-map).",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_static_ssm_mapping_980bdd6f",
+        "SECTION_configuring_static_traffic_forwarding_with_ss_82b713d5",
+        "SECTION_controlling_access_to_an_ssm_network_using_ig_6c282ccd"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.81,
+      "raw_top_score": 0.81,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 62,
+      "requirement": "On R2 Tunnel100, create a static NHRP mapping from protocol address 10.255.10.2 to NBMA address 10.0.12.1, and map multicast traffic to NBMA 10.0.24.2.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_static_ip_to_nbma_address_mappi_c5975e28",
+        "SECTION_verifying_spoke_to_spoke_nhrp_summary_maps_b8bee1b8_proc_8347c8",
+        "SECTION_statically_configuring_a_next_hop_server_7dcb66e0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NHRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Dynamic Multipoint VPN Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NHRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8091,
+      "raw_top_score": 0.8091,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 63,
+      "requirement": "On R3, enable IGMP snooping globally and also on bridge-domain 100.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_enabling_igmp_snooping_c7bae042",
+        "SECTION_configuring_igmp_snooping_on_a_bridge_domain__621972a0",
+        "SECTION_configuring_igmp_snooping_globally_3cef88df"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7653,
+      "raw_top_score": 0.7653,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 64,
+      "requirement": "On R4 interface Ethernet0/0, enable the IGMP unidirectional link feature so it can act as the upstream device for IGMP UDLR.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_an_igmp_proxy_configuring_the_ups_9cd177ad",
+        "SECTION_configuring_a_udlr_tunnel_1f4194f2",
+        "SECTION_configuring_a_redundant_interface_identifier__5b69b6a4"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: IGMP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7933,
+      "raw_top_score": 0.7933,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 65,
+      "requirement": "On R1 interface Ethernet0/0, apply the IPv6 access list named \"inbound\" to traffic entering the interface.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_ipv6_traffic_filtering_applying_t_a298d33f",
+        "SECTION_applying_zones_to_interfaces_and_defining_rou_7390e8bd",
+        "SECTION_controlling_access_to_a_vty_creating_an_ipv6__aa766c2c"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Zone-Based Policy Firewall, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7033,
+      "raw_top_score": 0.7033,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 66,
+      "requirement": "On R2, create the standard named access list \"LAN-ONLY\" that permits 10.0.20.0/24 and denies everything else, and apply it outbound on Ethernet0/0.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_creating_a_standard_access_list_to_filter_on__039f9e1c_proc_dea4e0",
+        "SECTION_creating_a_standard_access_list_to_filter_on__a4301eda_proc_63738d",
+        "SECTION_creating_a_standard_ip_access_list_using_name_27e8bff9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7403,
+      "raw_top_score": 0.7403,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 67,
+      "requirement": "On R3, create the extended named access list \"DENY-H1\" that denies all IP traffic from host 10.0.1.10 to 10.0.2.0/24 and permits everything else, then apply it inbound on Ethernet0/0.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_creating_a_standard_access_list_to_filter_on__039f9e1c_proc_dea4e0",
+        "SECTION_creating_a_standard_ip_access_list_using_name_27e8bff9",
+        "SECTION_creating_a_standard_access_list_to_filter_on__a4301eda_proc_63738d"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7257,
+      "raw_top_score": 0.7257,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 68,
+      "requirement": "On R4, create the numbered standard access list 20 permitting 10.0.40.0/24 and apply it inbound on Ethernet0/3.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_creating_a_standard_access_list_to_filter_on__a4301eda_proc_63738d",
+        "SECTION_creating_a_standard_access_list_to_filter_on__039f9e1c_proc_dea4e0",
+        "SECTION_creating_a_standard_ip_access_list_using_numb_953da711"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7153,
+      "raw_top_score": 0.7153,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 69,
+      "requirement": "On R1, prepare a 6PE provider edge: enable IPv6 unicast routing and IPv6 CEF, then give Ethernet0/0 the source IPv6 address 2001:DB8:FFFF::2/64.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_deploying_ipv6_on_the_provider_edge_devices_6_7e08cec4",
+        "SECTION_deploying_ipv6_on_the_provider_edge_devices_6_d01bf914",
+        "SECTION_configuring_ipv6_addressing_and_enabling_ipv6_6dd66e02"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8508,
+      "raw_top_score": 0.8508,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 70,
+      "requirement": "On R2, protect an IPv6 static route with BFDv6: create a static BFD neighbor reachable over Ethernet0/0 at 2001::1, then add the route 2001:DB8::/64 via that same interface and next hop.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_associating_an_ipv6_static_route_with_a_bfdv6_434410c4",
+        "SECTION_specifying_a_static_bfdv6_neighbor_6e0aa613",
+        "SECTION_configuring_bfd_for_bgp_ipv6_neighbors_c51d97ad"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8009,
+      "raw_top_score": 0.8009,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 71,
+      "requirement": "On R3 interface Ethernet0/0, configure dual-stack addressing with IPv4 10.0.23.2/24 and IPv6 2001:db8::ffff:1/128, and bring it up.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_bfd_session_parameters_on_the_int_986471a5",
+        "SECTION_configure_a_dual_homed_lisp_site_with_two_ipv_e8f69071",
+        "SECTION_configuring_static_stateful_network_address_t_17378df4"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: LISP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7405,
+      "raw_top_score": 0.7405,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 72,
+      "requirement": "On R4, create Loopback0 with IPv4 address 10.255.0.4/32 and IPv6 address 2001:db8::ffff:1/128.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_loopback_interface_6870411b",
+        "SECTION_assigning_an_ipv6_address_to_an_mpls_te_ipv4__822ad36b",
+        "SECTION_forcing_the_router_id_choice_with_a_loopback__02a2c81b"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Cisco 4000 Series ISRs Software Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Traffic Engineering Path Calculation and Setup Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7508,
+      "raw_top_score": 0.7508,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 73,
+      "requirement": "On R1, build a multipoint GRE tunnel on Tunnel100: set GRE multipoint mode, tunnel key 3, and NHRP network-id 1.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_gre_tunnel_for_multipoint_opera_5fe9e52e",
+        "SECTION_configuring_a_static_ip_to_nbma_address_mappi_c5975e28",
+        "SECTION_configuring_gre_on_ipv6_tunnels_e4317780"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NHRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NHRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.81,
+      "raw_top_score": 0.81,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 74,
+      "requirement": "On R2, create prefix-list \"P1\" permitting 10.0.40.0/24 and route-map \"SET-LP\" (permit 10) that matches it and sets local-preference 200; apply the route-map inbound to the BGP AS 45000 neighbor 10.0.24.2.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_applying_the_route_target_replacement_policy__37becb89",
+        "SECTION_originating_bgp_routes_advertising_a_default__8d435770",
+        "SECTION_filtering_outbound_bgp_updates_based_on_nsap__754278eb"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.761,
+      "raw_top_score": 0.761,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 75,
+      "requirement": "On R3, create prefix-list \"BLOCK\" that denies 10.0.1.0/24 and permits everything else, and apply it inbound to the BGP AS 40000 neighbor 10.0.23.1.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_filtering_outbound_bgp_updates_based_on_nsap__754278eb",
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5",
+        "SECTION_applying_the_route_target_replacement_policy__37becb89"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7267,
+      "raw_top_score": 0.7267,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 76,
+      "requirement": "On R4 interface Ethernet0/0, lower the ARP cache entry expiration timeout to 30 seconds.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_setting_an_expiration_time_for_dynamic_entrie_87d6cb82",
+        "SECTION_use_cisco_ios_xe_climanual_configuration_conf_ed836596",
+        "SECTION_use_cisco_ios_xe_climanual_configuration_ce638d55_proc_c81f41"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: ARP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco 4000 Series ISRs Software Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco 4000 Series ISRs Software Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8229,
+      "raw_top_score": 0.8229,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 77,
+      "requirement": "On R1 Port-channel1, require at least 1 active member link for the LACP bundle to come up (LACP min-bundle).",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_setting_a_minimum_threshold_of_active_links_7fe3e3b8",
+        "SECTION_configuring_etherchannel_flow_based_limited_1_eb48e3c2",
+        "SECTION_configuring_a_port_channel_beaf9b78"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8061,
+      "raw_top_score": 0.8061,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 78,
+      "requirement": "On R1, apply policy-based routing on Ethernet0/0 using route-map \"equal-access\", and define route-map \"alpha\" (permit 10) that matches ACL 1.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_policy_based_routing_da4e85aa",
+        "SECTION_configuring_policy_based_routing_vrf_selectio_10cb3403",
+        "SECTION_defining_the_match_criteria_for_multi_vrf_sel_e84d34f2"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7527,
+      "raw_top_score": 0.7527,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 79,
+      "requirement": "On R2 (OSPF process 1), set the default metric for redistributed routes to 20 and redistribute connected routes including subnets.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_redistributing_routing_information_redistribu_b1113942",
+        "SECTION_requesting_a_warning_about_the_number_of_rout_e167ca97",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7822,
+      "raw_top_score": 0.7822,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 80,
+      "requirement": "On R3, create route-map \"SET-COMM\" (permit 10) that sets community 100:200, apply it outbound to the BGP AS 40000 neighbor 10.0.34.2 and enable community propagation to that neighbor.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_applying_the_route_target_replacement_policy__37becb89",
+        "SECTION_configuring_qos_policy_propagation_via_bgp_ba_ac32efa4",
+        "SECTION_configuring_and_activating_a_bgp_neighbor_to__69bffe63"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7485,
+      "raw_top_score": 0.7485,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 81,
+      "requirement": "On R4, create prefix-list \"SUMMARY\" permitting 10.10.10.0/24 and route-map \"to-ospf\" (permit 10) that matches it, then redistribute BGP AS 45000 into OSPF process 1 using that route-map, including subnets.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_redistributing_routes_from_is_is_into_bgp_707ff1a8",
+        "SECTION_requesting_a_warning_about_the_number_of_rout_e167ca97",
+        "SECTION_redistributing_routes_from_bgp_into_is_is_84e93c81"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7452,
+      "raw_top_score": 0.7452,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 82,
+      "requirement": "On R1, create community-list 30 permitting community 100:190 and route-map \"SET-LP\" (permit 10) that matches that community and sets local-preference 300.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_specifying_the_match_criteria_for_bgp_pa_fa82170f",
+        "SECTION_specifying_the_match_criteria_for_bgp_policy__4fe54095",
+        "SECTION_applying_the_route_target_replacement_policy__37becb89"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7132,
+      "raw_top_score": 0.7132,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 83,
+      "requirement": "On R2, define the prefixes to import: ACL 50 permitting 10.0.1.0/24 and ip prefix-list \"COLORADO\" permitting 10.0.40.0/24.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_defining_ipv4_ip_prefixes_to_import_7339292a",
+        "SECTION_creating_the_vrf_and_the_import_route_map_9b10b68f",
+        "SECTION_configuring_ipv6_acl_extensions_for_hop_by_ho_7d6ebbc0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.6984,
+      "raw_top_score": 0.6984,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 84,
+      "requirement": "On R3, create the numbered extended access list 101 that permits all IP traffic from host 10.0.2.10 to any destination and denies the rest of 10.0.2.0/24, then apply it inbound on Ethernet0/2.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_creating_a_standard_access_list_to_filter_on__a4301eda_proc_63738d",
+        "SECTION_triggering_nhrp_based_on_traffic_thresholds_a_72c1a21f",
+        "SECTION_creating_a_standard_ip_access_list_using_numb_953da711"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NHRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7234,
+      "raw_top_score": 0.7234,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 85,
+      "requirement": "On R4, create route-map \"SET-MED\" (permit 10) that sets metric 500, and apply it outbound to the BGP AS 45000 neighbor 10.0.34.1.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_applying_the_route_target_replacement_policy__37becb89",
+        "SECTION_filtering_and_setting_actions_for_additional__e6041289",
+        "SECTION_troubleshooting_your_route_target_replacement_2b98b801_proc_324a60"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7249,
+      "raw_top_score": 0.7249,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 86,
+      "requirement": "On R1 interface Ethernet0/1, set the OSPF hello interval to 5 seconds and the OSPF dead interval to 20 seconds.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_setting_a_hello_request_interval_on_an_interf_c5a347d9",
+        "SECTION_setting_the_number_of_hello_messages_that_can_56a26f6c",
+        "SECTION_use_cisco_ios_xe_climanual_configuration_conf_ed836596"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Traffic Engineering Path Calculation and Setup Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Traffic Engineering Path Calculation and Setup Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco 4000 Series ISRs Software Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7403,
+      "raw_top_score": 0.7403,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 87,
+      "requirement": "On R2 interface Ethernet0/0, set the description to \"LINK-TO-R1\", the IP address 10.0.12.2/24 and an IP MTU of 1400.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_msmr_51bd7723",
+        "SECTION_configuring_rtr_b65073a8",
+        "SECTION_configuring_paired_address_pooling_support_in_269e10ff"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: LISP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: LISP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7106,
+      "raw_top_score": 0.7106,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 88,
+      "requirement": "On R3 (BGP AS 40000), set the keepalive to 10 seconds and the hold time to 30 seconds for the neighbor 10.0.23.1 in AS 45000.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_dpd_and_cisco_ios_xe_keepalives_w_135a642c",
+        "SECTION_adjusting_the_msdp_keepalive_and_hold_time_in_3770c228",
+        "SECTION_configuring_selective_address_tracking_for_fa_3e2bb97a"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IPsec Data Plane Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7134,
+      "raw_top_score": 0.7134,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 89,
+      "requirement": "On R1, create the subinterface Ethernet0/0.10 for inter-VLAN routing: encapsulate 802.1Q VLAN 10 and assign the IP address 10.0.1.1/24.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_routing_between_vlans_with_ieee_8_154fe9bd",
+        "SECTION_configuring_ip_routing_over_ieee_802_1q_defin_21913b7e",
+        "SECTION_configuring_routing_between_vlans_with_ieee_8_93096c70"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7802,
+      "raw_top_score": 0.7802,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 90,
+      "requirement": "On R3, create the subinterface Ethernet0/2.30 for inter-VLAN routing: encapsulate 802.1Q VLAN 30 and assign the IP address 10.0.2.1/24.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_routing_between_vlans_with_ieee_8_154fe9bd",
+        "SECTION_configuring_ip_routing_over_ieee_802_1q_assig_f9d78cc7",
+        "SECTION_configuring_ip_routing_over_ieee_802_1q_defin_21913b7e"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "LAN Switching Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7723,
+      "raw_top_score": 0.7723,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 91,
+      "requirement": "On R2, create Port-channel10 with an LACP maximum bundle of 3 links and IP address 10.255.20.2/24.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_port_channel_beaf9b78",
+        "SECTION_setting_a_minimum_threshold_of_active_links_7fe3e3b8",
+        "SECTION_configuring_lacp_802_3ad_for_gigabit_interfac_28285965"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7415,
+      "raw_top_score": 0.7415,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 92,
+      "requirement": "On R3, build an 802.3ad EtherChannel: Port-channel1 with IP 10.255.20.3/24, and bundle Ethernet0/1 and Ethernet0/2 into it with channel-group 1 mode active.",
+      "n_lines": 10,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_port_channel_beaf9b78",
+        "SECTION_enabling_lacp_df06b0de",
+        "SECTION_configuring_lacp_802_3ad_for_gigabit_interfac_28285965"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Carrier Ethernet Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7433,
+      "raw_top_score": 0.7433,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 93,
+      "requirement": "On R4 (BGP AS 45000), enable inbound soft reconfiguration for the neighbor 10.0.34.1 so policy changes can be applied without resetting the session.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_selective_address_tracking_for_fa_3e2bb97a",
+        "SECTION_applying_the_route_target_replacement_policy__8f12bea1",
+        "SECTION_configuring_directly_connected_loopback_peeri_04ffd0af"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.712,
+      "raw_top_score": 0.712,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 94,
+      "requirement": "On R1 (BGP AS 65001), peer with the eBGP neighbor 10.0.12.2 in AS 45000 using Loopback0 (1.1.1.1/32) as the update source and allowing the peer to be up to 2 hops away.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_directly_connected_loopback_peeri_04ffd0af",
+        "SECTION_configuring_directly_connected_loopback_peeri_2f6f4db5",
+        "SECTION_configuring_directly_connected_loopback_peeri_c2e9c9e8"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7583,
+      "raw_top_score": 0.7583,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 95,
+      "requirement": "On R2 interface Ethernet0/1 (10.0.23.1/24, NAT outside), add a redundant NAT traffic interface: enable virtual reassembly, set redundancy RII 200, and join redundancy group 1 with virtual IP 10.0.23.200 (exclusive, decrement 10).",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_redundant_traffic_interface_871c8103",
+        "SECTION_configuring_a_redundant_interface_identifier__5b69b6a4",
+        "SECTION_configuring_a_redundant_interface_identifier__f853c1db"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Zone-Based Policy Firewall, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7693,
+      "raw_top_score": 0.7693,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 96,
+      "requirement": "On R2 (BGP AS 45000), make the iBGP neighbors 10.0.23.2 and 10.0.24.2 route-reflector clients.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_multiprotocol_bgp_on_provider_edg_ee747543",
+        "SECTION_configuring_bgp_peer_groups_and_route_reflect_e511bc32",
+        "SECTION_configuring_route_reflectors_for_improved_sca_c493532c"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7536,
+      "raw_top_score": 0.7536,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 97,
+      "requirement": "On R4 interface Ethernet0/2, configure a WAN traffic interface for an asymmetric-routing NAT design: IPv6 address 2001:DB8:2222::1/48, zone-member security z2, TCP MSS clamp 1360, redundancy RII 360, and enable redundancy asymmetric-routing.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_wan_traffic_interface_618616f5",
+        "SECTION_configuring_a_redundant_interface_identifier__5b69b6a4",
+        "SECTION_configuring_a_redundant_interface_identifier__f853c1db"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Zone-Based Policy Firewall, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Zone-Based Policy Firewall, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8001,
+      "raw_top_score": 0.8001,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 98,
+      "requirement": "On R1, enable Cisco TrustSec SXP with a default password \"Cisco123\", default source IP 10.255.0.1, a peer connection to 10.0.12.2 (password default, mode local both), speaker hold-time 950, and listener hold-time 750-1500.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_the_default_cts_sxp_password_bd8bc281",
+        "SECTION_configuring_bidirectional_sxp_support_3f21a546",
+        "SECTION_verifying_bidirectional_sxp_support_configura_1d888b15_proc_51c1a7"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Cisco TrustSec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco TrustSec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco TrustSec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7608,
+      "raw_top_score": 0.7608,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 99,
+      "requirement": "On R2 interface Ethernet0/0, enable Cisco TrustSec role-based SGT caching for ingress traffic.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_sgt_caching_on_an_interface_c53efa9b",
+        "SECTION_verifying_cisco_trustsec_sgt_caching_48ac0ba6_proc_942f94",
+        "SECTION_configuring_sgt_caching_globally_4c82e7b6"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Cisco TrustSec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco TrustSec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Cisco TrustSec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8259,
+      "raw_top_score": 0.8259,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 100,
+      "requirement": "On R1, enable MPLS forwarding on Ethernet0/1 (facing R2) and turn on MPLS LDP session protection globally so LDP sessions survive link flaps.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_enabling_mpls_ldp_session_protection_047fe043",
+        "SECTION_configuring_mpls_ldp_graceful_restart_2b4e84bb",
+        "SECTION_verifying_the_mpls_ldp_graceful_restart_confi_5cb3cac5_proc_2946a0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS High Availability Configuration Guide, IOS XE Gibraltar 16.11.x",
+        "MPLS High Availability Configuration Guide, IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7456,
+      "raw_top_score": 0.7456,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 101,
+      "requirement": "On R2, enable MPLS LDP IGP synchronization on Ethernet0/1 (facing R3) and enable MPLS forwarding on that same interface.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_mpls_ldp_igp_synchronization_with_673b7ebf",
+        "SECTION_configuring_mpls_ldp_igp_synchronization_with_e3954d15",
+        "SECTION_configuring_mpls_ldp_igp_synchronization_with_70e495ef"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7578,
+      "raw_top_score": 0.7578,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 102,
+      "requirement": "On R3, enable MPLS LDP autoconfiguration under OSPF process 1 so LDP is enabled automatically on the interfaces running OSPF.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_mpls_ldp_autoconfiguration_with_o_13b06d64",
+        "SECTION_disabling_mpls_ldp_autoconfiguration_from_sel_a1fca859",
+        "SECTION_verifying_mpls_ldp_autoconfiguration_with_osp_7657723d_proc_424da0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8144,
+      "raw_top_score": 0.8144,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 103,
+      "requirement": "On R4, enable MPLS forwarding globally and protect the LDP session with neighbor 10.0.14.1 (R1) using the password CISCO123.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_identifying_ldp_neighbors_for_ldp_md5_passwor_330045ac_proc_d41d8c",
+        "SECTION_enabling_mpls_ldp_session_protection_047fe043",
+        "SECTION_verifying_the_ldp_md5_configuration_b5dd5e88_proc_a52892"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7409,
+      "raw_top_score": 0.7409,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 104,
+      "requirement": "On R1 (BGP AS 45000), activate neighbor 10.0.12.2 (R2) under the VPNv4 address family and send it extended communities so VPN-IPv4 routes are exchanged.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_applying_the_route_target_replacement_policy__37becb89",
+        "SECTION_configuring_ebgp_routing_to_exchange_vpn_rout_2049ccac",
+        "SECTION_configuring_multiprotocol_bgp_connectivity_on_19284eed"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7478,
+      "raw_top_score": 0.7478,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 105,
+      "requirement": "On R2 (BGP AS 45000), configure iBGP PE-CE routing for VRF \"CLIENTE\": under the IPv4 VRF address family peer with the CE at 10.0.20.10 in remote AS 45000 and activate it.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_bgp_peer_for_the_ipv4_vrf_addre_887c55ac",
+        "SECTION_configuring_pe_to_ce_mpls_forwarding_and_sign_9f16c621",
+        "SECTION_configuring_pe_to_ce_mpls_forwarding_and_sign_2c62fb95"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8007,
+      "raw_top_score": 0.8007,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 106,
+      "requirement": "On R3, create VRF \"DUAL\" with route distinguisher 100:3 and route-target both 100:3 under BOTH the IPv4 and the IPv6 address families.",
+      "n_lines": 8,
+      "chunks_retrieved": [
+        "SECTION_configuring_multi_vrf_selection_in_a_route_ma_6dd4ae63",
+        "SECTION_configuring_multi_vrf_selection_in_a_route_ma_cc2eb728",
+        "SECTION_configuring_a_vrf_for_ipv4_and_ipv6_mpls_vpns_c7f6600e"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7621,
+      "raw_top_score": 0.7621,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 107,
+      "requirement": "On R1, create Tunnel0 with IP 172.16.1.1/30, sourced from Ethernet0/1 and destined to 10.0.12.2 (R2), and enable GRE tunnel keepalives every 10 seconds with 3 retries.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_an_ipv4_gre_tunnel_gre_tunnel_kee_93745885",
+        "SECTION_configuring_gre_ipv6_tunnel_protection_46ebd98c",
+        "SECTION_configuring_gre_ipv6_tunnels_163e6a56"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7757,
+      "raw_top_score": 0.7757,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 108,
+      "requirement": "On R2, create Tunnel1 with IP 172.16.2.1/30, sourced from Ethernet0/2 and destined to 10.0.24.2 (R4), and enable tunnel path MTU discovery.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_an_ipv4_gre_tunnel_gre_tunnel_kee_93745885",
+        "SECTION_enabling_and_configuring_automatic_multicast__eded8583",
+        "SECTION_enabling_flow_label_marking_in_packets_that_o_4e5616a5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7,
+      "raw_top_score": 0.7,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 109,
+      "requirement": "On R3, create VRF \"TUNEL\" with route distinguisher 100:9, then create Tunnel2 inside that VRF with IP 172.16.3.1/30, sourced from Ethernet0/1 and destined to 10.0.34.2 (R4).",
+      "n_lines": 9,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vrf_aware_tunnel_defining_a_vrf_a3a192ef",
+        "SECTION_configuring_a_vrf_aware_tunnel_673259db",
+        "SECTION_configuring_a_vrf_on_a_routing_device_82fdc4ba"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7379,
+      "raw_top_score": 0.7379,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 110,
+      "requirement": "On R4, create Tunnel3 to carry IPv6 over IPv4: give it IPv6 address 2001:db8:34::1/64, source it from Ethernet0/2, destine it to 10.0.34.1 (R3) and set the tunnel mode to ipv6ip.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_gre_ipv6_tunnels_e5a8ee48",
+        "SECTION_configuring_automatic_6to4_tunnels_6c9b7c10",
+        "SECTION_configuring_a_static_ipv6_route_by_specifying_25bee34f"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Traffic Engineering Path Calculation and Setup Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7397,
+      "raw_top_score": 0.7397,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 111,
+      "requirement": "On R2, enable IPv6 unicast routing and, under BGP AS 45000, activate the IPv6 neighbor 2001:db8:23::2 (R3, remote AS 45000) in the IPv6 address family.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_an_ipv6_bgp_routing_process_and_b_8b5e9580",
+        "SECTION_configuring_bgpipv6_nsr_fb258ca8",
+        "SECTION_generating_translate_updates_for_ipv6_multica_bd23c1ca"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8094,
+      "raw_top_score": 0.8094,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 112,
+      "requirement": "On R3 (BGP AS 45000), create the IPv6 peer group \"V6-PEERS\" with remote AS 45000, add neighbor 2001:db8:23::1 (R2) to it, and activate the peer group under the IPv6 address family.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_ipv6_multiprotocol_bgp_between_tw_1c11edea",
+        "SECTION_configuring_an_ipv6_peer_group_to_perform_mul_fa0f7516",
+        "SECTION_configuring_bgpipv6_nsr_fb258ca8"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7824,
+      "raw_top_score": 0.7824,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 113,
+      "requirement": "On R4 (BGP AS 45000), advertise the network 2001:db8:40::/64 into the IPv6 address family and activate the multiprotocol peer 2001:db8:24::1 (R2, remote AS 45000).",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_advertising_routes_into_ipv6_multiprotocol_bg_b64831df",
+        "SECTION_advertising_ipv4_routes_between_ipv6_bgp_peer_b35ee2f2",
+        "SECTION_deploying_ipv6_on_the_provider_edge_devices_6_d01bf914"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7812,
+      "raw_top_score": 0.7812,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 114,
+      "requirement": "On R1, enable IPv6 unicast routing and add a static IPv6 route for 2001:db8:20::/64 via the next hop 2001:db8:12::2 (R2).",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_static_stateful_network_address_t_17378df4",
+        "SECTION_configuring_unicast_rpf_a1a98291",
+        "SECTION_configuring_a_floating_static_ipv6_route_4993bec9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7568,
+      "raw_top_score": 0.7568,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 115,
+      "requirement": "On R2, enable IPv6 unicast routing and add a floating static IPv6 route for 2001:db8:40::/64 via 2001:db8:24::2 (R4) with administrative distance 200 so it only installs if the primary path fails.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_floating_static_ipv6_route_4993bec9",
+        "SECTION_associating_an_ipv6_static_route_with_a_bfdv6_434410c4",
+        "SECTION_configuring_unicast_rpf_a1a98291"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.792,
+      "raw_top_score": 0.792,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 116,
+      "requirement": "On R4, assign the IPv6 address 2001:db8:40::1/64 to Ethernet0/3 and set the IPv6 neighbor discovery cache expiration to 300 seconds on that interface.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_tuning_the_parameters_for_ipv6_neighbor_disco_2b997f5a",
+        "SECTION_configuring_a_neighbor_discovery_cache_limit__851c4752",
+        "SECTION_configuring_a_neighbor_discovery_cache_limit__662ad0db"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7787,
+      "raw_top_score": 0.7787,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 117,
+      "requirement": "On R1, enable IPv6 unicast routing and IPv6 multicast routing globally.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_unicast_rpf_a1a98291",
+        "SECTION_resetting_ipv6_bgp_sessions_263102d9",
+        "SECTION_clearing_ipv6_bgp_flap_statistics_98fc844f"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7351,
+      "raw_top_score": 0.7351,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 118,
+      "requirement": "On R2, enable IPv6 unicast routing and IPv6 multicast routing, then put Ethernet0/3 (the LAN segment, 2001:db8:20::1/64) into IPv6 PIM passive mode.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_enabling_ipv6_multicast_routing_3a251c1b",
+        "SECTION_how_to_configure_ipv6_pim_passive_mode_9c003870_proc_504f9c",
+        "SECTION_configuring_unicast_rpf_a1a98291"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7631,
+      "raw_top_score": 0.7631,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 119,
+      "requirement": "On R1, create VRF \"CLIENTE-A\" with route distinguisher 100:1, then associate Ethernet0/0 with that VRF and re-apply its IP address 10.0.1.1/24.",
+      "n_lines": 7,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vrf_aware_tunnel_673259db",
+        "SECTION_associating_a_vrf_with_an_interface_53625bec",
+        "SECTION_associating_a_multiprotocol_vrf_with_an_inter_c2500398"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7605,
+      "raw_top_score": 0.7605,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 120,
+      "requirement": "On R2, configure the multiprotocol VRF \"MP-VRF\" with description \"VRF multiprotocolo\", route distinguisher 100:2, and route-target both 100:2 under the IPv4 address family.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vrf_for_ipv4_and_ipv6_mpls_vpns_c7f6600e",
+        "SECTION_configuring_multi_vrf_selection_in_a_route_ma_6dd4ae63",
+        "SECTION_configuring_multi_vrf_selection_in_a_route_ma_cc2eb728"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8043,
+      "raw_top_score": 0.8043,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 121,
+      "requirement": "On R3, create VRF \"CLIENTE-C\" with route distinguisher 100:3 and add a static route inside that VRF for 10.0.2.0/24 via 10.0.23.1 (R2), naming it RUTA-VRF.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_vrf_aware_tunnel_defining_a_vrf_a3a192ef",
+        "SECTION_configuring_a_vrf_aware_tunnel_673259db",
+        "SECTION_configuring_vrf_instances_648a7654"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7262,
+      "raw_top_score": 0.7262,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 122,
+      "requirement": "On R4 (BGP AS 45000), create VRF \"CLIENTE-D\" with route distinguisher 100:4 and route-target both 100:4, then peer with the CE 10.0.40.10 in remote AS 65100 under the IPv4 VRF address family and activate it.",
+      "n_lines": 10,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_bgp_peer_for_the_ipv4_vrf_addre_887c55ac",
+        "SECTION_configuring_a_bgp_peer_for_the_ipv4_vrf_addre_891e7855",
+        "SECTION_configuring_vrf_instances_648a7654"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7973,
+      "raw_top_score": 0.7973,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 123,
+      "requirement": "On R1, create VRF \"V6-VRF\" with route distinguisher 100:6 and configure route-target import and export 100:6 under the IPv6 address family.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_virtual_routing_and_forwarding__fbf910f9",
+        "SECTION_configuring_a_vrf_for_ipv4_and_ipv6_mpls_vpns_c7f6600e",
+        "SECTION_configuring_a_vrf_aware_tunnel_defining_a_vrf_a3a192ef"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS: Layer 3 VPNs Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "Interface and Hardware Component Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.8141,
+      "raw_top_score": 0.8141,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 124,
+      "requirement": "On R1 (BGP AS 45000), create the peer group \"IBGP-CORE\" for remote AS 45000 using Loopback0 as update source, and add neighbors 10.0.12.2 (R2) and 10.0.14.2 (R4) to it.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_directly_connected_loopback_peeri_04ffd0af",
+        "SECTION_configuring_directly_connected_loopback_peeri_2f6f4db5",
+        "SECTION_making_an_ibgp_peer_nsr_capable_for_the_vpnv4_424bd5de"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7385,
+      "raw_top_score": 0.7385,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 125,
+      "requirement": "On R2 (BGP AS 45000), set the BGP administrative distances to 20 for external routes, 200 for internal routes and 200 for local routes.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_assigning_a_bgp_administrative_distance_03a03268",
+        "SECTION_configuring_best_external_path_on_an_rr_for_a_95fde6a6",
+        "SECTION_replacing_an_rt_with_a_range_of_rts_1894de21"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7258,
+      "raw_top_score": 0.7258,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 126,
+      "requirement": "On R3 (BGP AS 45000), aggregate 10.0.0.0/8 advertising only the summary, and additionally suppress the more-specifics listed by the route map \"SUP-MAP\".",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_32e641e3",
+        "SECTION_aggregating_route_prefixes_using_bgp_suppress_34b33a4d",
+        "SECTION_aggregating_route_prefixes_using_bgp_conditio_6830f0a5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7643,
+      "raw_top_score": 0.7643,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 127,
+      "requirement": "On R4 (BGP AS 45000), limit the number of prefixes accepted from the eBGP neighbor 10.0.40.10 (remote AS 65100) to 1000, warning at 80 percent and only logging instead of tearing down the session.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_the_maximum_number_of_prefixes_ac_fa44729d",
+        "SECTION_configuring_the_maximum_number_of_prefixes_ac_2e85352c",
+        "SECTION_configuring_selective_address_tracking_for_fa_3e2bb97a"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7313,
+      "raw_top_score": 0.7313,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 128,
+      "requirement": "On R1 (BGP AS 45000), redistribute static routes into BGP filtered by the route map \"SOLO-LAN\", which permits only the prefixes matched by the prefix list \"LAN-PFX\" (10.0.0.0/8 with prefix lengths up to /24).",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_aggregating_route_prefixes_using_bgp_redistri_e3b0d904",
+        "SECTION_aggregating_route_prefixes_using_bgp_redistri_488fff8d",
+        "SECTION_redistributing_routes_from_is_is_into_bgp_707ff1a8"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7674,
+      "raw_top_score": 0.7674,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 129,
+      "requirement": "On R2 (BGP AS 45000), enable BGP route dampening with a half-life of 15 minutes, reuse 750, suppress 2000 and a maximum suppress time of 60 minutes.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_enabling_and_configuring_bgp_route_dampening_37d36ae8",
+        "SECTION_configuring_multicast_vpn_bgp_dampening_5b90a88a",
+        "SECTION_monitoring_and_maintaining_multicast_vpn_bgp__44d510c6_proc_6392f4"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7686,
+      "raw_top_score": 0.7686,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 130,
+      "requirement": "On R3 (BGP AS 45000), make the iBGP neighbor 10.0.23.1 (R2) use this router as the next hop for the routes it advertises, and advertise the network 10.0.2.0/24 into BGP.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_configuring_additional_paths_per_neighbor_c453ade2",
+        "SECTION_making_an_ibgp_peer_nsr_capable_for_the_vpnv4_424bd5de",
+        "SECTION_configuring_fast_session_deactivation_for_a_b_4028a2bd"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7556,
+      "raw_top_score": 0.7556,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 131,
+      "requirement": "On R4 (BGP AS 45000), configure the iBGP neighbor 10.0.24.1 (R2) with a keepalive interval of 10 seconds and a hold time of 30 seconds, and enable logging of neighbor state changes.",
+      "n_lines": 4,
+      "chunks_retrieved": [
+        "SECTION_verifying_the_configuration_of_bgp_nonstop_fo_29b64d72_proc_a945c6",
+        "SECTION_making_an_ibgp_peer_nsr_capable_for_the_vpnv4_424bd5de",
+        "SECTION_configuring_fast_session_deactivation_for_a_b_4028a2bd"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7285,
+      "raw_top_score": 0.7285,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 132,
+      "requirement": "On R1, under OSPF process 1, configure area 5 as a totally stubby area and set its default cost to 10.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospf_area_parameters_68a0e9f1",
+        "SECTION_configuring_ospfv2_multiarea_adjacency_827803c6",
+        "SECTION_configuring_ospf_over_different_physical_netw_a7db5091"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7255,
+      "raw_top_score": 0.7255,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 133,
+      "requirement": "On R2, under OSPF process 1, change the administrative distances to 110 for intra-area routes, 110 for inter-area routes and 200 for external routes.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_changing_the_ospf_administrative_distances_8122db3b",
+        "SECTION_configuring_ospfv2_nssa_configuring_an_ospfv2_5628a9f7",
+        "SECTION_requesting_a_warning_about_the_number_of_rout_e167ca97"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7666,
+      "raw_top_score": 0.7666,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 134,
+      "requirement": "On R3, filter inbound OSPF routes in process 1 with the route map \"OSPF-IN\", which permits only the prefixes matched by the prefix list \"PERMITIDAS\" (10.0.0.0/8 up to /24).",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_ospf_inbound_filtering_using_a_ro_fbbf75af",
+        "SECTION_configuring_ospfv3_ipv4_address_family_config_71e9feff_proc_731ac7",
+        "SECTION_configuring_route_filtering_using_distribute__84f09355_proc_a40eca"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7876,
+      "raw_top_score": 0.7876,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 135,
+      "requirement": "On R4, enable IPv6 unicast routing, assign 2001:db8:34::2/64 to Ethernet0/2, enable OSPFv3 process 1 in area 0 on it and enable BFD for that interface.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_associating_an_ipv6_static_route_with_a_bfdv6_434410c4",
+        "SECTION_configuring_an_ipv6_bgp_routing_process_and_b_8b5e9580",
+        "SECTION_configuring_unicast_rpf_a1a98291"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7623,
+      "raw_top_score": 0.7623,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 136,
+      "requirement": "On R1, under OSPF process 1, summarize the intra-area routes of area 1 into the single range 10.1.0.0/16 and set the auto-cost reference bandwidth to 10000 Mbps.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_controlling_default_metrics_ecf0d406",
+        "SECTION_configuring_the_maximum_distance_to_a_tunnel__c999f168",
+        "SECTION_configuring_ospf_area_parameters_68a0e9f1"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: OSPF Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7128,
+      "raw_top_score": 0.7128,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 137,
+      "requirement": "On R2, configure EIGRP AS 100 route authentication on Ethernet0/1: create key chain \"EIGRP-KEY\" with key 1 and key-string SECRETO, then enable MD5 authentication mode on the interface using that key chain.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_defining_an_autonomous_system_for_eigrp_route_5fdeb62e",
+        "SECTION_configuring_eigrp_route_authentication_1f8d8960",
+        "SECTION_defining_a_named_configuration_for_eigrp_rout_3075029d"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7761,
+      "raw_top_score": 0.7761,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 138,
+      "requirement": "On R3, configure the EIGRP AS 100 process as a stub router that advertises only connected and summary routes.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_eigrp_stub_routing_for_greater_ne_190f8df8",
+        "SECTION_configuring_the_eigrp_route_summarization_aut_1801b29f",
+        "SECTION_customizing_an_eigrp_for_ipv6_routing_process_14ce23b1"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7354,
+      "raw_top_score": 0.7354,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 139,
+      "requirement": "On R4, configure EIGRP AS 100 route summarization on Ethernet0/1 so it advertises the summary 10.0.0.0/8 towards R2.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_the_eigrp_route_summarization_aut_1801b29f",
+        "SECTION_configuring_summary_addresses_c72f576c",
+        "SECTION_summarizing_rip_routes_dad70d1b"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: RIP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.75,
+      "raw_top_score": 0.75,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 140,
+      "requirement": "On R1, define the named EIGRP configuration \"CORP\" for the IPv4 unicast address family with autonomous system 100, router ID 1.1.1.1 and network 10.0.12.0/24.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_defining_a_named_configuration_for_eigrp_rout_3075029d",
+        "SECTION_enabling_the_eigrp_named_configuration_777b7ade",
+        "SECTION_configuring_equal_and_unequal_cost_load_balan_9f8e0bb9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: EIGRP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7082,
+      "raw_top_score": 0.7082,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 141,
+      "requirement": "On R1, configure BFD session parameters on Ethernet0/1 with a transmit interval of 50 ms, a minimum receive interval of 50 ms and a multiplier of 3.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_bfd_session_parameters_on_the_int_2606c343",
+        "SECTION_configuring_bfd_support_for_ospfv3_configurin_e933cbae",
+        "SECTION_configuring_bidirectional_forwarding_detectio_0bd6ea81"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Basic MPLS Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7607,
+      "raw_top_score": 0.7607,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 142,
+      "requirement": "On R2 (BGP AS 45000), enable BFD fast failover for the IPv6 BGP neighbor 2001:db8:23::2 (R3, remote AS 45000) and activate it under the IPv6 address family.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_bfd_for_bgp_ipv6_neighbors_c51d97ad",
+        "SECTION_configuring_bfdbgp_multihop_client_support_cb_b4aad4e0",
+        "SECTION_enabling_bfd_on_the_protected_interface_ac6cd0fb"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BGP Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Traffic Engineering Path Link and Node Protection Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7605,
+      "raw_top_score": 0.7605,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 143,
+      "requirement": "On R3, configure BFD on Ethernet0/1 with interval 100 ms, min_rx 100 ms and multiplier 3, and disable BFD echo mode on that interface.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_configuring_bfd_support_for_ospfv3_configurin_e933cbae",
+        "SECTION_configuring_bfd_echo_mode_configuring_the_bfd_4793df05",
+        "SECTION_configuring_bfd_echo_mode_disabling_bfd_echo__c65511f3"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: BFD Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7764,
+      "raw_top_score": 0.7764,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 144,
+      "requirement": "On R1, create the extended IP access list \"WEB-ONLY\" that permits TCP from 10.0.1.0/24 to any destination on port 443 and denies everything else with logging.",
+      "n_lines": 3,
+      "chunks_retrieved": [
+        "SECTION_filtering_packets_based_on_ttl_value_8500b646",
+        "SECTION_filtering_packets_that_contain_tcp_flags_0d469614_proc_6e6e98",
+        "SECTION_creating_crypto_access_lists_7d4dcaf9"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security for VPNs with IPsec Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7083,
+      "raw_top_score": 0.7083,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 145,
+      "requirement": "On R2, create the standard access list \"SOLO-H3\" that permits only host 10.0.20.10 and denies the rest with logging, then apply it inbound on Ethernet0/3.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_creating_a_standard_ip_access_list_using_numb_953da711",
+        "SECTION_creating_a_standard_ip_access_list_using_name_27e8bff9",
+        "SECTION_creating_a_standard_access_list_to_filter_on__039f9e1c_proc_dea4e0"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x",
+        "Security Configuration Guide: Access Control Lists, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7122,
+      "raw_top_score": 0.7122,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 146,
+      "requirement": "On R3, add a static route for 10.0.1.0/24 via 10.0.23.1 (R2) named HACIA-R1, and a default route via 10.0.34.2 (R4) with administrative distance 200 as a backup.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_a_static_ipv6_route_5d18d4f2",
+        "SECTION_configuring_static_stateful_network_address_t_17378df4",
+        "SECTION_configuring_a_recursive_ipv6_static_route_to__2fb68ee5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Routing: Protocol-Independent Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.6671,
+      "raw_top_score": 0.6671,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 147,
+      "requirement": "On R4, enable multicast routing and configure a multicast boundary on Ethernet0/3 using the standard access list \"BOUNDARY\" that denies the administratively scoped range 239.0.0.0/8 and permits everything else.",
+      "n_lines": 6,
+      "chunks_retrieved": [
+        "SECTION_configuring_multicast_boundaries_5f35d56d",
+        "SECTION_configuring_bsr_for_use_within_scoped_zones_f4fbe85b",
+        "SECTION_configuring_bsr_for_use_within_scoped_zones_4e2150da"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Multicast: Multicast Optimization Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Multicast: PIM Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7558,
+      "raw_top_score": 0.7558,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 148,
+      "requirement": "On R1, enable IPv6 unicast routing and configure a static IPv6 route for 2001:db8:2::/64 specifying both the outgoing interface Ethernet0/1 and the next hop 2001:db8:12::2.",
+      "n_lines": 2,
+      "chunks_retrieved": [
+        "SECTION_configuring_static_stateful_network_address_t_17378df4",
+        "SECTION_configuring_dynamic_stateful_network_address__c47e664d",
+        "SECTION_configuring_unicast_rpf_a1a98291"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IP Addressing: NAT Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "IPv6 Addressing and Basic Connectivity Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7899,
+      "raw_top_score": 0.7899,
+      "gated": false,
+      "n_chunks_kept": 3
+    },
+    {
+      "id": 149,
+      "requirement": "On R4, create Loopback0 with address 4.4.4.4/32, enable MPLS forwarding globally and enable LDP autoconfiguration under OSPF process 1.",
+      "n_lines": 5,
+      "chunks_retrieved": [
+        "SECTION_configuring_directly_connected_loopback_peeri_04ffd0af",
+        "SECTION_configuring_mpls_ldp_autoconfiguration_with_o_13b06d64",
+        "SECTION_configuring_directly_connected_loopback_peeri_2f6f4db5"
+      ],
+      "chunk_versions": [
+        "16.11.x",
+        "16.11.x",
+        "16.11.x"
+      ],
+      "chunk_guides": [
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Label Distribution Protocol Configuration Guide, Cisco IOS XE Gibraltar 16.11.x",
+        "MPLS Layer 3 VPNs Inter-AS and CSC Configuration Guide, Cisco IOS XE Gibraltar 16.11.x"
+      ],
+      "chunk_product_kind": [
+        "match producto",
+        "match producto",
+        "match producto"
+      ],
+      "top_score": 0.7287,
+      "raw_top_score": 0.7287,
+      "gated": false,
+      "n_chunks_kept": 3
+    }
+  ]
+}

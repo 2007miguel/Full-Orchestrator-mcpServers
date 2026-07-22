@@ -19,6 +19,7 @@ class PromptManager:
         self.config_prompt_template = self._load_text("config_prompt.txt")
         self.intent_normalization_template = self._load_text("intent_normalization_prompt.txt")
         self.config_rag_prompt_template = self._load_text("config_prompt_rag.txt")
+        self.config_no_rag_prompt_template = self._load_text("config_prompt_no_rag.txt")
         self.repair_template = self._load_text("post_verification_prompt.txt")
         self.line_fix_template = self._load_text("line_fix_prompt.txt")
 
@@ -103,17 +104,15 @@ class PromptManager:
 
         return prompt
 
-    def build_intent_normalization_prompt(self, context, arch_base: dict) -> str:
+    def build_intent_normalization_prompt(self, context, arch_base: dict = None) -> str:
         """
-        Builds the first RAG prompt: normalize the user requirement into a
-        concise technical query for retrieval.
+        Builds the first RAG prompt: enrich the user requirement into a single
+        retrieval query, matching the v17 pipeline (INTENT_NORMALIZATION_PROMPT).
+        The v17 prompt is architecture-agnostic, so arch_base is accepted for
+        backward compatibility but no longer injected.
         """
         return self.intent_normalization_template.format(
             requirement=context.intent,
-            os=arch_base.get("os", []),
-            version=arch_base.get("version", []),
-            device_type=arch_base.get("device_type", []),
-            product=arch_base.get("product", []),
         )
 
     def build_config_prompt_rag(self, context, retrieved_context: str) -> str:
@@ -124,6 +123,17 @@ class PromptManager:
         return self.config_rag_prompt_template.format(
             topology=self.topology_text,
             retrieved_context=retrieved_context or "No relevant Cisco documentation was retrieved.",
+            requirement=context.intent,
+        )
+
+    def build_config_prompt_no_rag(self, context) -> str:
+        """
+        Builds the generation prompt WITHOUT retrieved documentation, matching
+        the v17 pipeline (GENERATION_PROMPT_NO_RAG). Used when retrieval returns
+        no chunks, so the model is not fed a "No relevant documentation" block.
+        """
+        return self.config_no_rag_prompt_template.format(
+            topology=self.topology_text,
             requirement=context.intent,
         )
 

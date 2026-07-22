@@ -50,7 +50,7 @@ def _extract_simple_text(data: Any) -> str:
 
 
 @mcp.tool()
-def send_prompt(prompt: str) -> CallToolResult:
+def send_prompt(prompt: str, max_new_tokens: int = 0) -> CallToolResult:
     if not prompt or not isinstance(prompt, str):
         return CallToolResult(
             content=[TextContent(type="text", text="Prompt invalido")],
@@ -59,8 +59,14 @@ def send_prompt(prompt: str) -> CallToolResult:
 
     endpoint = _get_flm_endpoint("generate")
 
+    payload = {"prompt": prompt}
+    # 0 = no override: the Colab server applies its default (MAX_NEW_TOKENS).
+    # Intent normalization passes 120 (v17 MAX_NEW_TOKENS_INTENT).
+    if isinstance(max_new_tokens, int) and max_new_tokens > 0:
+        payload["max_new_tokens"] = max_new_tokens
+
     try:
-        resp = requests.post(endpoint, json={"prompt": prompt}, timeout=60)
+        resp = requests.post(endpoint, json=payload, timeout=60)
         resp.raise_for_status()
     except requests.RequestException as exc:
         return CallToolResult(
@@ -88,6 +94,7 @@ def retrieve_chunks(
     os: list[str],
     version: list[str],
     product: list[str],
+    requirement: str = "",
     k: int = 4,
 ) -> CallToolResult:
     if not semantic_query or not isinstance(semantic_query, str):
@@ -100,6 +107,9 @@ def retrieve_chunks(
 
     payload = {
         "semantic_query": semantic_query,
+        # Raw requirement for router/switch scope inference (v17). Empty string
+        # makes the server fall back to semantic_query, preserving old behavior.
+        "requirement": requirement,
         "arch_base": {
             "device_type": device_type,
             "os": os,

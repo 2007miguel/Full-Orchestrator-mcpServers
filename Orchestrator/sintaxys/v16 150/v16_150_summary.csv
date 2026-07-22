@@ -1,0 +1,4 @@
+model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
+base,150,0.6966666666666667,0.5,150,71,67,0,12
+rag-bge,150,0.8633333333333333,1.0,150,117,25,0,8
+rag-mini,150,0.8033333333333333,1.0,150,104,33,2,11

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +45,10 @@ class BatfishClient:
 
         self._active_snapshot_loaded = False
         self._active_snapshot_root: Path | None = None
+        self._current_snapshot_name: str | None = None
+        self._parse_failed = False
+        self._parse_error = ""
+        self._config_files: list[str] = []
 
     # =========================
     # Public API
@@ -69,12 +74,38 @@ class BatfishClient:
             )
 
         self.session.set_network(self.network_name)
-        self.session.init_snapshot(
-            str(snapshot_root),
-            name=self.snapshot_name,
-            overwrite=True,
-        )
 
+        # Batfish leaves a snapshot in PARSING_FAIL when its parsing work dies, and it
+        # then refuses to queue any question against that name while never moving the
+        # work to a terminal status, so pybatfish polls forever. Never reuse a name.
+        snapshot_name = f"{self.snapshot_name}_{uuid.uuid4().hex[:12]}"
+
+        if self._current_snapshot_name is not None:
+            try:
+                self.session.delete_snapshot(self._current_snapshot_name)
+            except Exception:
+                pass
+
+        # Match the "configs/<name>" shape Batfish itself reports in fileParseStatus.
+        self._config_files = sorted(
+            f"configs/{path.name}" for path in configs_dir.iterdir() if path.is_file()
+        )
+        self._parse_failed = False
+        self._parse_error = ""
+
+        try:
+            self.session.init_snapshot(
+                str(snapshot_root),
+                name=snapshot_name,
+                overwrite=True,
+            )
+        except Exception as exc:
+            # A config Batfish cannot parse at all is a legitimate FAILED result,
+            # not a reason to abort the run.
+            self._parse_failed = True
+            self._parse_error = str(exc)
+
+        self._current_snapshot_name = snapshot_name
         self._active_snapshot_root = snapshot_root
         self._active_snapshot_loaded = True
 
@@ -82,7 +113,8 @@ class BatfishClient:
             "active": True,
             "snapshot_root": str(snapshot_root),
             "network_name": self.network_name,
-            "snapshot_name": self.snapshot_name,
+            "snapshot_name": snapshot_name,
+            "parse_failed": self._parse_failed,
         }
 
     def file_parse_status(self) -> dict[str, Any]:
@@ -90,6 +122,26 @@ class BatfishClient:
         Run fileParseStatus on the active snapshot and return normalized results.
         """
         self._ensure_active_snapshot()
+
+        if self._parse_failed:
+            results = [
+                {
+                    "file_name": file_name,
+                    "status": "FAILED",
+                    "file_format": "",
+                    "nodes": [],
+                    "error": self._parse_error,
+                }
+                for file_name in self._config_files
+            ]
+            return {
+                "results": results,
+                "summary": {
+                    "passed": 0,
+                    "failed": len(results),
+                    "partially_parsed": 0,
+                },
+            }
 
         df = self.session.q.fileParseStatus().answer().frame()
 
@@ -135,6 +187,9 @@ class BatfishClient:
         """
         self._ensure_active_snapshot()
 
+        if self._parse_failed:
+            return {"results": [], "summary": {"total_warnings": 0}}
+
         df = self.session.q.parseWarning(
             aggregateDuplicates=aggregate_duplicates
         ).answer().frame()
@@ -164,6 +219,9 @@ class BatfishClient:
         Run initIssues on the active snapshot and return normalized results.
         """
         self._ensure_active_snapshot()
+
+        if self._parse_failed:
+            return {"results": [], "summary": {"total_issues": 0}}
 
         df = self.session.q.initIssues().answer().frame()
 

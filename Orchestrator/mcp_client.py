@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -13,20 +14,35 @@ PROTOCOL_VERSION = "2025-03-26"
 # =========================
 BASE_PATH = Path(__file__).resolve().parent.parent
 
+
+def venv_python(server_dir: str) -> str:
+    """Interpreter of a server's venv. Windows puts it in Scripts\\python.exe,
+    macOS and Linux in bin/python, so the same repo runs on both."""
+    venv = BASE_PATH / server_dir / "venv"
+    windows = venv / "Scripts" / "python.exe"
+    posix = venv / "bin" / "python"
+    if windows.exists():
+        return str(windows)
+    if posix.exists():
+        return str(posix)
+    # Nothing created yet: report the path this OS expects, so the failure names it.
+    return str(windows if os.name == "nt" else posix)
+
+
 # servers añadidos
 SERVERS: dict[str, list[str]] = {
     "batfish": [
-        str(BASE_PATH / "mcp-server-batfish/venv/Scripts/python.exe"),
+        venv_python("mcp-server-batfish"),
         str(BASE_PATH / "mcp-server-batfish/server.py"),
-    ], 
-    
+    ],
+
     "flm": [
-        str(BASE_PATH / "mcp-server-flm/venv/Scripts/python.exe"),
+        venv_python("mcp-server-flm"),
         str(BASE_PATH / "mcp-server-flm/server.py"),
     ],
-    
+
     "csv": [
-        str(BASE_PATH / "mcp-server-csv/venv/Scripts/python.exe"),
+        venv_python("mcp-server-csv"),
         str(BASE_PATH / "mcp-server-csv/server.py"),
     ]
 }
