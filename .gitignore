@@ -11,3 +11,6 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Eval outputs (local run artifacts)
+Orchestrator/results/
