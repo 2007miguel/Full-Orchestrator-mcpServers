@@ -28,8 +28,8 @@ from typing import Any, Dict, List, Tuple
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-DEFAULT_INPUT_DIR = SCRIPT_DIR / "Base_datasetmodificado"
-DEFAULT_OUTPUT_CSV = SCRIPT_DIR / "Base_datasetmodificado.csv"
+DEFAULT_INPUT_DIR = SCRIPT_DIR / "RAG-bge"
+DEFAULT_OUTPUT_CSV = SCRIPT_DIR / "RAG-bge.csv"
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))

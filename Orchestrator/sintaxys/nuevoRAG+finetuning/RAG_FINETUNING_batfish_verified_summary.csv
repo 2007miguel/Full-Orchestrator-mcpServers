@@ -1,2 +1,0 @@
-model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
-Qwen2.5-7B-QLoRA+RAG_topo,140,0.6892857142857143,0.5,140,53,87,0,0

@@ -1,2 +1,0 @@
-model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
-Qwen2.5-7B-Base+RAG_topo,140,0.8214285714285714,1.0,140,90,50,0,0

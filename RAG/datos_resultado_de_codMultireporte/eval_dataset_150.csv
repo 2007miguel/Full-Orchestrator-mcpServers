@@ -1,0 +1,1731 @@
+"requirement","configuration"
+"Configure R1 Ethernet0/1 to connect to R2 by assigning it the 10.0.12.1/24 address and bringing the interface up.","! R1
+configure terminal
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+end"
+"Set up R2 Ethernet0/0 facing R1 with the 10.0.12.2/24 address from the shared subnet and enable the interface.","! R2
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+end"
+"Configure both ends of the R1-R2 point-to-point link so Ethernet0/1 on R1 and Ethernet0/0 on R2 have correct IP addresses in the 10.0.12.0/24 subnet and are active.","! R1
+configure terminal
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+end
+!
+! R2
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+end"
+"Bring up the R2-R3 link by assigning 10.0.23.1/24 to R2 Ethernet0/1 and 10.0.23.2/24 to R3 Ethernet0/0.","! R2
+configure terminal
+interface Ethernet0/1
+ ip address 10.0.23.1 255.255.255.0
+ no shutdown
+end
+!
+! R3
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+end"
+"Configure both sides of the R1-R4 link: assign 10.0.14.1/24 to R1 Ethernet0/2 and 10.0.14.2/24 to R4 Ethernet0/0, enabling both interfaces.","! R1
+configure terminal
+interface Ethernet0/2
+ ip address 10.0.14.1 255.255.255.0
+ no shutdown
+end
+!
+! R4
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.14.2 255.255.255.0
+ no shutdown
+end"
+"Configure the R2-R4 point-to-point link so R2 Ethernet0/2 uses 10.0.24.1/24 and R4 Ethernet0/1 uses 10.0.24.2/24, both enabled.","! R2
+configure terminal
+interface Ethernet0/2
+ ip address 10.0.24.1 255.255.255.0
+ no shutdown
+end
+!
+! R4
+configure terminal
+interface Ethernet0/1
+ ip address 10.0.24.2 255.255.255.0
+ no shutdown
+end"
+"Configure the R3-R4 link with 10.0.34.1/24 on R3 Ethernet0/1 and 10.0.34.2/24 on R4 Ethernet0/2, enabling both.","! R3
+configure terminal
+interface Ethernet0/1
+ ip address 10.0.34.1 255.255.255.0
+ no shutdown
+end
+!
+! R4
+configure terminal
+interface Ethernet0/2
+ ip address 10.0.34.2 255.255.255.0
+ no shutdown
+end"
+"Configure R3 Ethernet0/2 as the LAN-facing interface toward SW2 with IP 10.0.2.1/24 and bring it up to serve as the default gateway for the 10.0.2.0/24 segment.","! R3
+configure terminal
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+end"
+"Configure all three interfaces on R4 with their correct IP addresses in the 10.0.14.0/24, 10.0.24.0/24, and 10.0.34.0/24 subnets and enable them.","! R4
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.14.2 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.24.2 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.34.2 255.255.255.0
+ no shutdown
+end"
+"Configure R1 with a hostname and an encrypted enable secret password to protect privileged EXEC mode access.","! R1
+configure terminal
+hostname R1
+enable secret Cisco@2024
+end"
+"Set the hostname on R2, configure an enable secret, and activate service password-encryption so all plaintext passwords are obscured.","! R2
+configure terminal
+hostname R2
+enable secret Cisco@2024
+service password-encryption
+end"
+"Assign the hostname R3 to the router and create a local user account with privilege 15 for secure CLI access.","! R3
+configure terminal
+hostname R3
+username admin privilege 15 secret AdminPass1
+end"
+"Configure the hostnames SW1 and SW2 on their respective switches so they are identifiable in the campus topology.","! SW1
+configure terminal
+hostname SW1
+end
+!
+! SW2
+configure terminal
+hostname SW2
+end"
+"Add a static route on R1 so it can reach the 10.0.2.0/24 LAN segment behind R3 by forwarding traffic to R2 at 10.0.12.2.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+end"
+"Configure a static default route on R1 pointing to R2 at 10.0.12.2 so all unknown destinations use R2 as the gateway of last resort.","! R1
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.12.2
+end"
+"Add a static route on R3 so it can reach h1's subnet 10.0.1.0/24 by forwarding to R2 at 10.0.23.1.","! R3
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+end"
+"Configure static routes on both R1 and R3 so each router can reach the other's LAN segment using R2 as the transit path.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+end
+!
+! R3
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+end"
+"Configure R4 with static routes toward both LAN segments: 10.0.1.0/24 via R1 at 10.0.14.1 and 10.0.2.0/24 via R3 at 10.0.34.2.","! R4
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.14.1
+ip route 10.0.2.0 255.255.255.0 10.0.34.2
+end"
+"On R2, add static routes to reach h1's subnet 10.0.1.0/24 through R1 and h2's subnet 10.0.2.0/24 through R3.","! R2
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.12.1
+ip route 10.0.2.0 255.255.255.0 10.0.23.2
+end"
+"Configure a floating static route on R1 for 10.0.2.0/24 via R4 at 10.0.14.2 with administrative distance 210 to serve as a backup when the primary path via R2 is unavailable.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.14.2 210
+end"
+"On R1, add static routes to 10.0.23.0/24 and 10.0.2.0/24 both via next-hop 10.0.12.2 on R2 to ensure reachability through the R2 transit segment.","! R1
+configure terminal
+ip route 10.0.23.0 255.255.255.0 10.0.12.2
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+end"
+"Configure a static default route on R3 toward R2 and a static default route on R4 toward R1 so both have a gateway of last resort for non-directly-connected destinations.","! R3
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.23.1
+end
+!
+! R4
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.14.1
+end"
+"Add a static route on R1 for the 10.0.34.0/24 subnet reachable through R4 Ethernet0/0 at address 10.0.14.2.","! R1
+configure terminal
+ip route 10.0.34.0 255.255.255.0 10.0.14.2
+end"
+"Enable OSPF process 1 on R1 and use network statements to include all three directly connected subnets in area 0.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+end"
+"Configure OSPF process 1 on R2 to advertise all three point-to-point subnets connected to Ethernet0/0, Ethernet0/1, and Ethernet0/2 into area 0.","! R2
+configure terminal
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+end"
+"Enable OSPF process 1 on R3 for all connected subnets in area 0 and suppress OSPF hellos on Ethernet0/2 using passive-interface so LAN hosts do not receive OSPF traffic.","! R3
+configure terminal
+router ospf 1
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure OSPF process 1 on R4, advertising all three point-to-point subnets 10.0.14.0/24, 10.0.24.0/24, and 10.0.34.0/24 into area 0.","! R4
+configure terminal
+router ospf 1
+ network 10.0.14.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+end"
+"Configure R1 with a Loopback0 interface at 1.1.1.1/32, use that address as the OSPF router-id, and include all connected networks in area 0.","! R1
+configure terminal
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+ no shutdown
+router ospf 1
+ router-id 1.1.1.1
+ network 1.1.1.1 0.0.0.0 area 0
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+end"
+"Configure OSPF on R1 so the LAN-facing Ethernet0/0 does not send or receive OSPF hellos but the 10.0.1.0/24 prefix is still advertised into area 0.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end"
+"Enable OSPF on both R3 and R4 so they form an adjacency over the 10.0.34.0/24 link and exchange routes in area 0.","! R3
+configure terminal
+router ospf 1
+ network 10.0.34.0 0.0.0.255 area 0
+end
+!
+! R4
+configure terminal
+router ospf 1
+ network 10.0.34.0 0.0.0.255 area 0
+end"
+"Configure OSPF on R1 and R2 so they share routes for the 10.0.12.0/24 link and R1 advertises its 10.0.1.0/24 LAN into area 0.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+end
+!
+! R2
+configure terminal
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+end"
+"Configure OSPF on R2 and R4 so they form an adjacency over the 10.0.24.0/24 subnet and both advertise their connected networks in area 0.","! R2
+configure terminal
+router ospf 1
+ network 10.0.24.0 0.0.0.255 area 0
+end
+!
+! R4
+configure terminal
+router ospf 1
+ network 10.0.24.0 0.0.0.255 area 0
+end"
+"Configure OSPF process 1 on R2, set the hello-interval to 5 seconds and dead-interval to 20 seconds on Ethernet0/0 to tune convergence timing with R1.","! R2
+configure terminal
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+exit
+interface Ethernet0/0
+ ip ospf hello-interval 5
+ ip ospf dead-interval 20
+end"
+"Configure OSPF router-id 3.3.3.3 on R3 anchored to Loopback0 and include all R3 subnets in area 0.","! R3
+configure terminal
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+ no shutdown
+router ospf 1
+ router-id 3.3.3.3
+ network 3.3.3.3 0.0.0.0 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+end"
+"Enable OSPF on R2 with router-id 2.2.2.2 via Loopback0 and advertise all three connected point-to-point subnets into area 0.","! R2
+configure terminal
+interface Loopback0
+ ip address 2.2.2.2 255.255.255.255
+ no shutdown
+router ospf 1
+ router-id 2.2.2.2
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+end"
+"Configure OSPF on R1 and R3 with passive-interface on both LAN-facing ports so OSPF adjacencies are not formed with hosts while the LAN prefixes remain advertised in area 0.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end
+!
+! R3
+configure terminal
+router ospf 1
+ network 10.0.2.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure OSPF on R4 with router-id 4.4.4.4 anchored to Loopback0 and include all three point-to-point subnets in area 0.","! R4
+configure terminal
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+ no shutdown
+router ospf 1
+ router-id 4.4.4.4
+ network 10.0.14.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+end"
+"Create VLAN 10 named DATA on SW1 and configure FastEthernet0/1 as an access port in that VLAN for host h1.","! SW1
+configure terminal
+vlan 10
+ name DATA
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+end"
+"Create VLAN 30 named USERS on SW2 and configure FastEthernet0/1 as an access port in VLAN 30 for host h2.","! SW2
+configure terminal
+vlan 30
+ name USERS
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+end"
+"Create VLANs 10 and 20 on SW1, naming them DATA and VOICE respectively, without assigning ports yet.","! SW1
+configure terminal
+vlan 10
+ name DATA
+vlan 20
+ name VOICE
+end"
+"Create VLANs 30 and 40 on SW2, naming them USERS and MGMT so the VLAN database is populated before port assignments.","! SW2
+configure terminal
+vlan 30
+ name USERS
+vlan 40
+ name MGMT
+end"
+"Configure SW1 FastEthernet0/2 as an access port assigned to VLAN 20 to extend the VOICE segment.","! SW1
+configure terminal
+vlan 20
+ name VOICE
+exit
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+end"
+"On SW2, configure FastEthernet0/2 as an access port in VLAN 40 to support the management segment.","! SW2
+configure terminal
+vlan 40
+ name MGMT
+exit
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 40
+ no shutdown
+end"
+"Configure SW1 FastEthernet0/24 as an 802.1Q trunk port toward R1, allowing only VLANs 10 and 20 on the link.","! SW1
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure SW2 FastEthernet0/24 as a dot1q trunk port toward R3, permitting only VLANs 30 and 40 across the uplink.","! SW2
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Restrict the trunk on SW1 FastEthernet0/24 so it carries only VLANs 10 and 20, removing any other VLANs from the allowed list.","! SW1
+configure terminal
+interface FastEthernet0/24
+ switchport trunk allowed vlan 10,20
+end"
+"Configure the SW2 Fa0/24 trunk with dot1q encapsulation, native VLAN 1 for untagged traffic, and allowed VLANs 30 and 40.","! SW2
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 1
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure the SW1 Fa0/24 trunk with dot1q encapsulation, native VLAN 1, and allowed VLANs 10 and 20 for the uplink toward R1.","! SW1
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 1
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Create a VLAN 10 SVI on SW1 with IP address 10.0.1.2/24 and configure the default gateway toward R1 at 10.0.1.1 for in-band management.","! SW1
+configure terminal
+interface Vlan10
+ ip address 10.0.1.2 255.255.255.0
+ no shutdown
+ip default-gateway 10.0.1.1
+end"
+"Configure a management SVI for VLAN 20 on SW1 with IP 10.0.20.1/24 and set the default gateway to R1 at 10.0.1.1.","! SW1
+configure terminal
+vlan 20
+ name MGMT
+exit
+interface Vlan20
+ ip address 10.0.20.1 255.255.255.0
+ no shutdown
+ip default-gateway 10.0.1.1
+end"
+"Configure a VLAN 30 SVI on SW2 with IP address 10.0.2.2/24 and set the default gateway to R3 Ethernet0/2 at 10.0.2.1.","! SW2
+configure terminal
+interface Vlan30
+ ip address 10.0.2.2 255.255.255.0
+ no shutdown
+ip default-gateway 10.0.2.1
+end"
+"Configure an SVI for VLAN 40 on SW2 with IP address 10.0.40.1/24 to enable in-band management from the MGMT segment.","! SW2
+configure terminal
+vlan 40
+ name MGMT
+exit
+interface Vlan40
+ ip address 10.0.40.1 255.255.255.0
+ no shutdown
+end"
+"Enable spanning-tree rapid-pvst mode on SW1 and designate it as the root bridge for VLAN 10 using the root primary macro.","! SW1
+configure terminal
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10 root primary
+end"
+"Configure spanning-tree mode rapid-pvst on both SW1 and SW2 to enable rapid convergence across the campus switching layer.","! SW1
+configure terminal
+spanning-tree mode rapid-pvst
+end
+!
+! SW2
+configure terminal
+spanning-tree mode rapid-pvst
+end"
+"Set SW1 as the STP root bridge for VLAN 10 by explicitly configuring the bridge priority to 4096.","! SW1
+configure terminal
+spanning-tree vlan 10 priority 4096
+end"
+"Configure SW2 as the STP root bridge for VLAN 30 using the spanning-tree root primary macro.","! SW2
+configure terminal
+spanning-tree vlan 30 root primary
+end"
+"Enable PortFast on SW1 FastEthernet0/1 so that h1's port transitions directly to forwarding without passing through the STP listening and learning states.","! SW1
+configure terminal
+interface FastEthernet0/1
+ spanning-tree portfast
+end"
+"Enable PortFast and BPDU Guard on SW1 FastEthernet0/1 to speed up h1's port convergence and prevent a rogue switch from disrupting the STP topology.","! SW1
+configure terminal
+interface FastEthernet0/1
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+end"
+"Enable PortFast and BPDU Guard on SW2 FastEthernet0/1 to protect h2's access port from STP topology disruption caused by an unauthorized device.","! SW2
+configure terminal
+interface FastEthernet0/1
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+end"
+"Enable Root Guard on SW1 FastEthernet0/24 to prevent the uplink port from accepting a superior BPDU that would displace SW1 from its root role.","! SW1
+configure terminal
+interface FastEthernet0/24
+ spanning-tree guard root
+end"
+"Configure port security on SW1 FastEthernet0/1 to allow only one MAC address and shut the port down automatically if a second MAC is detected.","! SW1
+configure terminal
+interface FastEthernet0/1
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+end"
+"Configure sticky port security on SW2 FastEthernet0/1 so the first learned MAC address is retained in the running configuration and the port shuts down on a violation.","! SW2
+configure terminal
+interface FastEthernet0/1
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+end"
+"Configure port security on SW1 FastEthernet0/1 to allow up to two MAC addresses and use restrict violation mode so excess frames are dropped and syslog is generated without shutting the port.","! SW1
+configure terminal
+interface FastEthernet0/1
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation restrict
+end"
+"Configure sticky port security on SW2 FastEthernet0/2 with violation mode protect so frames from unknown MACs are silently dropped without disabling the port.","! SW2
+configure terminal
+interface FastEthernet0/2
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security violation protect
+end"
+"Configure R1 Ethernet0/0 with IP 10.0.1.1/24 as the LAN gateway and set up SW1 FastEthernet0/24 as a dot1q trunk allowing VLANs 10 and 20 toward R1.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+end
+!
+! SW1
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure SW1 with VLAN 10 creation, FastEthernet0/1 as an access port in VLAN 10 for h1, and FastEthernet0/24 as a trunk toward R1 allowing VLANs 10 and 20.","! SW1
+configure terminal
+vlan 10
+ name DATA
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure R3 Ethernet0/2 with IP 10.0.2.1/24 and set up SW2 FastEthernet0/24 as a dot1q trunk allowing VLANs 30 and 40 for the R3-SW2 uplink.","! R3
+configure terminal
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+end
+!
+! SW2
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure the full LAN side for h2: set R3 Ethernet0/2 to 10.0.2.1/24, create VLAN 30 on SW2, assign Fa0/1 as access in VLAN 30, and configure Fa0/24 as a dot1q trunk.","! R3
+configure terminal
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+end
+!
+! SW2
+configure terminal
+vlan 30
+ name USERS
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure R1 Ethernet0/0, create VLAN 10 on SW1, assign Fa0/1 as an access port, and configure Fa0/24 as a trunk so h1 in VLAN 10 can reach R1.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+end
+!
+! SW1
+configure terminal
+vlan 10
+ name DATA
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure SW1 and SW2 with correct VLANs, access ports for h1 and h2, and trunk uplinks so both hosts can reach their respective default gateways.","! SW1
+configure terminal
+vlan 10
+ name DATA
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end
+!
+! SW2
+configure terminal
+vlan 30
+ name USERS
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure end-to-end reachability from h1 to h2 using static routing on R1, R2, and R3, correct LAN interfaces, and VLAN/trunk/access port settings on SW1 and SW2.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+end
+!
+! R2
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.23.1 255.255.255.0
+ no shutdown
+ip route 10.0.1.0 255.255.255.0 10.0.12.1
+ip route 10.0.2.0 255.255.255.0 10.0.23.2
+end
+!
+! R3
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+end
+!
+! SW1
+configure terminal
+vlan 10
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end
+!
+! SW2
+configure terminal
+vlan 30
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Extend VLAN 20 on SW1 by adding FastEthernet0/2 as an access port and adding VLAN 20 to the allowed list on the Fa0/24 trunk.","! SW1
+configure terminal
+vlan 20
+ name EXTENDED
+exit
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk allowed vlan add 20
+end"
+"Extend VLAN 40 on SW2 by creating the VLAN, adding FastEthernet0/2 as an access port, and adding VLAN 40 to the allowed list on the Fa0/24 trunk.","! SW2
+configure terminal
+vlan 40
+ name EXTENDED
+exit
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 40
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk allowed vlan add 40
+end"
+"Configure a numbered standard ACL 10 on R1 to permit only the 10.0.1.0/24 source network and apply it inbound on Ethernet0/1 toward R2.","! R1
+configure terminal
+access-list 10 permit 10.0.1.0 0.0.0.255
+interface Ethernet0/1
+ ip access-group 10 in
+end"
+"Configure a numbered extended ACL 100 on R2 to deny ICMP from h1 at 10.0.1.10 to h2 at 10.0.2.10 and permit all other IP traffic, applied inbound on Ethernet0/0.","! R2
+configure terminal
+access-list 100 deny icmp host 10.0.1.10 host 10.0.2.10
+access-list 100 permit ip any any
+interface Ethernet0/0
+ ip access-group 100 in
+end"
+"Create a named extended ACL BLOCK_TELNET on R1 that denies TCP port 23 from 10.0.2.0/24 to 10.0.1.0/24 and permits everything else, applied inbound on Ethernet0/1.","! R1
+configure terminal
+ip access-list extended BLOCK_TELNET
+ deny tcp 10.0.2.0 0.0.0.255 10.0.1.0 0.0.0.255 eq 23
+ permit ip any any
+exit
+interface Ethernet0/1
+ ip access-group BLOCK_TELNET in
+end"
+"Configure a named standard ACL PERMIT_LAN1 on R3 to allow only traffic sourced from 10.0.1.0/24 and apply it inbound on Ethernet0/0.","! R3
+configure terminal
+ip access-list standard PERMIT_LAN1
+ permit 10.0.1.0 0.0.0.255
+exit
+interface Ethernet0/0
+ ip access-group PERMIT_LAN1 in
+end"
+"Configure a named extended ACL PERMIT_HTTP on R2 that permits TCP port 80 from 10.0.1.0/24 to any destination and denies all other traffic, applied outbound on Ethernet0/1 toward R3.","! R2
+configure terminal
+ip access-list extended PERMIT_HTTP
+ permit tcp 10.0.1.0 0.0.0.255 any eq 80
+ deny ip any any
+exit
+interface Ethernet0/1
+ ip access-group PERMIT_HTTP out
+end"
+"Configure a numbered extended ACL 101 on R4 to deny ICMP between the two LAN subnets in both directions and permit all remaining IP traffic, applied inbound on Ethernet0/0.","! R4
+configure terminal
+access-list 101 deny icmp 10.0.1.0 0.0.0.255 10.0.2.0 0.0.0.255
+access-list 101 deny icmp 10.0.2.0 0.0.0.255 10.0.1.0 0.0.0.255
+access-list 101 permit ip any any
+interface Ethernet0/0
+ ip access-group 101 in
+end"
+"Create a named extended ACL RESTRICT_H2 on R1 to allow only traffic from h1 at 10.0.1.10 destined for h2 at 10.0.2.10, denying other sources from the 10.0.2.0/24 subnet, applied inbound on Ethernet0/1.","! R1
+configure terminal
+ip access-list extended RESTRICT_H2
+ permit ip host 10.0.1.10 host 10.0.2.10
+ deny ip 10.0.2.0 0.0.0.255 any
+ permit ip any any
+exit
+interface Ethernet0/1
+ ip access-group RESTRICT_H2 in
+end"
+"Configure a named extended ACL ESTABLISHED_ONLY on R3 to allow only return TCP traffic with the established flag, applied outbound on Ethernet0/2 toward SW2.","! R3
+configure terminal
+ip access-list extended ESTABLISHED_ONLY
+ permit tcp any any established
+ deny ip any any
+exit
+interface Ethernet0/2
+ ip access-group ESTABLISHED_ONLY out
+end"
+"Configure a named standard ACL VTY_ACCESS on R1 to permit only the 10.0.1.0/24 management subnet and apply it as an inbound access class on VTY lines 0 through 4.","! R1
+configure terminal
+ip access-list standard VTY_ACCESS
+ permit 10.0.1.0 0.0.0.255
+exit
+line vty 0 4
+ access-class VTY_ACCESS in
+ login local
+end"
+"Configure a named extended ACL BLOCK_LAN2_CORE on R2 to deny all IP traffic from 10.0.2.0/24 toward the 10.0.12.0/24 link and permit everything else, applied inbound on Ethernet0/1.","! R2
+configure terminal
+ip access-list extended BLOCK_LAN2_CORE
+ deny ip 10.0.2.0 0.0.0.255 10.0.12.0 0.0.0.255
+ permit ip any any
+exit
+interface Ethernet0/1
+ ip access-group BLOCK_LAN2_CORE in
+end"
+"Configure a DHCP pool on R1 for the 10.0.1.0/24 LAN with default gateway 10.0.1.1 and DNS 8.8.8.8, excluding the first 10 addresses from dynamic assignment.","! R1
+configure terminal
+ip dhcp excluded-address 10.0.1.1 10.0.1.10
+ip dhcp pool LAN1
+ network 10.0.1.0 255.255.255.0
+ default-router 10.0.1.1
+ dns-server 8.8.8.8
+end"
+"Configure a DHCP pool on R3 for the 10.0.2.0/24 LAN segment with default gateway 10.0.2.1 and DNS 8.8.8.8, excluding R3's own interface address.","! R3
+configure terminal
+ip dhcp excluded-address 10.0.2.1
+ip dhcp pool LAN2
+ network 10.0.2.0 255.255.255.0
+ default-router 10.0.2.1
+ dns-server 8.8.8.8
+end"
+"Configure two DHCP pools on R1: one for the 10.0.1.0/24 VLAN 10 segment and one for the 10.0.20.0/24 VLAN 20 segment, each with default gateway and DNS.","! R1
+configure terminal
+ip dhcp excluded-address 10.0.1.1
+ip dhcp excluded-address 10.0.20.1
+ip dhcp pool VLAN10
+ network 10.0.1.0 255.255.255.0
+ default-router 10.0.1.1
+ dns-server 8.8.8.8
+ip dhcp pool VLAN20
+ network 10.0.20.0 255.255.255.0
+ default-router 10.0.20.1
+ dns-server 8.8.8.8
+end"
+"Configure DHCP pools on both R1 and R3 for their respective LAN segments with exclusions for router IPs, appropriate default gateways, and DNS server addresses.","! R1
+configure terminal
+ip dhcp excluded-address 10.0.1.1 10.0.1.10
+ip dhcp pool LAN1_POOL
+ network 10.0.1.0 255.255.255.0
+ default-router 10.0.1.1
+ dns-server 8.8.8.8
+end
+!
+! R3
+configure terminal
+ip dhcp excluded-address 10.0.2.1 10.0.2.10
+ip dhcp pool LAN2_POOL
+ network 10.0.2.0 255.255.255.0
+ default-router 10.0.2.1
+ dns-server 8.8.8.8
+end"
+"Configure a static DHCP binding on R1 mapping h1's hardware address 0050.7966.6800 to the fixed IP 10.0.1.10 with default gateway 10.0.1.1.","! R1
+configure terminal
+ip dhcp pool H1_STATIC
+ host 10.0.1.10 255.255.255.0
+ hardware-address 0050.7966.6800
+ default-router 10.0.1.1
+end"
+"Enable DHCP snooping globally on SW1, activate it for VLAN 10, disable option 82 insertion, and designate FastEthernet0/24 as the trusted uplink toward R1.","! SW1
+configure terminal
+ip dhcp snooping
+ip dhcp snooping vlan 10
+no ip dhcp snooping information option
+interface FastEthernet0/24
+ ip dhcp snooping trust
+end"
+"Enable DHCP snooping on SW2 for VLAN 30, designate Fa0/24 as trusted toward R3, and leave Fa0/1 as untrusted to block rogue DHCP servers on the access port.","! SW2
+configure terminal
+ip dhcp snooping
+ip dhcp snooping vlan 30
+no ip dhcp snooping information option
+interface FastEthernet0/24
+ ip dhcp snooping trust
+end"
+"Configure SSH on R1: set domain name lab.local, generate a 2048-bit RSA key, enable SSH version 2, create local user admin with privilege 15, and restrict VTY 0-4 to SSH-only with local authentication.","! R1
+configure terminal
+hostname R1
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Cisco@2024
+line vty 0 4
+ login local
+ transport input ssh
+end"
+"Configure SSH remote management on R2 with domain name, RSA key generation, a privileged local user, and VTY 0-4 accepting only SSH connections.","! R2
+configure terminal
+hostname R2
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username netadmin privilege 15 secret NetPass1
+line vty 0 4
+ login local
+ transport input ssh
+end"
+"Configure SSH access on R3 including enable secret, domain name, RSA key, local user, and VTY lines restricted to SSH-only transport.","! R3
+configure terminal
+hostname R3
+enable secret Cisco@2024
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Admin@2024
+line vty 0 4
+ login local
+ transport input ssh
+end"
+"Configure SSH on SW1 for remote management: set hostname, domain name, generate RSA key, create local user, and configure VTY for SSH-only login.","! SW1
+configure terminal
+hostname SW1
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username swadmin privilege 15 secret SwPass1
+line vty 0 4
+ login local
+ transport input ssh
+end"
+"Configure the console idle exec-timeout on R1 to 5 minutes and 0 seconds to close inactive privileged EXEC sessions automatically.","! R1
+configure terminal
+line console 0
+ exec-timeout 5 0
+end"
+"Set a 10-minute idle timeout on R2's console line and a 5-minute idle timeout on VTY 0-4 to enforce session limits on both local and remote access.","! R2
+configure terminal
+line console 0
+ exec-timeout 10 0
+line vty 0 4
+ exec-timeout 5 0
+end"
+"Configure an enable secret on R4 and activate service password-encryption to protect all cleartext passwords in the running configuration.","! R4
+configure terminal
+enable secret Secure@2024
+service password-encryption
+end"
+"Configure VTY lines 0-4 on R2 to accept only SSH, enforce local authentication, and apply an inbound access class permitting only the 10.0.1.0/24 management subnet.","! R2
+configure terminal
+access-list 10 permit 10.0.1.0 0.0.0.255
+line vty 0 4
+ access-class 10 in
+ login local
+ transport input ssh
+end"
+"Configure PAT overload on R1 using Ethernet0/1 as the outside interface to allow all 10.0.1.0/24 hosts to share R1's IP address for external connectivity.","! R1
+configure terminal
+access-list 10 permit 10.0.1.0 0.0.0.255
+ip nat inside source list 10 interface Ethernet0/1 overload
+interface Ethernet0/0
+ ip nat inside
+interface Ethernet0/1
+ ip nat outside
+end"
+"Configure static NAT on R1 to map inside host 10.0.1.10 to translated address 10.0.12.10, with Ethernet0/0 as inside and Ethernet0/1 as outside.","! R1
+configure terminal
+ip nat inside source static 10.0.1.10 10.0.12.10
+interface Ethernet0/0
+ ip nat inside
+interface Ethernet0/1
+ ip nat outside
+end"
+"Configure dynamic NAT on R1 with an address pool from 10.0.12.100 to 10.0.12.110 and an ACL permitting 10.0.1.0/24, with Ethernet0/0 as inside and Ethernet0/1 as outside.","! R1
+configure terminal
+ip nat pool NAT_POOL 10.0.12.100 10.0.12.110 netmask 255.255.255.0
+access-list 1 permit 10.0.1.0 0.0.0.255
+ip nat inside source list 1 pool NAT_POOL
+interface Ethernet0/0
+ ip nat inside
+interface Ethernet0/1
+ ip nat outside
+end"
+"Configure PAT overload on R3 so that 10.0.2.0/24 hosts can reach external destinations through R3's Ethernet0/0 interface IP address.","! R3
+configure terminal
+access-list 10 permit 10.0.2.0 0.0.0.255
+ip nat inside source list 10 interface Ethernet0/0 overload
+interface Ethernet0/2
+ ip nat inside
+interface Ethernet0/0
+ ip nat outside
+end"
+"Configure OSPF on R1 and R3 in area 0 with passive-interface on both LAN-facing ports so adjacencies are not formed with hosts while LAN prefixes remain advertised.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end
+!
+! R3
+configure terminal
+router ospf 1
+ network 10.0.2.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure VLANs 10 and 20 on SW1, restrict the Fa0/24 trunk to those VLANs, and configure R1 Ethernet0/0 as the LAN gateway at 10.0.1.1/24.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+end
+!
+! SW1
+configure terminal
+vlan 10
+ name DATA
+vlan 20
+ name VOICE
+exit
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure a static route on R1 to 10.0.2.0/24 via R2 and create a named extended ACL on R1 blocking Telnet from h2's subnet to h1's subnet, applied inbound on Ethernet0/1.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+ip access-list extended BLOCK_TELNET
+ deny tcp 10.0.2.0 0.0.0.255 10.0.1.0 0.0.0.255 eq 23
+ permit ip any any
+exit
+interface Ethernet0/1
+ ip access-group BLOCK_TELNET in
+end"
+"Configure a DHCP pool on R3 for 10.0.2.0/24 with default gateway and DNS, and add a static route on R3 to reach 10.0.1.0/24 through R2 at 10.0.23.1.","! R3
+configure terminal
+ip dhcp excluded-address 10.0.2.1
+ip dhcp pool LAN2
+ network 10.0.2.0 255.255.255.0
+ default-router 10.0.2.1
+ dns-server 8.8.8.8
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+end"
+"Configure SSH on both R1 and R3 simultaneously, each with domain name, RSA key, local user, and VTY lines restricted to SSH-only for secure remote management.","! R1
+configure terminal
+hostname R1
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Cisco@2024
+line vty 0 4
+ login local
+ transport input ssh
+end
+!
+! R3
+configure terminal
+hostname R3
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Cisco@2024
+line vty 0 4
+ login local
+ transport input ssh
+end"
+"On R2, configure a static route to 10.0.1.0/24 via R1 and apply a named extended ACL to deny IP traffic from 10.0.2.0/24 toward the 10.0.12.0/24 core link, inbound on Ethernet0/0.","! R2
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.12.1
+ip access-list extended DENY_LAN2
+ deny ip 10.0.2.0 0.0.0.255 10.0.12.0 0.0.0.255
+ permit ip any any
+exit
+interface Ethernet0/0
+ ip access-group DENY_LAN2 in
+end"
+"Configure OSPF on R1 in area 0 with passive-interface on Ethernet0/0 and simultaneously set up a DHCP pool on R1 for 10.0.1.0/24 with default gateway and DNS.","! R1
+configure terminal
+ip dhcp excluded-address 10.0.1.1
+ip dhcp pool LAN1
+ network 10.0.1.0 255.255.255.0
+ default-router 10.0.1.1
+ dns-server 8.8.8.8
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end"
+"Configure a static default route on R1 via R2 and enable PAT overload on Ethernet0/1 so all 10.0.1.0/24 hosts can reach external destinations using R1's address.","! R1
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.12.2
+access-list 10 permit 10.0.1.0 0.0.0.255
+ip nat inside source list 10 interface Ethernet0/1 overload
+interface Ethernet0/0
+ ip nat inside
+interface Ethernet0/1
+ ip nat outside
+end"
+"Configure SW1 as STP root bridge for VLAN 10, enable PortFast on FastEthernet0/1, and activate BPDU Guard to block topology changes from h1's port.","! SW1
+configure terminal
+spanning-tree vlan 10 root primary
+interface FastEthernet0/1
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+end"
+"Configure a static default route on R1 via R2, enable OSPF on R3 and R4 in area 0 for the 10.0.34.0/24 link and other subnets, and set R3's LAN interface Ethernet0/2 as passive.","! R1
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.12.2
+end
+!
+! R3
+configure terminal
+router ospf 1
+ network 10.0.2.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end
+!
+! R4
+configure terminal
+router ospf 1
+ network 10.0.14.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+end"
+"Configure a VLAN 10 SVI on SW1 with IP 10.0.1.2/24 and set ip default-gateway to R1 at 10.0.1.1 so SW1 can be managed from the 10.0.1.0/24 network.","! SW1
+configure terminal
+interface Vlan10
+ ip address 10.0.1.2 255.255.255.0
+ no shutdown
+ip default-gateway 10.0.1.1
+end"
+"Configure a named standard ACL on R3 to permit only traffic from 10.0.2.0/24 inbound on Ethernet0/2 and add a static route toward 10.0.1.0/24 via R2 at 10.0.23.1.","! R3
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+ip access-list standard PERMIT_LAN2_ONLY
+ permit 10.0.2.0 0.0.0.255
+exit
+interface Ethernet0/2
+ ip access-group PERMIT_LAN2_ONLY in
+end"
+"Configure port security, PortFast, and BPDU Guard on SW1 FastEthernet0/1 to limit h1 to one MAC, speed up convergence, and prevent topology disruption.","! SW1
+configure terminal
+interface FastEthernet0/1
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+end"
+"Configure SSH on SW2 with hostname, domain name, 2048-bit RSA key, SSH version 2, a local administrator account, and VTY 0-4 restricted to SSH-only transport.","! SW2
+configure terminal
+hostname SW2
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username swadmin privilege 15 secret SwPass2
+line vty 0 4
+ login local
+ transport input ssh
+end"
+"Configure OSPF on R2 with router-id 2.2.2.2 anchored to Loopback0, include all three connected subnets in area 0, and set Ethernet0/2 as passive to suppress hellos toward R4.","! R2
+configure terminal
+interface Loopback0
+ ip address 2.2.2.2 255.255.255.255
+ no shutdown
+router ospf 1
+ router-id 2.2.2.2
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure static routes on R1 and R3 toward each other's LAN and restrict the SW1 Fa0/24 trunk to only VLANs 10 and 20.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+end
+!
+! R3
+configure terminal
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+end
+!
+! SW1
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure DHCP snooping on SW1 for VLAN 10 with Fa0/24 trusted and configure a DHCP pool on R1 for 10.0.1.0/24 with default gateway and DNS server to serve LAN hosts.","! R1
+configure terminal
+ip dhcp excluded-address 10.0.1.1
+ip dhcp pool LAN1
+ network 10.0.1.0 255.255.255.0
+ default-router 10.0.1.1
+ dns-server 8.8.8.8
+end
+!
+! SW1
+configure terminal
+ip dhcp snooping
+ip dhcp snooping vlan 10
+no ip dhcp snooping information option
+interface FastEthernet0/24
+ ip dhcp snooping trust
+end"
+"Configure PortFast, BPDU Guard, and sticky port security with shutdown violation on SW2 FastEthernet0/1 to protect h2's access port.","! SW2
+configure terminal
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+end"
+"Configure R1 with OSPF router-id 1.1.1.1 via Loopback0, include all subnets in area 0 with Ethernet0/0 passive, and set up a DHCP pool for 10.0.1.0/24 with default gateway and DNS.","! R1
+configure terminal
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+ no shutdown
+ip dhcp excluded-address 10.0.1.1
+ip dhcp pool LAN1
+ network 10.0.1.0 255.255.255.0
+ default-router 10.0.1.1
+ dns-server 8.8.8.8
+router ospf 1
+ router-id 1.1.1.1
+ network 1.1.1.1 0.0.0.0 area 0
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end"
+"Configure SSH on R1 with domain name, RSA key, and a local user, then apply a named standard ACL restricting VTY access to the 10.0.1.0/24 management network only.","! R1
+configure terminal
+hostname R1
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Cisco@2024
+ip access-list standard VTY_MGMT
+ permit 10.0.1.0 0.0.0.255
+exit
+line vty 0 4
+ access-class VTY_MGMT in
+ login local
+ transport input ssh
+end"
+"Configure a comprehensive initial setup on R1 including hostname, enable secret, service password-encryption, SSH with domain name and RSA key, local user, console exec-timeout, and VTY SSH-only access.","! R1
+configure terminal
+hostname R1
+enable secret Cisco@2024
+service password-encryption
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Admin@2024
+line console 0
+ exec-timeout 5 0
+line vty 0 4
+ login local
+ transport input ssh
+ exec-timeout 10 0
+end"
+"Configure OSPF on R1 and R2 in area 0 so they establish an adjacency over the 10.0.12.0/24 link and both advertise all their directly connected subnets.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+end
+!
+! R2
+configure terminal
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+end"
+"Configure spanning-tree mode pvst on SW1, elect it as root for VLAN 10, and set the VLAN 10 forward-delay to 10 seconds to control STP timing.","! SW1
+configure terminal
+spanning-tree mode pvst
+spanning-tree vlan 10 root primary
+spanning-tree vlan 10 forward-time 10
+end"
+"Configure VTP transparent mode on both SW1 and SW2 and set the VTP domain to CAMPUS to prevent automatic VLAN propagation between the switches.","! SW1
+configure terminal
+vtp domain CAMPUS
+vtp mode transparent
+end
+!
+! SW2
+configure terminal
+vtp domain CAMPUS
+vtp mode transparent
+end"
+"Configure OSPF on R1 with passive-interface on Ethernet0/0 and configure the Fa0/24 trunk on SW1 to carry only VLANs 10 and 20 so OSPF adjacencies form only on router-to-router links.","! R1
+configure terminal
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end
+!
+! SW1
+configure terminal
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure DHCP snooping on SW2 for VLAN 30 with Fa0/24 trusted and a DHCP pool on R3 for 10.0.2.0/24 with default gateway and DNS to serve h2.","! R3
+configure terminal
+ip dhcp excluded-address 10.0.2.1
+ip dhcp pool LAN2
+ network 10.0.2.0 255.255.255.0
+ default-router 10.0.2.1
+ dns-server 8.8.8.8
+end
+!
+! SW2
+configure terminal
+ip dhcp snooping
+ip dhcp snooping vlan 30
+no ip dhcp snooping information option
+interface FastEthernet0/24
+ ip dhcp snooping trust
+end"
+"Configure all interfaces on R1 with correct IP addresses, enable them, and run OSPF process 1 advertising all three subnets in area 0 with Ethernet0/0 set as passive.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.14.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end"
+"Configure all interfaces on R2 with their correct IP addresses, bring them up, and enable OSPF process 1 to advertise all three subnets in area 0.","! R2
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.23.1 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.24.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+end"
+"Configure all interfaces on R3 with correct IP addresses, enable them, and run OSPF in area 0 with Ethernet0/2 passive to suppress hellos toward SW2.","! R3
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.34.1 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure a static default route on R1 via R2 and apply a named standard ACL restricting VTY access on R1 to the 10.0.1.0/24 management subnet.","! R1
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.12.2
+ip access-list standard VTY_ACCESS
+ permit 10.0.1.0 0.0.0.255
+exit
+line vty 0 4
+ access-class VTY_ACCESS in
+ login local
+end"
+"Configure SW2 with hostname, VTP transparent mode, VLANs 30 and 40, Fa0/1 as access in VLAN 30, and Fa0/24 as a dot1q trunk allowing VLANs 30 and 40.","! SW2
+configure terminal
+hostname SW2
+vtp mode transparent
+vlan 30
+ name USERS
+vlan 40
+ name MGMT
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure SW1 with hostname, VTP transparent mode, VLANs 10 and 20, Fa0/1 as access in VLAN 10, and Fa0/24 as a dot1q trunk allowing VLANs 10 and 20.","! SW1
+configure terminal
+hostname SW1
+vtp mode transparent
+vlan 10
+ name DATA
+vlan 20
+ name VOICE
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure SSH and OSPF on R1 and R3 together: each router gets domain name, RSA key, local user, SSH-only VTY, and OSPF in area 0 with LAN interfaces passive.","! R1
+configure terminal
+hostname R1
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Cisco@2024
+line vty 0 4
+ login local
+ transport input ssh
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end
+!
+! R3
+configure terminal
+hostname R3
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Cisco@2024
+line vty 0 4
+ login local
+ transport input ssh
+router ospf 1
+ network 10.0.2.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure a primary static route on R1 to 10.0.2.0/24 via R2 and a floating backup static route via R4 at 10.0.14.2 with administrative distance 210.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+ip route 10.0.2.0 255.255.255.0 10.0.14.2 210
+end"
+"Configure a named extended ACL on R1 blocking SSH from 10.0.2.0/24 toward 10.0.1.0/24 and add a static route on R1 for 10.0.2.0/24 via R2, applied inbound on Ethernet0/1.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+ip access-list extended BLOCK_SSH_LAN2
+ deny tcp 10.0.2.0 0.0.0.255 10.0.1.0 0.0.0.255 eq 22
+ permit ip any any
+exit
+interface Ethernet0/1
+ ip access-group BLOCK_SSH_LAN2 in
+end"
+"Configure spanning-tree max-age for VLAN 10 to 30 seconds and hello-time to 2 seconds on SW1 to tune STP timer behavior for the campus.","! SW1
+configure terminal
+spanning-tree vlan 10 max-age 30
+spanning-tree vlan 10 hello-time 2
+end"
+"Configure OSPF on R2 and R3 so they form an adjacency over 10.0.23.0/24 in area 0 with all connected subnets included and passive-interface set on R3 Ethernet0/2.","! R2
+configure terminal
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+end
+!
+! R3
+configure terminal
+router ospf 1
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end"
+"Configure OSPF across all four routers with default-information originate on R1 to propagate a default route derived from its static default via R2. LAN interfaces on R1 and R3 are passive.","! R1
+configure terminal
+ip route 0.0.0.0 0.0.0.0 10.0.12.2
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+ default-information originate
+end
+!
+! R2
+configure terminal
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+end
+!
+! R3
+configure terminal
+router ospf 1
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end
+!
+! R4
+configure terminal
+router ospf 1
+ network 10.0.14.0 0.0.0.255 area 0
+ network 10.0.24.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+end"
+"Set the OSPF interface cost to 100 on R1 Ethernet0/2 toward R4 to make the R1-R2 path preferred for OSPF route selection.","! R1
+configure terminal
+interface Ethernet0/2
+ ip ospf cost 100
+end"
+"Enable proxy ARP explicitly on R1 Ethernet0/0 so R1 responds to ARP requests on behalf of hosts in the 10.0.1.0/24 subnet when queried by devices in other segments.","! R1
+configure terminal
+interface Ethernet0/0
+ ip proxy-arp
+end"
+"Disable proxy ARP on R2 Ethernet0/0 and Ethernet0/1 to prevent R2 from answering ARP requests on behalf of remote hosts across those segments.","! R2
+configure terminal
+interface Ethernet0/0
+ no ip proxy-arp
+interface Ethernet0/1
+ no ip proxy-arp
+end"
+"Add descriptive labels on each R1 interface documenting connectivity: Ethernet0/0 toward SW1, Ethernet0/1 toward R2, and Ethernet0/2 toward R4.","! R1
+configure terminal
+interface Ethernet0/0
+ description To-SW1-LAN
+interface Ethernet0/1
+ description To-R2
+interface Ethernet0/2
+ description To-R4
+end"
+"Add interface descriptions on R2 to document each connected neighbor: Ethernet0/0 toward R1, Ethernet0/1 toward R3, Ethernet0/2 toward R4.","! R2
+configure terminal
+interface Ethernet0/0
+ description To-R1
+interface Ethernet0/1
+ description To-R3
+interface Ethernet0/2
+ description To-R4
+end"
+"Configure OSPF on R1 and R2, static routes on R3, and SW1/SW2 switching infrastructure so h1 in VLAN 10 and h2 in VLAN 30 can communicate end-to-end.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end
+!
+! R2
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.12.2 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.23.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.23.0 0.0.0.255 area 0
+end
+!
+! R3
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+ip route 10.0.1.0 255.255.255.0 10.0.23.1
+end
+!
+! SW1
+configure terminal
+vlan 10
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end
+!
+! SW2
+configure terminal
+vlan 30
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure enable secret, SSH with domain name and RSA key, a privileged local user, and a named ACL restricting VTY access to the 10.0.14.0/24 subnet on R4.","! R4
+configure terminal
+hostname R4
+enable secret Cisco@2024
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+username admin privilege 15 secret Admin@2024
+ip access-list standard R4_VTY_ACCESS
+ permit 10.0.14.0 0.0.0.255
+exit
+line vty 0 4
+ access-class R4_VTY_ACCESS in
+ login local
+ transport input ssh
+end"
+"Configure R1 Ethernet0/0 as the LAN interface at 10.0.1.1/24, enable OSPF on R1 for all connected subnets in area 0 with Ethernet0/0 passive, and configure SW1 Fa0/1 as access in VLAN 10 and Fa0/24 as a trunk.","! R1
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.12.1 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.14.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.1.0 0.0.0.255 area 0
+ network 10.0.12.0 0.0.0.255 area 0
+ network 10.0.14.0 0.0.0.255 area 0
+ passive-interface Ethernet0/0
+end
+!
+! SW1
+configure terminal
+vlan 10
+ name DATA
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+end"
+"Configure R3 Ethernet0/2 as the LAN interface at 10.0.2.1/24, enable OSPF on R3 for all connected subnets in area 0 with Ethernet0/2 passive, and configure SW2 Fa0/1 as access in VLAN 30 and Fa0/24 as a trunk.","! R3
+configure terminal
+interface Ethernet0/0
+ ip address 10.0.23.2 255.255.255.0
+ no shutdown
+interface Ethernet0/1
+ ip address 10.0.34.1 255.255.255.0
+ no shutdown
+interface Ethernet0/2
+ ip address 10.0.2.1 255.255.255.0
+ no shutdown
+router ospf 1
+ network 10.0.23.0 0.0.0.255 area 0
+ network 10.0.34.0 0.0.0.255 area 0
+ network 10.0.2.0 0.0.0.255 area 0
+ passive-interface Ethernet0/2
+end
+!
+! SW2
+configure terminal
+vlan 30
+ name USERS
+exit
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 30,40
+ no shutdown
+end"
+"Configure a numbered extended ACL 102 on R1 to deny all traffic from 10.0.2.0/24 inbound on Ethernet0/1, permit everything else, and add a static route on R1 to 10.0.2.0/24 via R2 so the ACL can match returning traffic.","! R1
+configure terminal
+ip route 10.0.2.0 255.255.255.0 10.0.12.2
+access-list 102 deny ip 10.0.2.0 0.0.0.255 any
+access-list 102 permit ip any any
+interface Ethernet0/1
+ ip access-group 102 in
+end"

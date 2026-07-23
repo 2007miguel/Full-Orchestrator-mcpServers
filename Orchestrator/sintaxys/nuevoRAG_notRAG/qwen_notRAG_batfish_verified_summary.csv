@@ -1,2 +1,0 @@
-model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
-Qwen2.5-7B-Base+NoRAG_topo,140,0.7821428571428571,1.0,142,80,62,0,0

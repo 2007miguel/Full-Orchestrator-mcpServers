@@ -1,2 +1,0 @@
-model_name,rows,avg_pqs_modified,median_pqs_modified,total_modified_files,total_passed,total_partially_parsed,total_failed,total_unknown
-Llama-3.1-8B-Instruct,100,0.8845833333333333,1.0,171,133,38,0,0
