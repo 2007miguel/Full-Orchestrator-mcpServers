@@ -179,11 +179,7 @@ def retry_timeline(context):
     return events
 
 
-DATASET = (
-    "/Users/cristianfelipebolanosortega/Library/CloudStorage/"
-    "GoogleDrive-felproposalchat@gmail.com/Mi unidad/base + rag v 17/"
-    "dataset evaluacion v17/eval_dataset_150_cli_version17.csv"
-)
+DATASET = BASE / "eval_dataset_150_cli_version17.csv"
 
 # arch_base identico a v17: router ISR4000 + switch Catalyst 9300, IOS XE, 17.12.1
 # (17.12.1 se expande a {17.12.1, 17.12.x, 17.x}, el mismo set que ARCH_BASE de v17).
@@ -205,6 +201,9 @@ RAG_FILTERS = [
 OUT_DIR = BASE / "results" / "v17_eval"
 RESULTS_JSONL = OUT_DIR / "results.jsonl"
 PREDICTIONS_JSON = OUT_DIR / "predictions.json"
+BATFISH_FEEDBACK_JSON = OUT_DIR / "batfish_feedback.json"
+PARSER_DISCARDS_JSON = OUT_DIR / "parser_discards.json"
+SELECTED_RESULTS_JSON = OUT_DIR / "selected_results.json"
 
 SEP = "=" * 78
 
@@ -229,6 +228,8 @@ def load_done():
                 continue
             try:
                 rec = json.loads(line)
+                if not str(rec.get("configuration", "") or "").strip():
+                    continue
                 done[int(rec["index"])] = rec
             except Exception:
                 pass
@@ -244,20 +245,175 @@ def write_predictions(done):
     )
 
 
+def load_records_json(path):
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        corrupt_path = path.with_suffix(path.suffix + f".corrupt.{int(time.time())}")
+        path.replace(corrupt_path)
+        print(f"AVISO: {path} no es JSON valido; se conservo en {corrupt_path}", flush=True)
+        return {}
+    records = data.get("records", data if isinstance(data, list) else [])
+    return {
+        int(record["index"]): record
+        for record in records
+        if isinstance(record, dict) and "index" in record
+    }
+
+
+def write_records_json(path, records):
+    ordered = [records[i] for i in sorted(records)]
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
+    tmp_path.write_text(
+        json.dumps({"records": ordered}, ensure_ascii=False, indent=1),
+        encoding="utf-8",
+    )
+    tmp_path.replace(path)
+
+
+def parse_indices(value):
+    if not value:
+        return []
+    return [int(part.strip()) for part in value.split(",") if part.strip()]
+
+
+def set_output_dir(path):
+    global OUT_DIR, RESULTS_JSONL, PREDICTIONS_JSON
+    global BATFISH_FEEDBACK_JSON, PARSER_DISCARDS_JSON, SELECTED_RESULTS_JSON
+
+    OUT_DIR = path
+    RESULTS_JSONL = OUT_DIR / "results.jsonl"
+    PREDICTIONS_JSON = OUT_DIR / "predictions.json"
+    BATFISH_FEEDBACK_JSON = OUT_DIR / "batfish_feedback.json"
+    PARSER_DISCARDS_JSON = OUT_DIR / "parser_discards.json"
+    SELECTED_RESULTS_JSON = OUT_DIR / "selected_results.json"
+
+
+def load_batfish_feedback():
+    return load_records_json(BATFISH_FEEDBACK_JSON)
+
+
+def write_batfish_feedback(records):
+    write_records_json(BATFISH_FEEDBACK_JSON, records)
+
+
+def verification_feedback_payloads(context):
+    """Feedback compacto ya generado por el sistema para enviarlo al modelo."""
+    payloads = []
+    for it in getattr(context, "iterations", []) or []:
+        if it.get("prompt") != "VERIFICATION_CALL":
+            continue
+        resp = it.get("response", {}) or {}
+        if resp.get("status") != "failed":
+            continue
+        payloads.append(resp.get("data", {}))
+    return payloads
+
+
+def load_parser_discards():
+    return load_records_json(PARSER_DISCARDS_JSON)
+
+
+def write_parser_discards(records):
+    write_records_json(PARSER_DISCARDS_JSON, records)
+
+
+def parser_discard_reason(config, parser):
+    parsed = parser.parse_prediction(config)
+    parsed_text = str(parsed or "").strip()
+    if parsed_text and parsed_text.lower() != "none":
+        return None
+
+    text = str(config or "").strip()
+    if not text:
+        return "empty_configuration"
+    if "<" in text and ">" in text:
+        return "contains_placeholder_or_angle_bracket_token"
+
+    from utils.batfish_parser import PROMPT_RE, BatfishPredictionParser as ParserRules
+
+    prompt_lines = []
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        match = PROMPT_RE.match(line)
+        if match:
+            prompt_lines.append((match.group(2) or "", match.group(3).strip()))
+
+    if not prompt_lines:
+        return "no_cisco_cli_prompt_lines_matched"
+
+    non_skipped = [cmd for _, cmd in prompt_lines if cmd and not ParserRules._is_skip(cmd)]
+    if not non_skipped:
+        return "only_operational_or_non_persistent_commands"
+
+    has_block_opener = any(ParserRules._is_block_opener(cmd) for cmd in non_skipped)
+    has_submode_command = any((mode or "").strip().lower() not in ("", "config") for mode, cmd in prompt_lines if cmd)
+    if has_submode_command and not has_block_opener:
+        return "submode_commands_without_parent_mode_command"
+
+    return "parser_returned_empty"
+
+
+def parser_discard_records(initial_config, retry_configs, final_config, parser):
+    records = []
+    attempts = []
+    if str(initial_config or "").strip():
+        attempts.append(("initial", initial_config))
+    for idx, cfg in enumerate(retry_configs, start=1):
+        if str(cfg or "").strip():
+            attempts.append((f"retry_{idx}", cfg))
+    if str(final_config or "").strip():
+        attempts.append(("final", final_config))
+
+    seen = set()
+    for stage, cfg in attempts:
+        key = (stage, str(cfg))
+        if key in seen:
+            continue
+        seen.add(key)
+        reason = parser_discard_reason(cfg, parser)
+        if reason:
+            records.append({
+                "stage": stage,
+                "reason": reason,
+                "configuration": cfg,
+            })
+    return records
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="Cuantos evaluar (0 = todos)")
     ap.add_argument("--start", type=int, default=0, help="Indice inicial (0-based)")
+    ap.add_argument("--indices", default="",
+                    help="Indices especificos 0-based separados por coma, ej: 20,105,108")
+    ap.add_argument("--out-suffix", default="",
+                    help="Sufijo para guardar en results/v17_eval_<sufijo>")
     ap.add_argument("--verbose", action="store_true",
                     help="Muestra tambien config final, prompts de reintento y lineas (score-consistentes)")
     args = ap.parse_args()
 
+    selected_indices = parse_indices(args.indices)
+    if args.out_suffix:
+        set_output_dir(BASE / "results" / f"v17_eval_{args.out_suffix}")
+    elif selected_indices:
+        set_output_dir(BASE / "results" / "v17_eval_selected")
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     rows = load_rows()
     done = load_done()
+    batfish_feedback_records = load_batfish_feedback()
+    parser_discard_records_by_index = load_parser_discards()
 
-    end = len(rows) if args.limit <= 0 else min(args.start + args.limit, len(rows))
-    todo = [i for i in range(args.start, end) if i not in done]
+    if selected_indices:
+        todo = [i for i in selected_indices if 0 <= i < len(rows) and i not in done]
+    else:
+        end = len(rows) if args.limit <= 0 else min(args.start + args.limit, len(rows))
+        todo = [i for i in range(args.start, end) if i not in done]
 
     print(SEP)
     print(f"EVAL v17  |  dataset: {len(rows)} reqs  |  ya hechos: {len(done)}  |  por hacer ahora: {len(todo)}")
@@ -419,6 +575,42 @@ def main():
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
             done[i] = rec
             write_predictions(done)
+            if selected_indices:
+                write_records_json(
+                    SELECTED_RESULTS_JSON,
+                    {idx: done[idx] for idx in selected_indices if idx in done},
+                )
+
+            batfish_feedback_records[i] = {
+                "index": i,
+                "requirement": requirement_text,
+                "feedback_rounds": verification_feedback_payloads(context) if context is not None else [],
+                "initial_config": initial_config,
+                "retry_configs": retry_configs,
+                "final_configuration": config,
+                "final_score": {
+                    "passed": q_passed,
+                    "partially_parsed": q_partial,
+                    "failed": q_failed,
+                    "unknown": q_unknown,
+                    "files": accounted_files,
+                    "pqs": round(pqs, 6),
+                    "file_statuses": file_statuses,
+                    "note": result.note,
+                },
+            }
+            write_batfish_feedback(batfish_feedback_records)
+
+            discards = parser_discard_records(initial_config, retry_configs, config, parser)
+            if discards:
+                parser_discard_records_by_index[i] = {
+                    "index": i,
+                    "requirement": requirement_text,
+                    "discards": discards,
+                }
+            else:
+                parser_discard_records_by_index.pop(i, None)
+            write_parser_discards(parser_discard_records_by_index)
 
     finally:
         print("\nCerrando MCP servers...", flush=True)
@@ -442,6 +634,10 @@ def main():
     print(SEP)
     print(f"predictions.json: {PREDICTIONS_JSON}")
     print(f"detalle (jsonl) : {RESULTS_JSONL}")
+    print(f"batfish feedback: {BATFISH_FEEDBACK_JSON}")
+    print(f"parser discards : {PARSER_DISCARDS_JSON}")
+    if selected_indices:
+        print(f"selected results: {SELECTED_RESULTS_JSON}")
 
 
 if __name__ == "__main__":

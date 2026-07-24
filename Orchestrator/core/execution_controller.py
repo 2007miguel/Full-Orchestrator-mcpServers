@@ -464,12 +464,17 @@ class ExecutionController:
         if "results" in struct:
             for r in struct.get("results", []):
                 st = str(r.get("status", "")).upper()
-                if st in ["FAILED", "PARTIALLY_UNRECOGNIZED", "UNKNOWN"]:
+                if st in ["FAILED", "PARTIALLY_PARSED", "PARTIALLY_UNRECOGNIZED", "UNKNOWN"]:
                     return False
         
         # 2. Búsqueda transversal por si el schema viene distinto (anidado)
         data_str = json.dumps(response).upper()
-        if '"STATUS": "FAILED"' in data_str or '"STATUS": "PARTIALLY_UNRECOGNIZED"' in data_str or '"STATUS": "UNKNOWN"' in data_str:
+        if (
+            '"STATUS": "FAILED"' in data_str
+            or '"STATUS": "PARTIALLY_PARSED"' in data_str
+            or '"STATUS": "PARTIALLY_UNRECOGNIZED"' in data_str
+            or '"STATUS": "UNKNOWN"' in data_str
+        ):
             return False
             
         return True
@@ -522,86 +527,105 @@ class ExecutionController:
             failed_status = failed_status.get("structuredContent", {}).get("results", [])
             
         failed_files = {r.get("file_name", ""): r.get("status", "UNKNOWN") for r in failed_status if isinstance(r, dict)}
-        
+
+        def first_text(*values) -> str:
+            for value in values:
+                text = str(value or "").strip()
+                if text:
+                    return text
+            return ""
+
+        def parse_source(source_lines):
+            source = str(source_lines[0]).strip() if source_lines else ""
+            if not source:
+                return "", "Unknown"
+            parts = source.split(":")
+            filename = parts[0] if parts else ""
+            line = parts[1] if len(parts) > 1 and parts[1].strip().isdigit() else source
+            return filename, line
+
+        def find_existing(filename, line, invalid_line):
+            norm_invalid = " ".join(str(invalid_line or "").split()).lower()
+            for error in compact_errors:
+                same_file = not filename or error.get("File") == filename
+                same_line = str(error.get("Line", "")) == str(line) and str(line) != "Unknown"
+                same_invalid = norm_invalid and " ".join(str(error.get("Invalid line", "")).split()).lower() == norm_invalid
+                if same_file and (same_line or same_invalid):
+                    return error
+            return None
+
         compact_errors = []
-        
-        # Extraer warnings
+
         warnings_struct = warnings_resp.get("structuredContent", {}) if isinstance(warnings_resp, dict) else {}
         warnings_results = warnings_struct.get("results", [])
-        
-        if warnings_results:
-            for w in warnings_results:
-                filename = w.get("filename", "")
-                if not filename and failed_files:
-                     filename = list(failed_files.keys())[0]
-                     
-                compact_errors.append({
+        for warning in warnings_results:
+            filename = warning.get("filename", "")
+            if not filename and failed_files:
+                 filename = list(failed_files.keys())[0]
+            line = warning.get("line", "Unknown")
+            invalid_line = first_text(warning.get("text"), f"Line {line}")
+
+            compact_errors.append({
+                "File": filename,
+                "Status": failed_files.get(filename, "UNKNOWN"),
+                "Line": line,
+                "Invalid line": invalid_line,
+                "Parser context": warning.get("parser_context", ""),
+                "Reason": first_text(warning.get("comment"), "Syntax is unrecognized"),
+            })
+
+        issues_struct = issues_resp.get("structuredContent", {}) if isinstance(issues_resp, dict) else {}
+        issues_results = issues_struct.get("results", [])
+        for issue in issues_results:
+            source_lines = issue.get("source_lines") or issue.get("Source_Lines") or []
+            filename, line = parse_source(source_lines)
+            if not filename and failed_files:
+                filename = list(failed_files.keys())[0]
+
+            invalid_line = first_text(issue.get("line_text"), issue.get("Line_Text"))
+            parser_context = first_text(issue.get("parser_context"), issue.get("Parser_Context"))
+            details = first_text(issue.get("details"), issue.get("Details"))
+            error = find_existing(filename, line, invalid_line)
+
+            if error is None:
+                error = {
                     "File": filename,
                     "Status": failed_files.get(filename, "UNKNOWN"),
-                    "Line": w.get("line", "Unknown"),
-                    "Invalid line": w.get("text", "").strip() if w.get("text") else f"Line {w.get('line', 'Unknown')}",
-                    "Parser context": w.get("parser_context", ""),
-                    "Reason": w.get("comment", "Syntax is unrecognized")
-                })
-        else:
-            # Extraer issues si no hubo warnings
-            issues_struct = issues_resp.get("structuredContent", {}) if isinstance(issues_resp, dict) else {}
-            issues_results = issues_struct.get("results", [])
-            
-            if issues_results:
-                for issue in issues_results:
-                    source_lines = issue.get("source_lines", [])
-                    filename = source_lines[0].split(":")[0] if source_lines else (list(failed_files.keys())[0] if failed_files else "Unknown")
-
-                    compact_errors.append({
-                        "File": filename,
-                        "Status": failed_files.get(filename, "UNKNOWN"),
-                        "Line": source_lines[0] if source_lines else "Unknown",
-                        "Invalid line": issue.get("line_text", "").strip(),
-                        "Parser context": issue.get("parser_context", ""),
-                        "Reason": issue.get("details", "")
-                    })
+                    "Line": line,
+                    "Invalid line": invalid_line or "N/A",
+                    "Parser context": parser_context,
+                    "Reason": details or "Parsing failed or partially unrecognized.",
+                }
+                compact_errors.append(error)
             else:
-                # Fallback si no hay warnings ni issues
-                for fname, status in failed_files.items():
-                    compact_errors.append({
-                        "File": fname,
-                        "Status": status,
-                        "Invalid line": "N/A",
-                        "Reason": "Parsing failed or partially unrecognized."
-                    })
+                error["Parser context"] = first_text(parser_context, error.get("Parser context"))
+                error["Invalid line"] = first_text(invalid_line, error.get("Invalid line"), "N/A")
+                error["Reason"] = first_text(details, error.get("Reason"))
+
+            if details:
+                error["Details"] = details
+
+        if not compact_errors:
+            for fname, status in failed_files.items():
+                compact_errors.append({
+                    "File": fname,
+                    "Status": status,
+                    "Invalid line": "N/A",
+                    "Reason": "Parsing failed or partially unrecognized."
+                })
 
         return {
             "errors": compact_errors,
-            "instruction": "Review the provided errors and provide specific correction instructions for the failed files."
+            "instruction": "Repair only the invalid syntax while preserving valid requirement-related commands."
         }
 
     def should_use_init_issues(self, parse_status_results, parse_warning_results):
         failed_files = [
             r for r in parse_status_results
-            if r["status"] in {"PARTIALLY_UNRECOGNIZED", "FAILED", "UNKNOWN"}
+            if str(r.get("status", "")).upper() in {"PARTIALLY_PARSED", "PARTIALLY_UNRECOGNIZED", "FAILED", "UNKNOWN"}
         ]
 
-        if not failed_files:
-            return False
-
-        warnings = parse_warning_results.get("results", [])
-
-        if not warnings:
-            return True 
-
-        for w in warnings:
-            text = (w.get("text") or "").strip()
-            comment = (w.get("comment") or "").strip()
-            line = w.get("line")
-
-            if not text and line is None:
-                return True
-
-            if not comment:
-                return True
-
-        return False
+        return bool(failed_files)
 
     def _verify_configuration(self, context: ExecutionContext) -> bool:
         """
@@ -877,6 +901,7 @@ class ExecutionController:
                 "full_line": full_line if full_line is not None else invalid,
                 "parser_context": error.get("Parser context", ""),
                 "reason": error.get("Reason", ""),
+                "details": error.get("Details", ""),
             })
         return items
 

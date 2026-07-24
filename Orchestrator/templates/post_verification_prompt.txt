@@ -5,7 +5,7 @@ Task: correct the existing configuration to resolve the reported failures.
 RULES:
 - SURGICAL EDIT (most important): Reproduce CURRENT_CONFIG_BUNDLE line by line, and change ONLY the specific line(s) listed under "Invalid line" in the VERIFICATION_REPORT. Every other line MUST stay character-for-character identical. Do NOT add, delete, reorder, rename, split, merge, or reword any line that was not flagged as invalid.
 - Change exactly one thing per flagged line: rewrite only the invalid command into a syntactically valid form. Do not touch its neighbors.
-- Use the report fields to target the fix. Each error gives "File", "Line", "Invalid line", "Parser context" (the Batfish grammar rule where parsing failed) and "Reason". "Parser context" tells you which command family Batfish expected; use it to infer the correct syntax for THAT line only.
+- Use the report fields to target the fix. Each error gives "File", "Line", "Invalid line", "Parser context" (the Batfish grammar rule where parsing failed), "Reason", and sometimes "Details". "Reason" is Batfish's direct failure message; if it is different from "This syntax is unrecognized", treat that non-standard message as the specific failure diagnosis and fix that exact problem. "Parser context" and "Details" tell you which command family Batfish expected; use them to infer the correct syntax for THAT line only.
 - Output ONLY configuration commands in Cisco IOS XE CLI format with mode prompts.
 - Keep the same CLI prompt style as the original configuration, e.g. R1(config)#, R1(config-if)#, SW1(config)#.
 - Do NOT include configure terminal, enable, or end commands.

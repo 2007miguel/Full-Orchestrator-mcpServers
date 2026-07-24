@@ -143,12 +143,18 @@ class PromptManager:
         specific line(s) Batfish flagged, one per invalid line, in order.
         The whole-config reproduction is handled deterministically in code.
         """
-        lines_block = "\n".join(
-            f"{index}. {item['full_line']}\n"
-            f"   Parser context: {item['parser_context']}\n"
-            f"   Reason: {item['reason']}"
-            for index, item in enumerate(invalid_items, start=1)
-        )
+        lines = []
+        for index, item in enumerate(invalid_items, start=1):
+            block = (
+                f"{index}. {item['full_line']}\n"
+                f"   Parser context: {item['parser_context']}\n"
+                f"   Reason: {item['reason']}"
+            )
+            if item.get("details"):
+                block += f"\n   Details: {item['details']}"
+            lines.append(block)
+
+        lines_block = "\n".join(lines)
         return self.line_fix_template.format(
             requirement=context.intent,
             invalid_lines=lines_block,

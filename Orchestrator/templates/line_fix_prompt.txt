@@ -6,7 +6,7 @@ RULES:
 - Output exactly ONE corrected line per invalid line, in the SAME order they are listed.
 - Keep the SAME CLI prompt prefix shown in each invalid line (e.g. R1(config)#, R1(config-if)#).
 - Change ONLY the syntax so Batfish accepts the line, preserving the original intent of the command.
-- Use the "Parser context" (the Batfish grammar rule that failed) to infer the exact syntax Batfish expects.
+- Use the failure fields to target the fix. "Reason" is the verifier's direct failure message. If "Reason" is different from "This syntax is unrecognized", treat that non-standard message as the specific failure diagnosis and fix that exact problem. Use "Parser context" and "Details" to infer the exact syntax Batfish expects.
 - Use concrete values. Never use placeholders like <password> or <ip>.
 - Output NOTHING except the corrected line(s): no explanations, no markdown, no other configuration lines.
 

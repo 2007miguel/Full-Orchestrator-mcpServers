@@ -51,6 +51,7 @@ DEPTH1_MODE_PREFIXES = (
     "config-pmap",
     "config-vlan",
     "config-dhcp",
+    "dhcp-config",
     "config-isakmp",
     "config-isakmp-policy",
     "config-crypto-map",
@@ -74,7 +75,6 @@ DEPTH2_MODE_PREFIXES = (
     "config-red-app",
     "config-red-app-prtcl",
     "config-vrf-af",
-    "dhcp-config",
     "config-service-group",
 )
 
@@ -101,6 +101,7 @@ BLOCK_OPENERS = [
     re.compile(r"^router\s+\S+(?:\s+\S+)?", re.I),
     re.compile(r"^line\s+\S+(?:\s+\S+)?(?:\s+\S+)?", re.I),
     re.compile(r"^ip\s+access-list\s+\S+\s+\S+", re.I),
+    re.compile(r"^mac\s+access-list\s+extended\s+\S+", re.I),
     re.compile(r"^vlan\s+\d+(?:\s*,\s*\d+)*", re.I),
     re.compile(r"^ip\s+dhcp\s+pool\s+\S+", re.I),
     re.compile(r"^route-map\s+\S+(?:\s+\S+(?:\s+\d+)?)?", re.I),
